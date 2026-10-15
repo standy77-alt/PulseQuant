@@ -415,7 +415,7 @@ class MainActivity : Activity() {
         quantCard.addView(tvQuantCalibration)
 
         btnRunSweep = Button(this).apply {
-            text = "🔬 QUANT: PARAMETER SWEEP & FUTURETEST (20 ТЕСТОВ)"
+            text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
             textSize = 12f
             typeface = fontBold
             isAllCaps = false
@@ -428,7 +428,7 @@ class MainActivity : Activity() {
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 14
             }
-            setOnClickListener { executeParameterSweep() }
+            setOnClickListener { triggerAutoAdaptation(RadarService.selectedChartSymbol) }
         }
         quantCard.addView(btnRunSweep)
 
@@ -1126,32 +1126,68 @@ class MainActivity : Activity() {
     private fun triggerAutoAdaptation(symbol: String) {
         if (RadarService.isAutoAdapting) return
         RadarService.isAutoAdapting = true
+        btnRunSweep.isEnabled = false
+        btnRunSweep.text = "⏳ АВТООПТИМИЗАЦИЯ: $symbol..."
         tvDecayWarning.visibility = View.VISIBLE
-        tvDecayWarning.background = createAppleCard(Color.parseColor("#5E35B1"), 22f, Color.TRANSPARENT)
-        tvDecayWarning.text = "🔄 AUTO-ADAPT: Тестирую все 5 постулатов (100 матриц) по $symbol..."
+        tvDecayWarning.text = "🔄 Проверяю стратегии и устойчивость результатов для $symbol..."
 
         thread {
-            val bestReport = BacktestEngine.runMultiStrategyAutoAdapt(symbol, RadarService.demoBalance)
-            runOnUiThread {
-                RadarService.isAutoAdapting = false
-                val newStrat = bestReport.bestStrategyMode
-                val bestCell = bestReport.bestCell
+            try {
+                val report = BacktestEngine.runMultiStrategyAutoAdapt(
+                    symbol, RadarService.demoBalance
+                )
+                runOnUiThread {
+                    RadarService.isAutoAdapting = false
+                    btnRunSweep.isEnabled = true
+                    btnRunSweep.text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
 
-                RadarService.botStrategyMode = newStrat
-                val cfg = RadarService.getConfig(this@MainActivity, symbol)
-                cfg.thresholdPercent = bestCell.thresholdPct
-                RadarService.saveConfig(this@MainActivity, symbol, cfg.thresholdPercent, cfg.whaleUsdt)
-                RadarService.saveBotStats(this@MainActivity)
+                    val cell = report.bestCell
+                    val shortSym = symbol.replace("-USDT", "")
 
-                btnStrategyToggle.text = "🔬 ${QuantEngine.getStrategyShortTitle(newStrat)} (Выбрать из 5 ℹ️)"
-                selectCoin(RadarService.selectedChartSymbol)
+                    if (cell.verdict == "NO EDGE") {
+                        val summary =
+                            "⚠️ NO EDGE [$shortSym]: надёжного победителя нет. Текущие настройки сохранены."
+                        RadarService.lastAutoAdaptSummary = summary
+                        tvDecayWarning.background = createAppleCard(
+                            Color.parseColor("#8A5A00"), 22f, Color.TRANSPARENT
+                        )
+                        tvDecayWarning.text = summary
+                        return@runOnUiThread
+                    }
 
-                val shortSym = symbol.replace("-USDT", "")
-                val summary = "🤖 AUTO-ADAPTED [$shortSym]: ${QuantEngine.getStrategyShortTitle(newStrat)} • Порог ${String.format("%.2f%%", bestCell.thresholdPct)} • OOS ${String.format("%+.0f bps", bestCell.oosNetBps)} (${bestCell.verdict})"
-                RadarService.lastAutoAdaptSummary = summary
-                tvDecayWarning.visibility = View.VISIBLE
-                tvDecayWarning.background = createAppleCard(Color.parseColor("#2E7D32"), 22f, Color.TRANSPARENT)
-                tvDecayWarning.text = summary
+                    val newStrat = report.bestStrategyMode
+                    RadarService.botStrategyMode = newStrat
+
+                    val cfg = RadarService.getConfig(this@MainActivity, symbol)
+                    cfg.thresholdPercent = cell.thresholdPct
+                    RadarService.saveConfig(
+                        this@MainActivity, symbol,
+                        cfg.thresholdPercent, cfg.whaleUsdt
+                    )
+                    RadarService.saveBotStats(this@MainActivity)
+
+                    btnStrategyToggle.text =
+                        "🔬 ${QuantEngine.getStrategyShortTitle(newStrat)} (Выбрать из 5 ℹ️)"
+                    selectCoin(RadarService.selectedChartSymbol)
+
+                    val summary =
+                        "🤖 AUTO-OPTIMIZED [$shortSym]: " +
+                        "${QuantEngine.getStrategyShortTitle(newStrat)} • " +
+                        "Порог ${String.format("%.2f%%", cell.thresholdPct)} • " +
+                        "OOS ${String.format("%+.0f bps", cell.oosNetBps)} (${cell.verdict})"
+                    RadarService.lastAutoAdaptSummary = summary
+                    tvDecayWarning.background = createAppleCard(
+                        Color.parseColor("#2E7D32"), 22f, Color.TRANSPARENT
+                    )
+                    tvDecayWarning.text = summary
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    RadarService.isAutoAdapting = false
+                    btnRunSweep.isEnabled = true
+                    btnRunSweep.text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
+                    tvDecayWarning.text = "❌ Автооптимизация не завершена: ${e.message ?: "ошибка"}"
+                }
             }
         }
     }
@@ -1166,7 +1202,7 @@ class MainActivity : Activity() {
             val report = BacktestEngine.runFullSweep(sym, stratMode, RadarService.demoBalance)
             runOnUiThread {
                 btnRunSweep.isEnabled = true
-                btnRunSweep.text = "🔬 QUANT: PARAMETER SWEEP & FUTURETEST (20 ТЕСТОВ)"
+                btnRunSweep.text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
                 showSweepReportDialog(report)
             }
         }
