@@ -398,7 +398,7 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
 
         var finalAction = decision.action
         var finalReason = decision.reason
-        if (finalAction == 0 && abs(diffPercent) >= cfg.thresholdPercent && !openPositions.containsKey(symbol) && openPositions.size < 3) {
+        if (!QuantEngine.killSwitchEngaged && finalAction == 0 && abs(diffPercent) >= cfg.thresholdPercent && !openPositions.containsKey(symbol) && openPositions.size < 3) {
             if (diffPercent > 0 && ofi >= 0.15 && (snap?.moveFromVwapPct ?: 0.0) <= 0.85) {
                 finalAction = 1
                 finalReason = "Breakout Impulse ▲ (${String.format("+%.2f%%", diffPercent)} + OFI ${String.format("+%.2f", ofi)})"
@@ -422,7 +422,7 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
         val btcCrashingHard = symbol != "BTC-USDT" && btcSnap != null && btcSnap.zScore < -1.8 && btcSnap.ofi < -0.35
         val blockedByBtc = isLongSignal && btcCrashingHard
 
-        if (botEnabled && finalAction != 0 && cooldownOk && demoBalance >= decision.marginUsdt && !inSameSideCooldown && !blockedByBtc) {
+        if (botEnabled && !QuantEngine.killSwitchEngaged && finalAction != 0 && !openPositions.containsKey(symbol) && openPositions.size < 3 && cooldownOk && demoBalance >= decision.marginUsdt && !inSameSideCooldown && !blockedByBtc) {
             lastAlertTime[symbol] = now
             basePrices[symbol] = price
             tradeTimestamps.add(now)
