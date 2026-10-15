@@ -60,26 +60,37 @@ object BacktestEngine {
      */
     fun runMultiStrategyAutoAdapt(symbol: String, currentBalance: Double): SweepReport {
         val candles = fetchHistoricalCandles(symbol)
+        val currentMode = RadarService.botStrategyMode.coerceIn(0, 4)
+
         if (candles.size < 60) {
-            return evaluateCandlesForStrategy(symbol, candles, RadarService.botStrategyMode)
+            return evaluateCandlesForStrategy(symbol, candles, currentMode)
         }
 
         val reports = (0..4).map { mode ->
             evaluateCandlesForStrategy(symbol, candles, mode)
         }
 
-        val bestReport = reports.sortedWith(
-            compareByDescending<SweepReport> {
-                when (it.bestCell.verdict) {
-                    "DATA VALIDATED" -> 2
-                    "TRADE-OFF" -> 1
-                    else -> 0
-                }
-            }.thenByDescending { if (it.isPlateau) 1 else 0 }
-             .thenByDescending { it.bestCell.oosNetBps * 1.2 + it.bestCell.trainNetBps * 0.8 }
-        ).first()
+        val eligible = reports.filter {
+            it.bestCell.verdict == "DATA VALIDATED" &&
+            it.isPlateau &&
+            it.bestCell.totalTrades >= 5 &&
+            it.bestCell.maxDdBps < 500.0
+        }
 
-        return bestReport
+        if (eligible.isEmpty()) {
+            return reports.first { it.bestStrategyMode == currentMode }.let { report ->
+                report.copy(
+                    bestCell = report.bestCell.copy(verdict = "NO EDGE"),
+                    bestStrategyMode = currentMode
+                )
+            }
+        }
+
+        return eligible.maxWithOrNull(
+            compareBy<SweepReport> { it.bestCell.oosNetBps }
+                .thenBy { it.bestCell.oosSharpe }
+                .thenBy { it.bestCell.totalTrades }
+        ) ?: reports.first { it.bestStrategyMode == currentMode }
     }
 
     private fun evaluateCandlesForStrategy(symbol: String, candles: List<Candle>, strategyMode: Int): SweepReport {
