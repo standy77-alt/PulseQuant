@@ -1144,7 +1144,9 @@ class MainActivity : Activity() {
                     val cell = report.bestCell
                     val shortSym = symbol.replace("-USDT", "")
 
-                    if (cell.verdict == "NO EDGE") {
+                    if (cell.verdict != "DATA VALIDATED") {
+                        RadarService.autoTradeAuthorized = false
+                        RadarService.authorizedStrategyMode = -1
                         val summary =
                             "⚠️ NO EDGE [$shortSym]: надёжного победителя нет. Текущие настройки сохранены."
                         RadarService.lastAutoAdaptSummary = summary
@@ -1157,6 +1159,8 @@ class MainActivity : Activity() {
 
                     val newStrat = report.bestStrategyMode
                     RadarService.botStrategyMode = newStrat
+                    RadarService.authorizedStrategyMode = newStrat
+                    RadarService.autoTradeAuthorized = true
 
                     val cfg = RadarService.getConfig(this@MainActivity, symbol)
                     cfg.thresholdPercent = cell.thresholdPct

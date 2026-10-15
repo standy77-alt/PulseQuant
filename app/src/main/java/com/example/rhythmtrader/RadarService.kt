@@ -84,6 +84,8 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
 
         var botEnabled = true
         var botStrategyMode = 0
+        var autoTradeAuthorized = false
+        var authorizedStrategyMode = -1
         var autoAdaptEnabled = true
         var isAutoAdapting = false
         var lastAutoAdaptTradeCount = -1
@@ -189,6 +191,8 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
 
     override fun onCreate() {
         super.onCreate()
+        autoTradeAuthorized = false
+        authorizedStrategyMode = -1
         loadBotStats(this)
         stopPenalties.clear()
         tts = TextToSpeech(this, this)
@@ -422,7 +426,7 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
         val btcCrashingHard = symbol != "BTC-USDT" && btcSnap != null && btcSnap.zScore < -1.8 && btcSnap.ofi < -0.35
         val blockedByBtc = isLongSignal && btcCrashingHard
 
-        if (botEnabled && !QuantEngine.killSwitchEngaged && finalAction != 0 && !openPositions.containsKey(symbol) && openPositions.size < 3 && cooldownOk && demoBalance >= decision.marginUsdt && !inSameSideCooldown && !blockedByBtc) {
+        if (botEnabled && autoTradeAuthorized && authorizedStrategyMode == botStrategyMode && !QuantEngine.killSwitchEngaged && finalAction != 0 && !openPositions.containsKey(symbol) && openPositions.size < 3 && cooldownOk && demoBalance >= decision.marginUsdt && !inSameSideCooldown && !blockedByBtc) {
             lastAlertTime[symbol] = now
             basePrices[symbol] = price
             tradeTimestamps.add(now)
