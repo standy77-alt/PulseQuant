@@ -147,88 +147,8 @@ class MainActivity : Activity() {
 
         setupHeroCard(fontRegular, fontMedium, fontBold)
 
-        quantCard = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
-        val quantTitle = TextView(this).apply {
-            text = "JANE STREET 6-BOT DESK • COMPUTE • SKEPTIC"
-            textSize = 12f
-            setTextColor(Color.parseColor("#0A84FF"))
-            typeface = fontBold
-            setPadding(0, 0, 0, 14)
-        }
-        quantCard.addView(quantTitle)
 
-        tvQuantStateMetrics = TextView(this).apply {
-            text = "Секстиль: S1 | Волат: 0 bps/hr | Плечо: 8x\nVWAP Δ: 0.00% | Z: 0.00σ | Режим: BALANCED"
-            textSize = 12f
-            typeface = fontMono
-            setPadding(24, 18, 24, 18)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 12
-            }
-        }
-        quantCard.addView(tvQuantStateMetrics)
-
-        tvQuantDecisionGate = TextView(this).apply {
-            text = "SKEPTIC & RISK: Ожидание сигнала..."
-            textSize = 12f
-            setTextColor(Color.parseColor("#2E7D32"))
-            typeface = fontBold
-            setPadding(4, 4, 4, 10)
-        }
-        quantCard.addView(tvQuantDecisionGate)
-
-        tvQuantCalibration = TextView(this).apply {
-            text = "MFE Capture: 65% | Скептик убил: 0 | Спас: $0"
-            textSize = 11f
-            typeface = fontRegular
-            setPadding(4, 0, 4, 16)
-        }
-        quantCard.addView(tvQuantCalibration)
-
-        btnRunSweep = Button(this).apply {
-            text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
-            textSize = 12f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setTextColor(Color.WHITE)
-            background = UiHelpers.createAppleCard(Color.parseColor("#5E35B1"), 26f, Color.parseColor("#9575CD"))
-            setPadding(20, 26, 20, 26)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 14
-            }
-            setOnClickListener { triggerAutoAdaptation(RadarService.selectedChartSymbol) }
-        }
-        quantCard.addView(btnRunSweep)
-
-        btnKillSwitch = Button(this).apply {
-            text = "🚨 RISK: EMERGENCY KILL SWITCH (АВАРИЙНЫЙ СТОП)"
-            textSize = 12f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setTextColor(Color.WHITE)
-            background = UiHelpers.createAppleCard(Color.parseColor("#8E0000"), 26f, Color.parseColor("#FF453A"))
-            setPadding(20, 24, 20, 24)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            setOnClickListener {
-                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" })
-                updateBotUi()
-            }
-        }
-        quantCard.addView(btnKillSwitch)
-        radarTabContainer.addView(quantCard)
-
+        setupQuantCard(fontRegular, fontBold, fontMono)
         botCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(36, 30, 36, 30)
@@ -856,6 +776,90 @@ class MainActivity : Activity() {
         }
         heroCard.addView(cvdProgressBar)
         radarTabContainer.addView(heroCard)
+    }
+
+    private fun setupQuantCard(fontRegular: Typeface, fontBold: Typeface, fontMono: Typeface) {
+        quantCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(36, 30, 36, 30)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+        val quantTitle = TextView(this).apply {
+            text = "JANE STREET 6-BOT DESK • COMPUTE • SKEPTIC"
+            textSize = 12f
+            setTextColor(Color.parseColor("#0A84FF"))
+            typeface = fontBold
+            setPadding(0, 0, 0, 14)
+        }
+        quantCard.addView(quantTitle)
+
+        tvQuantStateMetrics = TextView(this).apply {
+            text = "Секстиль: S1 | Волат: 0 bps/hr | Плечо: 8x\nVWAP Δ: 0.00% | Z: 0.00σ | Режим: BALANCED"
+            textSize = 12f
+            typeface = fontMono
+            setPadding(24, 18, 24, 18)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 12
+            }
+        }
+        quantCard.addView(tvQuantStateMetrics)
+
+        tvQuantDecisionGate = TextView(this).apply {
+            text = "SKEPTIC & RISK: Ожидание сигнала..."
+            textSize = 12f
+            setTextColor(Color.parseColor("#2E7D32"))
+            typeface = fontBold
+            setPadding(4, 4, 4, 10)
+        }
+        quantCard.addView(tvQuantDecisionGate)
+
+        tvQuantCalibration = TextView(this).apply {
+            text = "MFE Capture: 65% | Скептик убил: 0 | Спас: $0"
+            textSize = 11f
+            typeface = fontRegular
+            setPadding(4, 0, 4, 16)
+        }
+        quantCard.addView(tvQuantCalibration)
+
+        btnRunSweep = Button(this).apply {
+            text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
+            textSize = 12f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            setTextColor(Color.WHITE)
+            background = UiHelpers.createAppleCard(Color.parseColor("#5E35B1"), 26f, Color.parseColor("#9575CD"))
+            setPadding(20, 26, 20, 26)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 14
+            }
+            setOnClickListener { triggerAutoAdaptation(RadarService.selectedChartSymbol) }
+        }
+        quantCard.addView(btnRunSweep)
+
+        btnKillSwitch = Button(this).apply {
+            text = "🚨 RISK: EMERGENCY KILL SWITCH (АВАРИЙНЫЙ СТОП)"
+            textSize = 12f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            setTextColor(Color.WHITE)
+            background = UiHelpers.createAppleCard(Color.parseColor("#8E0000"), 26f, Color.parseColor("#FF453A"))
+            setPadding(20, 24, 20, 24)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            setOnClickListener {
+                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" })
+                updateBotUi()
+            }
+        }
+        quantCard.addView(btnKillSwitch)
+        radarTabContainer.addView(quantCard)
     }
 
     private fun switchTab(tabIdx: Int) {
