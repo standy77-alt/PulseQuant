@@ -163,7 +163,7 @@ class MainActivity : Activity() {
                     context = this@MainActivity,
                     onThemeChanged = {
                         isLightTheme = AppTheme.isLight
-                        PreferencesManager.saveTheme(this, isLightTheme)
+                        PreferencesManager.saveTheme(this@MainActivity, isLightTheme)
                         applyTheme()
                     },
                     onResetAccount = {
