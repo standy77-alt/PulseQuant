@@ -104,13 +104,6 @@ class MainActivity : Activity() {
 
     private var ignoreSeekChange = false
 
-    private fun bgMain() = if (isLightTheme) Color.parseColor("#F2F2F7") else Color.parseColor("#000000")
-    private fun bgCard() = if (isLightTheme) Color.parseColor("#FFFFFF") else Color.parseColor("#1C1C1E")
-    private fun bgSubCard() = if (isLightTheme) Color.parseColor("#F2F2F7") else Color.parseColor("#2C2C2E")
-    private fun strokeCard() = if (isLightTheme) Color.parseColor("#D1D1D6") else Color.parseColor("#3A3A3C")
-    private fun textPrimary() = if (isLightTheme) Color.parseColor("#1C1C1E") else Color.WHITE
-    private fun textSecondary() = if (isLightTheme) Color.parseColor("#6C6C70") else Color.parseColor("#AEAEB2")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RadarService.loadBotStats(this)
@@ -854,13 +847,13 @@ class MainActivity : Activity() {
         if (currentTab == 0) {
             btnTabRadar.background = createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
             btnTabRadar.setTextColor(Color.WHITE)
-            btnTabTrades.background = createAppleCard(bgSubCard(), 28f, Color.TRANSPARENT)
-            btnTabTrades.setTextColor(textPrimary())
+            btnTabTrades.background = createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
+            btnTabTrades.setTextColor(AppTheme.textPrimary())
         } else {
             btnTabTrades.background = createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
             btnTabTrades.setTextColor(Color.WHITE)
-            btnTabRadar.background = createAppleCard(bgSubCard(), 28f, Color.TRANSPARENT)
-            btnTabRadar.setTextColor(textPrimary())
+            btnTabRadar.background = createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
+            btnTabRadar.setTextColor(AppTheme.textPrimary())
         }
     }
 
@@ -904,7 +897,7 @@ class MainActivity : Activity() {
                 val emptyTv = TextView(this).apply {
                     text = "Сейчас нет открытых сделок. Когда бот (или ты вручную) откроет позицию, она появится здесь с живым расчетом прибыли."
                     textSize = 13f
-                    setTextColor(textSecondary())
+                    setTextColor(AppTheme.textSecondary())
                     setPadding(8, 12, 8, 20)
                 }
                 openPositionsListContainer.addView(emptyTv)
@@ -920,7 +913,7 @@ class MainActivity : Activity() {
                     val posCard = LinearLayout(this).apply {
                         orientation = LinearLayout.VERTICAL
                         background = createAppleCard(
-                            bgCard(),
+                            AppTheme.bgCard(),
                             32f,
                             if (isPos) Color.parseColor("#2E7D32") else Color.parseColor("#C62828")
                         )
@@ -938,7 +931,7 @@ class MainActivity : Activity() {
                     val tvSym = TextView(this).apply {
                         text = "$shortSym  $sideTitle  ($${pos.marginUsdt.toInt()} × ${pos.leverage}x)"
                         textSize = 16f
-                        setTextColor(textPrimary())
+                        setTextColor(AppTheme.textPrimary())
                         typeface = Typeface.create("sans-serif", Typeface.BOLD)
                         layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
                     }
@@ -964,7 +957,7 @@ class MainActivity : Activity() {
                                "TP: ${String.format("%.4f", pos.takeProfitPrice)}  |  SL: ${String.format("%.4f", pos.stopLossPrice)} ($lockBadge)\n" +
                                "Открыта в ${pos.openTime} (в рынке ${holdMin}/60 мин) • Пик MFE: +${pos.maxFavorableExcursionBps.toInt()} bps"
                         textSize = 12f
-                        setTextColor(textSecondary())
+                        setTextColor(AppTheme.textSecondary())
                         setPadding(0, 12, 0, 16)
                         setLineSpacing(5f, 1f)
                     }
@@ -1058,7 +1051,7 @@ class MainActivity : Activity() {
                 val emptyClosed = TextView(this).apply {
                     text = "Завершенных сделок пока нет. Здесь будут храниться все закрытые сделки с подробным расчетом профита."
                     textSize = 13f
-                    setTextColor(textSecondary())
+                    setTextColor(AppTheme.textSecondary())
                     setPadding(8, 12, 8, 20)
                 }
                 closedTradesListContainer.addView(emptyClosed)
@@ -1068,7 +1061,7 @@ class MainActivity : Activity() {
                     val shortSym = tr.symbol.replace("-USDT", "")
                     val card = LinearLayout(this).apply {
                         orientation = LinearLayout.VERTICAL
-                        background = createAppleCard(bgCard(), 28f, Color.TRANSPARENT)
+                        background = createAppleCard(AppTheme.bgCard(), 28f, Color.TRANSPARENT)
                         setPadding(28, 22, 28, 22)
                         layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                             bottomMargin = 14
@@ -1084,7 +1077,7 @@ class MainActivity : Activity() {
                     val tTitle = TextView(this).apply {
                         text = "$icon $shortSym $side ($${tr.marginUsdt.toInt()}×${tr.leverage}x)"
                         textSize = 15f
-                        setTextColor(textPrimary())
+                        setTextColor(AppTheme.textPrimary())
                         typeface = Typeface.create("sans-serif", Typeface.BOLD)
                         layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
                     }
@@ -1102,7 +1095,7 @@ class MainActivity : Activity() {
                         text = "Вход: ${tr.entryPrice} (${tr.openTime}) → Выход: ${tr.exitPrice} (${tr.closeTime})\n" +
                                "${tr.reason} • Макс. пик MFE: +${tr.mfeBps.toInt()} bps"
                         textSize = 12f
-                        setTextColor(textSecondary())
+                        setTextColor(AppTheme.textSecondary())
                         setPadding(0, 8, 0, 0)
                         setLineSpacing(4f, 1f)
                     }
@@ -1207,13 +1200,13 @@ class MainActivity : Activity() {
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(44, 40, 44, 28)
-            setBackgroundColor(bgCard())
+            setBackgroundColor(AppTheme.bgCard())
         }
 
         val title = TextView(this).apply {
             text = "Compute Lab • ${report.symbol}"
             textSize = 19f
-            setTextColor(textPrimary())
+            setTextColor(AppTheme.textPrimary())
             typeface = Typeface.create("sans-serif", Typeface.BOLD)
             setPadding(0, 0, 0, 6)
         }
@@ -1222,7 +1215,7 @@ class MainActivity : Activity() {
         val sub = TextView(this).apply {
             text = "${report.strategyName}\nПроверено 20 конфигураций на ${report.candlesCount} свечах (5m) с вычетом 11 bps комиссий:"
             textSize = 12f
-            setTextColor(textSecondary())
+            setTextColor(AppTheme.textSecondary())
             setPadding(0, 0, 0, 20)
         }
         container.addView(sub)
@@ -1286,9 +1279,9 @@ class MainActivity : Activity() {
                 text = "$badge • Порог ${String.format("%.2f%%", cell.thresholdPct)} (-${cell.slBps.toInt()}/+${cell.tpBps.toInt()} bps)\n" +
                        "Train: ${String.format("%+.0f", cell.trainNetBps)} bps | OOS: ${String.format("%+.0f", cell.oosNetBps)} bps | Сделок: ${cell.totalTrades} (WR: ${String.format("%.0f%%", cell.winRatePct)})"
                 textSize = 12f
-                setTextColor(textPrimary())
+                setTextColor(AppTheme.textPrimary())
                 typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)
-                background = createAppleCard(bgSubCard(), 22f, strokeCard())
+                background = createAppleCard(AppTheme.bgSubCard(), 22f, AppTheme.stroke())
                 setPadding(24, 16, 24, 16)
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                     bottomMargin = 10
@@ -1299,7 +1292,7 @@ class MainActivity : Activity() {
 
         val futureBox = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            background = createAppleCard(bgSubCard(), 26f, Color.parseColor("#0A84FF"))
+            background = createAppleCard(AppTheme.bgSubCard(), 26f, Color.parseColor("#0A84FF"))
             setPadding(28, 22, 28, 22)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = 10
@@ -1317,7 +1310,7 @@ class MainActivity : Activity() {
             text = "• Сценарий 1 (Flash Crash -5% за минуту): Защитная скобка отсечет левый хвост, риск ограничен ${String.format("%+.2f$", report.flashCrash5PctImpactUsdt)}.\n" +
                    "• Сценарий 2 (Каскад ликвидаций -12% с проскальзыванием): Максимальный удар по позиции составит ${String.format("%+.2f$", report.cascade12PctImpactUsdt)} (ликвидация предотвращена)."
             textSize = 12f
-            setTextColor(textSecondary())
+            setTextColor(AppTheme.textSecondary())
             setLineSpacing(4f, 1f)
         }
         futureBox.addView(ftTitle)
@@ -1355,8 +1348,8 @@ class MainActivity : Activity() {
             isAllCaps = false
             minHeight = 0
             minimumHeight = 0
-            setTextColor(textPrimary())
-            background = createAppleCard(bgSubCard(), 26f, strokeCard())
+            setTextColor(AppTheme.textPrimary())
+            background = createAppleCard(AppTheme.bgSubCard(), 26f, AppTheme.stroke())
             setPadding(24, 22, 24, 22)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             setOnClickListener { dialogRef?.dismiss() }
@@ -1372,13 +1365,13 @@ class MainActivity : Activity() {
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(44, 40, 44, 28)
-            setBackgroundColor(bgCard())
+            setBackgroundColor(AppTheme.bgCard())
         }
 
         val title = TextView(this).apply {
             text = "Выбор стратегии (5 Постулатов DXRG)"
             textSize = 18f
-            setTextColor(textPrimary())
+            setTextColor(AppTheme.textPrimary())
             typeface = Typeface.create("sans-serif", Typeface.BOLD)
             setPadding(0, 0, 0, 10)
         }
@@ -1387,7 +1380,7 @@ class MainActivity : Activity() {
         val sub = TextView(this).apply {
             text = "Нажми на любую карточку ниже, чтобы переключить алгоритм бота:"
             textSize = 13f
-            setTextColor(textSecondary())
+            setTextColor(AppTheme.textSecondary())
             setPadding(0, 0, 0, 24)
         }
         container.addView(sub)
@@ -1410,7 +1403,7 @@ class MainActivity : Activity() {
 
             val card = LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
-                background = createAppleCard(bgSubCard(), 32f, if (isSelected) accentColor else strokeCard())
+                background = createAppleCard(AppTheme.bgSubCard(), 32f, if (isSelected) accentColor else AppTheme.stroke())
                 setPadding(32, 26, 32, 26)
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = 18 }
                 setOnClickListener {
@@ -1426,7 +1419,7 @@ class MainActivity : Activity() {
             val tvName = TextView(this).apply {
                 text = "${st.name}$badge"
                 textSize = 15f
-                setTextColor(if (isSelected) accentColor else textPrimary())
+                setTextColor(if (isSelected) accentColor else AppTheme.textPrimary())
                 typeface = Typeface.create("sans-serif", Typeface.BOLD)
                 setPadding(0, 0, 0, 8)
             }
@@ -1434,7 +1427,7 @@ class MainActivity : Activity() {
             val tvRule = TextView(this).apply {
                 text = "Простыми словами: ${st.simpleRule}"
                 textSize = 13f
-                setTextColor(textPrimary())
+                setTextColor(AppTheme.textPrimary())
                 typeface = Typeface.create("sans-serif-medium", Typeface.ITALIC)
                 setPadding(0, 0, 0, 8)
             }
@@ -1442,7 +1435,7 @@ class MainActivity : Activity() {
             val tvHow = TextView(this).apply {
                 text = st.howItWorks
                 textSize = 12f
-                setTextColor(textSecondary())
+                setTextColor(AppTheme.textSecondary())
                 setLineSpacing(5f, 1f)
             }
 
@@ -1459,44 +1452,44 @@ class MainActivity : Activity() {
 
     private fun applyTheme() {
         AppTheme.isLight = isLightTheme
-        scrollRoot.setBackgroundColor(bgMain())
-        tvAppTitle.setTextColor(textPrimary())
+        scrollRoot.setBackgroundColor(AppTheme.bgMain())
+        tvAppTitle.setTextColor(AppTheme.textPrimary())
 
 
 
-        navTabBar.background = createAppleCard(bgCard(), 36f, strokeCard())
-        segmentedBar.background = createAppleCard(bgCard(), 36f, strokeCard())
-        heroCard.background = createAppleCard(bgCard(), 44f, strokeCard())
-        quantCard.background = createAppleCard(bgCard(), 44f, Color.parseColor("#0A84FF"))
-        botCard.background = createAppleCard(bgCard(), 44f, strokeCard())
-        settingsCard.background = createAppleCard(bgCard(), 44f, strokeCard())
-        deskSummaryCard.background = createAppleCard(bgCard(), 44f, Color.parseColor("#0A84FF"))
+        navTabBar.background = createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
+        segmentedBar.background = createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
+        heroCard.background = createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
+        quantCard.background = createAppleCard(AppTheme.bgCard(), 44f, Color.parseColor("#0A84FF"))
+        botCard.background = createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
+        settingsCard.background = createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
+        deskSummaryCard.background = createAppleCard(AppTheme.bgCard(), 44f, Color.parseColor("#0A84FF"))
 
-        tvCoinTitle.setTextColor(textSecondary())
-        tvPrice.setTextColor(textPrimary())
-        tvLastTrade.setTextColor(textSecondary())
-        tvCvdDelta.setTextColor(textPrimary())
+        tvCoinTitle.setTextColor(AppTheme.textSecondary())
+        tvPrice.setTextColor(AppTheme.textPrimary())
+        tvLastTrade.setTextColor(AppTheme.textSecondary())
+        tvCvdDelta.setTextColor(AppTheme.textPrimary())
 
-        tvQuantStateMetrics.setTextColor(textPrimary())
-        tvQuantStateMetrics.background = createAppleCard(bgSubCard(), 24f, strokeCard())
-        tvQuantCalibration.setTextColor(textSecondary())
+        tvQuantStateMetrics.setTextColor(AppTheme.textPrimary())
+        tvQuantStateMetrics.background = createAppleCard(AppTheme.bgSubCard(), 24f, AppTheme.stroke())
+        tvQuantCalibration.setTextColor(AppTheme.textSecondary())
 
-        btnResetDemo.setTextColor(textPrimary())
-        btnResetDemo.background = createAppleCard(bgSubCard(), 22f, strokeCard())
-        tvBotBalance.setTextColor(textPrimary())
-        tvBotWinrate.setTextColor(textSecondary())
-        lblAutoBot.setTextColor(textPrimary())
-        tvActivePosInfo.background = createAppleCard(bgSubCard(), 26f, strokeCard())
+        btnResetDemo.setTextColor(AppTheme.textPrimary())
+        btnResetDemo.background = createAppleCard(AppTheme.bgSubCard(), 22f, AppTheme.stroke())
+        tvBotBalance.setTextColor(AppTheme.textPrimary())
+        tvBotWinrate.setTextColor(AppTheme.textSecondary())
+        lblAutoBot.setTextColor(AppTheme.textPrimary())
+        tvActivePosInfo.background = createAppleCard(AppTheme.bgSubCard(), 26f, AppTheme.stroke())
 
-        tvDeskBotsReport.setTextColor(textPrimary())
-        tvOpenPositionsHeader.setTextColor(textPrimary())
-        tvClosedTradesHeader.setTextColor(textPrimary())
+        tvDeskBotsReport.setTextColor(AppTheme.textPrimary())
+        tvOpenPositionsHeader.setTextColor(AppTheme.textPrimary())
+        tvClosedTradesHeader.setTextColor(AppTheme.textPrimary())
 
-        lblPct.setTextColor(textPrimary())
-        tvThreshVal.setTextColor(textSecondary())
-        lblWhale.setTextColor(textPrimary())
-        tvWhaleVal.setTextColor(textSecondary())
-        feedHeader.setTextColor(textSecondary())
+        lblPct.setTextColor(AppTheme.textPrimary())
+        tvThreshVal.setTextColor(AppTheme.textSecondary())
+        lblWhale.setTextColor(AppTheme.textPrimary())
+        tvWhaleVal.setTextColor(AppTheme.textSecondary())
+        feedHeader.setTextColor(AppTheme.textSecondary())
 
         radarView.isLightTheme = isLightTheme
         updateTabButtonsStyle()
@@ -1575,10 +1568,10 @@ class MainActivity : Activity() {
                 pos.symbol.replace("-USDT", ""), side, pos.marginUsdt, pos.leverage, lockTag,
                 uPnl, curBps
             )
-            tvActivePosInfo.setTextColor(textPrimary())
+            tvActivePosInfo.setTextColor(AppTheme.textPrimary())
         } else {
             tvActivePosInfo.text = "По ${sym.replace("-USDT", "")} нет открытой позиции (Нажми, чтобы открыть все сделки ➔)"
-            tvActivePosInfo.setTextColor(textSecondary())
+            tvActivePosInfo.setTextColor(AppTheme.textSecondary())
         }
 
         updateTabButtonsStyle()
@@ -1622,7 +1615,7 @@ class MainActivity : Activity() {
         tvCvdSell.text = "Прод: ${formatUsd(sell)}"
         val sign = if (delta >= 0) "+" else "-"
         tvCvdDelta.text = "CVD: $sign${formatUsd(abs(delta))}"
-        tvCvdDelta.setTextColor(textPrimary())
+        tvCvdDelta.setTextColor(AppTheme.textPrimary())
 
         cvdProgressBar.progress = if (total > 0) ((buy / total) * 100).toInt() else 50
     }
@@ -1642,9 +1635,9 @@ class MainActivity : Activity() {
             val empty = TextView(this).apply {
                 text = "Ожидание сигналов от Scout & Skeptic..."
                 textSize = 13f
-                setTextColor(textSecondary())
+                setTextColor(AppTheme.textSecondary())
                 gravity = Gravity.CENTER
-                background = createAppleCard(bgCard(), 36f, strokeCard())
+                background = createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
                 setPadding(32, 44, 32, 44)
             }
             feedContainer.addView(empty)
@@ -1655,7 +1648,7 @@ class MainActivity : Activity() {
             val card = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
-                background = createAppleCard(bgCard(), 34f, strokeCard())
+                background = createAppleCard(AppTheme.bgCard(), 34f, AppTheme.stroke())
                 setPadding(28, 22, 28, 22)
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                     bottomMargin = 12
@@ -1681,13 +1674,13 @@ class MainActivity : Activity() {
             val t1 = TextView(this).apply {
                 text = item.title
                 textSize = 14f
-                setTextColor(textPrimary())
+                setTextColor(AppTheme.textPrimary())
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             }
             val t2 = TextView(this).apply {
                 text = item.subtitle
                 textSize = 12f
-                setTextColor(textSecondary())
+                setTextColor(AppTheme.textSecondary())
             }
             textCol.addView(t1)
             textCol.addView(t2)
@@ -1696,7 +1689,7 @@ class MainActivity : Activity() {
             val tTime = TextView(this).apply {
                 text = item.time
                 textSize = 12f
-                setTextColor(textSecondary())
+                setTextColor(AppTheme.textSecondary())
             }
             card.addView(tTime)
 
@@ -1709,13 +1702,13 @@ class MainActivity : Activity() {
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(48, 40, 48, 24)
-            setBackgroundColor(bgCard())
+            setBackgroundColor(AppTheme.bgCard())
         }
 
         val titleView = TextView(this).apply {
             text = "Слот #${slotIndex + 1} ($currentSym)"
             textSize = 17f
-            setTextColor(textPrimary())
+            setTextColor(AppTheme.textPrimary())
             typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
             setPadding(0, 0, 0, 20)
         }
@@ -1724,9 +1717,9 @@ class MainActivity : Activity() {
         val input = EditText(this).apply {
             setText(currentSym.replace("-USDT", ""))
             hint = "Тикер (например CGPT, MON, DOGE)"
-            setTextColor(textPrimary())
-            setHintTextColor(textSecondary())
-            background = createAppleCard(bgSubCard(), 24f, strokeCard())
+            setTextColor(AppTheme.textPrimary())
+            setHintTextColor(AppTheme.textSecondary())
+            background = createAppleCard(AppTheme.bgSubCard(), 24f, AppTheme.stroke())
             setPadding(32, 24, 32, 24)
         }
         container.addView(input)
@@ -1797,12 +1790,12 @@ class MainActivity : Activity() {
                     btn.setTextColor(Color.WHITE)
                 }
                 isActive -> {
-                    btn.background = createAppleCard(bgSubCard(), 28f, Color.TRANSPARENT)
-                    btn.setTextColor(if (hasPos) Color.parseColor("#2E7D32") else textPrimary())
+                    btn.background = createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
+                    btn.setTextColor(if (hasPos) Color.parseColor("#2E7D32") else AppTheme.textPrimary())
                 }
                 else -> {
                     btn.background = createAppleCard(Color.TRANSPARENT, 28f, Color.TRANSPARENT)
-                    btn.setTextColor(textSecondary())
+                    btn.setTextColor(AppTheme.textSecondary())
                 }
             }
         }
