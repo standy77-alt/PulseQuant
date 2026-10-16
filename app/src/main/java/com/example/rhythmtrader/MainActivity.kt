@@ -21,6 +21,7 @@ import kotlin.concurrent.thread
 import kotlin.math.abs
 import com.example.rhythmtrader.ui.AppTheme
 import com.example.rhythmtrader.ui.SettingsDialog
+import com.example.rhythmtrader.ui.UiHelpers
 
 class MainActivity : Activity() {
 
@@ -273,7 +274,7 @@ class MainActivity : Activity() {
             textSize = 12f
             setTextColor(Color.WHITE)
             typeface = fontMedium
-            background = createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
+            background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
             setPadding(24, 12, 24, 12)
             setOnClickListener {
                 RadarService.resetBasePrice(RadarService.selectedChartSymbol)
@@ -301,7 +302,7 @@ class MainActivity : Activity() {
             textSize = 14f
             setTextColor(Color.WHITE)
             typeface = fontMedium
-            background = createAppleCard(Color.parseColor("#2E7D32"), 24f, Color.TRANSPARENT)
+            background = UiHelpers.createAppleCard(Color.parseColor("#2E7D32"), 24f, Color.TRANSPARENT)
             setPadding(22, 10, 22, 10)
         }
         priceRow.addView(tvPrice)
@@ -425,7 +426,7 @@ class MainActivity : Activity() {
             minHeight = 0
             minimumHeight = 0
             setTextColor(Color.WHITE)
-            background = createAppleCard(Color.parseColor("#5E35B1"), 26f, Color.parseColor("#9575CD"))
+            background = UiHelpers.createAppleCard(Color.parseColor("#5E35B1"), 26f, Color.parseColor("#9575CD"))
             setPadding(20, 26, 20, 26)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 14
@@ -443,7 +444,7 @@ class MainActivity : Activity() {
             minHeight = 0
             minimumHeight = 0
             setTextColor(Color.WHITE)
-            background = createAppleCard(Color.parseColor("#8E0000"), 26f, Color.parseColor("#FF453A"))
+            background = UiHelpers.createAppleCard(Color.parseColor("#8E0000"), 26f, Color.parseColor("#FF453A"))
             setPadding(20, 24, 20, 24)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             setOnClickListener {
@@ -506,7 +507,7 @@ class MainActivity : Activity() {
             textSize = 13f
             setTextColor(Color.WHITE)
             typeface = fontMedium
-            background = createAppleCard(Color.parseColor("#2E7D32"), 22f, Color.TRANSPARENT)
+            background = UiHelpers.createAppleCard(Color.parseColor("#2E7D32"), 22f, Color.TRANSPARENT)
             setPadding(20, 8, 20, 8)
         }
         balRow.addView(tvBotBalance)
@@ -526,7 +527,7 @@ class MainActivity : Activity() {
             textSize = 12f
             setTextColor(Color.WHITE)
             typeface = fontBold
-            background = createAppleCard(Color.parseColor("#EF6C00"), 22f, Color.TRANSPARENT)
+            background = UiHelpers.createAppleCard(Color.parseColor("#EF6C00"), 22f, Color.TRANSPARENT)
             setPadding(24, 16, 24, 16)
             visibility = View.GONE
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
@@ -566,7 +567,7 @@ class MainActivity : Activity() {
             minHeight = 0
             minimumHeight = 0
             setTextColor(Color.WHITE)
-            background = createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
+            background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
             setPadding(24, 26, 24, 26)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 16
@@ -601,7 +602,7 @@ class MainActivity : Activity() {
             minHeight = 0
             minimumHeight = 0
             setTextColor(Color.WHITE)
-            background = createAppleCard(Color.parseColor("#1B5E20"), 26f, Color.parseColor("#4CAF50"))
+            background = UiHelpers.createAppleCard(Color.parseColor("#1B5E20"), 26f, Color.parseColor("#4CAF50"))
             setPadding(12, 24, 12, 24)
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 12 }
             setOnClickListener {
@@ -617,7 +618,7 @@ class MainActivity : Activity() {
             minHeight = 0
             minimumHeight = 0
             setTextColor(Color.WHITE)
-            background = createAppleCard(Color.parseColor("#B71C1C"), 26f, Color.parseColor("#EF5350"))
+            background = UiHelpers.createAppleCard(Color.parseColor("#B71C1C"), 26f, Color.parseColor("#EF5350"))
             setPadding(12, 24, 12, 24)
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 12 }
             setOnClickListener {
@@ -633,7 +634,7 @@ class MainActivity : Activity() {
             minHeight = 0
             minimumHeight = 0
             setTextColor(Color.WHITE)
-            background = createAppleCard(Color.parseColor("#48484A"), 26f, Color.parseColor("#636366"))
+            background = UiHelpers.createAppleCard(Color.parseColor("#48484A"), 26f, Color.parseColor("#636366"))
             setPadding(12, 24, 12, 24)
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.95f)
             setOnClickListener {
@@ -845,14 +846,14 @@ class MainActivity : Activity() {
         btnTabTrades.text = "💼 Сделки ($openCount / $closedCount)"
 
         if (currentTab == 0) {
-            btnTabRadar.background = createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
+            btnTabRadar.background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
             btnTabRadar.setTextColor(Color.WHITE)
-            btnTabTrades.background = createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
+            btnTabTrades.background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
             btnTabTrades.setTextColor(AppTheme.textPrimary())
         } else {
-            btnTabTrades.background = createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
+            btnTabTrades.background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
             btnTabTrades.setTextColor(Color.WHITE)
-            btnTabRadar.background = createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
+            btnTabRadar.background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
             btnTabRadar.setTextColor(AppTheme.textPrimary())
         }
     }
@@ -912,7 +913,7 @@ class MainActivity : Activity() {
 
                     val posCard = LinearLayout(this).apply {
                         orientation = LinearLayout.VERTICAL
-                        background = createAppleCard(
+                        background = UiHelpers.createAppleCard(
                             AppTheme.bgCard(),
                             32f,
                             if (isPos) Color.parseColor("#2E7D32") else Color.parseColor("#C62828")
@@ -940,7 +941,7 @@ class MainActivity : Activity() {
                         textSize = 14f
                         setTextColor(Color.WHITE)
                         typeface = Typeface.create("sans-serif", Typeface.BOLD)
-                        background = createAppleCard(
+                        background = UiHelpers.createAppleCard(
                             if (isPos) Color.parseColor("#2E7D32") else Color.parseColor("#C62828"),
                             20f, Color.TRANSPARENT
                         )
@@ -977,7 +978,7 @@ class MainActivity : Activity() {
                         minimumHeight = 0
                         gravity = Gravity.CENTER
                         setTextColor(Color.WHITE)
-                        background = createAppleCard(Color.parseColor("#0A84FF"), 24f, Color.TRANSPARENT)
+                        background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 24f, Color.TRANSPARENT)
                         setPadding(16, 24, 16, 24)
                         layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 12 }
                         setOnClickListener {
@@ -996,7 +997,7 @@ class MainActivity : Activity() {
                         minimumHeight = 0
                         gravity = Gravity.CENTER
                         setTextColor(Color.WHITE)
-                        background = createAppleCard(Color.parseColor("#B71C1C"), 24f, Color.TRANSPARENT)
+                        background = UiHelpers.createAppleCard(Color.parseColor("#B71C1C"), 24f, Color.TRANSPARENT)
                         setPadding(16, 24, 16, 24)
                         layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
                         setOnClickListener {
@@ -1028,7 +1029,7 @@ class MainActivity : Activity() {
 
                 openPosPnlViews[pos.symbol]?.apply {
                     text = String.format("%+.2f$ (%+.0f bps)", uPnl, curBps)
-                    background = createAppleCard(
+                    background = UiHelpers.createAppleCard(
                         if (isPos) Color.parseColor("#2E7D32") else Color.parseColor("#C62828"),
                         20f, Color.TRANSPARENT
                     )
@@ -1061,7 +1062,7 @@ class MainActivity : Activity() {
                     val shortSym = tr.symbol.replace("-USDT", "")
                     val card = LinearLayout(this).apply {
                         orientation = LinearLayout.VERTICAL
-                        background = createAppleCard(AppTheme.bgCard(), 28f, Color.TRANSPARENT)
+                        background = UiHelpers.createAppleCard(AppTheme.bgCard(), 28f, Color.TRANSPARENT)
                         setPadding(28, 22, 28, 22)
                         layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                             bottomMargin = 14
@@ -1134,7 +1135,7 @@ class MainActivity : Activity() {
                         val summary =
                             "⚠️ NO EDGE [$shortSym]: надёжного победителя нет. Текущие настройки сохранены."
                         RadarService.lastAutoAdaptSummary = summary
-                        tvDecayWarning.background = createAppleCard(
+                        tvDecayWarning.background = UiHelpers.createAppleCard(
                             Color.parseColor("#8A5A00"), 22f, Color.TRANSPARENT
                         )
                         tvDecayWarning.text = summary
@@ -1164,7 +1165,7 @@ class MainActivity : Activity() {
                         "Порог ${String.format("%.2f%%", cell.thresholdPct)} • " +
                         "OOS ${String.format("%+.0f bps", cell.oosNetBps)} (${cell.verdict})"
                     RadarService.lastAutoAdaptSummary = summary
-                    tvDecayWarning.background = createAppleCard(
+                    tvDecayWarning.background = UiHelpers.createAppleCard(
                         Color.parseColor("#2E7D32"), 22f, Color.TRANSPARENT
                     )
                     tvDecayWarning.text = summary
@@ -1229,7 +1230,7 @@ class MainActivity : Activity() {
 
         val verdictBox = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            background = createAppleCard(verdictColor, 28f, Color.TRANSPARENT)
+            background = UiHelpers.createAppleCard(verdictColor, 28f, Color.TRANSPARENT)
             setPadding(32, 24, 32, 24)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 18
@@ -1281,7 +1282,7 @@ class MainActivity : Activity() {
                 textSize = 12f
                 setTextColor(AppTheme.textPrimary())
                 typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)
-                background = createAppleCard(AppTheme.bgSubCard(), 22f, AppTheme.stroke())
+                background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 22f, AppTheme.stroke())
                 setPadding(24, 16, 24, 16)
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                     bottomMargin = 10
@@ -1292,7 +1293,7 @@ class MainActivity : Activity() {
 
         val futureBox = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            background = createAppleCard(AppTheme.bgSubCard(), 26f, Color.parseColor("#0A84FF"))
+            background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 26f, Color.parseColor("#0A84FF"))
             setPadding(28, 22, 28, 22)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = 10
@@ -1327,7 +1328,7 @@ class MainActivity : Activity() {
             minimumHeight = 0
             setTextColor(Color.WHITE)
             typeface = Typeface.create("sans-serif", Typeface.BOLD)
-            background = createAppleCard(Color.parseColor("#2E7D32"), 26f, Color.TRANSPARENT)
+            background = UiHelpers.createAppleCard(Color.parseColor("#2E7D32"), 26f, Color.TRANSPARENT)
             setPadding(24, 26, 24, 26)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 12
@@ -1349,7 +1350,7 @@ class MainActivity : Activity() {
             minHeight = 0
             minimumHeight = 0
             setTextColor(AppTheme.textPrimary())
-            background = createAppleCard(AppTheme.bgSubCard(), 26f, AppTheme.stroke())
+            background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 26f, AppTheme.stroke())
             setPadding(24, 22, 24, 22)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             setOnClickListener { dialogRef?.dismiss() }
@@ -1403,7 +1404,7 @@ class MainActivity : Activity() {
 
             val card = LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
-                background = createAppleCard(AppTheme.bgSubCard(), 32f, if (isSelected) accentColor else AppTheme.stroke())
+                background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 32f, if (isSelected) accentColor else AppTheme.stroke())
                 setPadding(32, 26, 32, 26)
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = 18 }
                 setOnClickListener {
@@ -1457,13 +1458,13 @@ class MainActivity : Activity() {
 
 
 
-        navTabBar.background = createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
-        segmentedBar.background = createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
-        heroCard.background = createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
-        quantCard.background = createAppleCard(AppTheme.bgCard(), 44f, Color.parseColor("#0A84FF"))
-        botCard.background = createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
-        settingsCard.background = createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
-        deskSummaryCard.background = createAppleCard(AppTheme.bgCard(), 44f, Color.parseColor("#0A84FF"))
+        navTabBar.background = UiHelpers.createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
+        segmentedBar.background = UiHelpers.createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
+        heroCard.background = UiHelpers.createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
+        quantCard.background = UiHelpers.createAppleCard(AppTheme.bgCard(), 44f, Color.parseColor("#0A84FF"))
+        botCard.background = UiHelpers.createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
+        settingsCard.background = UiHelpers.createAppleCard(AppTheme.bgCard(), 44f, AppTheme.stroke())
+        deskSummaryCard.background = UiHelpers.createAppleCard(AppTheme.bgCard(), 44f, Color.parseColor("#0A84FF"))
 
         tvCoinTitle.setTextColor(AppTheme.textSecondary())
         tvPrice.setTextColor(AppTheme.textPrimary())
@@ -1471,15 +1472,15 @@ class MainActivity : Activity() {
         tvCvdDelta.setTextColor(AppTheme.textPrimary())
 
         tvQuantStateMetrics.setTextColor(AppTheme.textPrimary())
-        tvQuantStateMetrics.background = createAppleCard(AppTheme.bgSubCard(), 24f, AppTheme.stroke())
+        tvQuantStateMetrics.background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 24f, AppTheme.stroke())
         tvQuantCalibration.setTextColor(AppTheme.textSecondary())
 
         btnResetDemo.setTextColor(AppTheme.textPrimary())
-        btnResetDemo.background = createAppleCard(AppTheme.bgSubCard(), 22f, AppTheme.stroke())
+        btnResetDemo.background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 22f, AppTheme.stroke())
         tvBotBalance.setTextColor(AppTheme.textPrimary())
         tvBotWinrate.setTextColor(AppTheme.textSecondary())
         lblAutoBot.setTextColor(AppTheme.textPrimary())
-        tvActivePosInfo.background = createAppleCard(AppTheme.bgSubCard(), 26f, AppTheme.stroke())
+        tvActivePosInfo.background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 26f, AppTheme.stroke())
 
         tvDeskBotsReport.setTextColor(AppTheme.textPrimary())
         tvOpenPositionsHeader.setTextColor(AppTheme.textPrimary())
@@ -1530,10 +1531,10 @@ class MainActivity : Activity() {
 
         if (QuantEngine.killSwitchEngaged) {
             btnKillSwitch.text = "✅ KILL SWITCH АКТИВЕН (НАЖМИ ДЛЯ РАЗБЛОКИРОВКИ)"
-            btnKillSwitch.background = createAppleCard(Color.parseColor("#FF453A"), 26f, Color.WHITE)
+            btnKillSwitch.background = UiHelpers.createAppleCard(Color.parseColor("#FF453A"), 26f, Color.WHITE)
         } else {
             btnKillSwitch.text = "🚨 RISK: EMERGENCY KILL SWITCH (АВАРИЙНЫЙ СТОП)"
-            btnKillSwitch.background = createAppleCard(Color.parseColor("#8E0000"), 26f, Color.parseColor("#FF453A"))
+            btnKillSwitch.background = UiHelpers.createAppleCard(Color.parseColor("#8E0000"), 26f, Color.parseColor("#FF453A"))
         }
 
         val openPnlSum = RadarService.openPositions.values.sumOf { p ->
@@ -1547,7 +1548,7 @@ class MainActivity : Activity() {
         val isPos = totalPnl >= 0
         tvBotPnlBadge.text = String.format("PnL: %+.2f$", totalPnl)
         tvBotPnlBadge.setTextColor(Color.WHITE)
-        tvBotPnlBadge.background = createAppleCard(
+        tvBotPnlBadge.background = UiHelpers.createAppleCard(
             if (isPos) Color.parseColor("#2E7D32") else Color.parseColor("#C62828"),
             22f, Color.TRANSPARENT
         )
@@ -1637,7 +1638,7 @@ class MainActivity : Activity() {
                 textSize = 13f
                 setTextColor(AppTheme.textSecondary())
                 gravity = Gravity.CENTER
-                background = createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
+                background = UiHelpers.createAppleCard(AppTheme.bgCard(), 36f, AppTheme.stroke())
                 setPadding(32, 44, 32, 44)
             }
             feedContainer.addView(empty)
@@ -1648,7 +1649,7 @@ class MainActivity : Activity() {
             val card = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
-                background = createAppleCard(AppTheme.bgCard(), 34f, AppTheme.stroke())
+                background = UiHelpers.createAppleCard(AppTheme.bgCard(), 34f, AppTheme.stroke())
                 setPadding(28, 22, 28, 22)
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                     bottomMargin = 12
@@ -1662,7 +1663,7 @@ class MainActivity : Activity() {
             }
 
             val dot = View(this).apply {
-                background = createAppleCard(dotColor, 20f, Color.TRANSPARENT)
+                background = UiHelpers.createAppleCard(dotColor, 20f, Color.TRANSPARENT)
                 layoutParams = LinearLayout.LayoutParams(20, 20).apply { rightMargin = 24 }
             }
             card.addView(dot)
@@ -1719,7 +1720,7 @@ class MainActivity : Activity() {
             hint = "Тикер (например CGPT, MON, DOGE)"
             setTextColor(AppTheme.textPrimary())
             setHintTextColor(AppTheme.textSecondary())
-            background = createAppleCard(AppTheme.bgSubCard(), 24f, AppTheme.stroke())
+            background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 24f, AppTheme.stroke())
             setPadding(32, 24, 32, 24)
         }
         container.addView(input)
@@ -1786,15 +1787,15 @@ class MainActivity : Activity() {
             val isActive = RadarService.activeSymbols.contains(sym)
             when {
                 isSelected -> {
-                    btn.background = createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
+                    btn.background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
                     btn.setTextColor(Color.WHITE)
                 }
                 isActive -> {
-                    btn.background = createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
+                    btn.background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 28f, Color.TRANSPARENT)
                     btn.setTextColor(if (hasPos) Color.parseColor("#2E7D32") else AppTheme.textPrimary())
                 }
                 else -> {
-                    btn.background = createAppleCard(Color.TRANSPARENT, 28f, Color.TRANSPARENT)
+                    btn.background = UiHelpers.createAppleCard(Color.TRANSPARENT, 28f, Color.TRANSPARENT)
                     btn.setTextColor(AppTheme.textSecondary())
                 }
             }
@@ -1821,11 +1822,11 @@ class MainActivity : Activity() {
     private fun updateToggleBtn() {
         if (RadarService.isRunning) {
             btnToggle.text = "🛑 Остановить 6-Bot Desk"
-            btnToggle.background = createAppleCard(Color.parseColor("#B71C1C"), 36f, Color.parseColor("#EF5350"))
+            btnToggle.background = UiHelpers.createAppleCard(Color.parseColor("#B71C1C"), 36f, Color.parseColor("#EF5350"))
             btnToggle.setTextColor(Color.WHITE)
         } else {
             btnToggle.text = "▶ Запустить 6-Bot Desk v8.2"
-            btnToggle.background = createAppleCard(Color.parseColor("#0D47A1"), 36f, Color.parseColor("#42A5F5"))
+            btnToggle.background = UiHelpers.createAppleCard(Color.parseColor("#0D47A1"), 36f, Color.parseColor("#42A5F5"))
             btnToggle.setTextColor(Color.WHITE)
         }
     }
@@ -1844,7 +1845,7 @@ class MainActivity : Activity() {
                 val isPos = diff >= 0
                 tvDeltaBadge.text = String.format("%+.2f%%", diff)
                 tvDeltaBadge.setTextColor(Color.WHITE)
-                tvDeltaBadge.background = createAppleCard(
+                tvDeltaBadge.background = UiHelpers.createAppleCard(
                     if (isPos) Color.parseColor("#2E7D32") else Color.parseColor("#C62828"),
                     24f, Color.TRANSPARENT
                 )
@@ -1890,16 +1891,6 @@ class MainActivity : Activity() {
                 for (i in 0 until 5) slotCoins[i] = parts[i]
                 RadarService.activeSymbols.clear()
                 RadarService.activeSymbols.addAll(slotCoins)
-            }
-        }
-    }
-
-    private fun createAppleCard(bgColor: Int, radius: Float, strokeColor: Int): GradientDrawable {
-        return GradientDrawable().apply {
-            setColor(bgColor)
-            cornerRadius = radius
-            if (strokeColor != Color.TRANSPARENT) {
-                setStroke(3, strokeColor)
             }
         }
     }

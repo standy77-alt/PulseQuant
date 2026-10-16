@@ -86,4 +86,15 @@ object UiHelpers {
             setPadding(24, 20, 24, 20)
         }
     }
+
+    /** Прямоугольник со скруглёнными углами. Совместим с createAppleCard из MainActivity. */
+    fun createAppleCard(bgColor: Int, radius: Float, strokeColor: Int): GradientDrawable {
+        return GradientDrawable().apply {
+            setColor(bgColor)
+            cornerRadius = radius
+            if (strokeColor != Color.TRANSPARENT) {
+                setStroke(3, strokeColor)
+            }
+        }
+    }
 }
