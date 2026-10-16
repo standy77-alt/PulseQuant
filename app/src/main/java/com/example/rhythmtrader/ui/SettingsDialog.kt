@@ -2,11 +2,16 @@ package com.example.rhythmtrader.ui
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
+import android.content.Intent
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.Space
+import android.widget.Switch
+import android.widget.TextView
+import android.widget.Toast
 import com.example.rhythmtrader.QuantEngine
 import com.example.rhythmtrader.RadarService
 
@@ -29,41 +34,26 @@ object SettingsDialog {
             setPadding(0, 0, 0, 28)
         })
 
-        // === Тема ===
+        // === Оформление ===
         root.addView(sectionTitle(context, "Оформление"))
-        val themeBtn = UiHelpers.createSecondaryButton(context,
-            if (AppTheme.isLight) "Переключить на тёмную тему" else "Переключить на светлую тему"
-        )
-        themeBtn.setOnClickListener {
-            AppTheme.isLight = !AppTheme.isLight
+        root.addView(switchRow(context, "Тёмная тема", AppTheme.isLight.not()) { checked ->
+            AppTheme.isLight = !checked
             onThemeChanged()
-            Toast.makeText(context, if (AppTheme.isLight) "Светлая тема" else "Тёмная тема", Toast.LENGTH_SHORT).show()
-        }
-        root.addView(themeBtn)
+        })
         addSpace(root, 24)
 
         // === Голос ===
         root.addView(sectionTitle(context, "Голосовые уведомления"))
-        val voiceBtn = UiHelpers.createSecondaryButton(context,
-            if (RadarService.useVoice) "Голос: Включён" else "Голос: Выключен"
-        )
-        voiceBtn.setOnClickListener {
-            RadarService.useVoice = !RadarService.useVoice
-            voiceBtn.text = if (RadarService.useVoice) "Голос: Включён" else "Голос: Выключен"
-        }
-        root.addView(voiceBtn)
+        root.addView(switchRow(context, "Озвучивать сигналы", RadarService.useVoice) { checked ->
+            RadarService.useVoice = checked
+        })
         addSpace(root, 24)
 
         // === Авто-адаптация ===
         root.addView(sectionTitle(context, "Авто-адаптация стратегий"))
-        val adaptBtn = UiHelpers.createSecondaryButton(context,
-            if (RadarService.autoAdaptEnabled) "Авто-адапт: Включён" else "Авто-адапт: Выключен"
-        )
-        adaptBtn.setOnClickListener {
-            RadarService.autoAdaptEnabled = !RadarService.autoAdaptEnabled
-            adaptBtn.text = if (RadarService.autoAdaptEnabled) "Авто-адапт: Включён" else "Авто-адапт: Выключен"
-        }
-        root.addView(adaptBtn)
+        root.addView(switchRow(context, "Авто-адапт включён", RadarService.autoAdaptEnabled) { checked ->
+            RadarService.autoAdaptEnabled = checked
+        })
         addSpace(root, 24)
 
         // === Kill Switch ===
@@ -77,15 +67,13 @@ object SettingsDialog {
             killBtn.text = if (turningOn) "Kill Switch: АКТИВЕН" else "Активировать Kill Switch"
 
             if (turningOn) {
-                // Закрываем все открытые позиции
                 val symbols = RadarService.openPositions.keys.toList()
                 for (sym in symbols) {
-                    val price = RadarService.lastPrices[sym] 
-                        ?: RadarService.openPositions[sym]?.entryPrice 
+                    val price = RadarService.lastPrices[sym]
+                        ?: RadarService.openPositions[sym]?.entryPrice
                         ?: 0.0
                     if (price > 0) {
-                        // Используем существующий механизм закрытия через сервис
-                        val intent = android.content.Intent(context, RadarService::class.java).apply {
+                        val intent = Intent(context, RadarService::class.java).apply {
                             action = "CLOSE_POS"
                             putExtra("target_symbol", sym)
                         }
@@ -119,7 +107,8 @@ object SettingsDialog {
 
         // === Информация ===
         root.addView(sectionTitle(context, "Информация"))
-        root.addView(UiHelpers.createSubtitle(context, "PulseQuant — paper trading lab\nСтратегии используют shared StrategyCore + QuantEngine"))
+        root.addView(UiHelpers.createSubtitle(context,
+            "PulseQuant — paper trading lab\nСтратегии используют shared StrategyCore + QuantEngine"))
 
         // === Help ===
         addSpace(root, 24)
@@ -133,9 +122,33 @@ object SettingsDialog {
             .create()
 
         dialog.show()
-
-        // Подгоняем цвета диалога под тему
         dialog.window?.setBackgroundDrawable(UiHelpers.rounded(AppTheme.bgCard(), 28f))
+    }
+
+    /** Строка: текст слева, Switch справа */
+    private fun switchRow(
+        context: Context,
+        label: String,
+        initialChecked: Boolean,
+        onChecked: (Boolean) -> Unit
+    ): LinearLayout {
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(0, 12, 0, 12)
+
+            addView(TextView(context).apply {
+                text = label
+                textSize = 15f
+                setTextColor(AppTheme.textPrimary())
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            })
+
+            addView(Switch(context).apply {
+                isChecked = initialChecked
+                setOnCheckedChangeListener { _, checked -> onChecked(checked) }
+            })
+        }
     }
 
     private fun sectionTitle(context: Context, text: String): TextView {
