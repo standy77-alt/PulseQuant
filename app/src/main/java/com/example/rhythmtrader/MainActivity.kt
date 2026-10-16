@@ -155,19 +155,8 @@ class MainActivity : Activity() {
         setupSettingsCard(fontRegular, fontMedium, fontBold)
 
         setupToggleButton(fontBold)
-        feedHeader = TextView(this).apply {
-            text = "Лента рыночных импульсов (Сигналы Scout)"
-            textSize = 13f
-            typeface = fontMedium
-            setPadding(8, 0, 8, 14)
-        }
-        radarTabContainer.addView(feedHeader)
 
-        feedContainer = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-        }
-        radarTabContainer.addView(feedContainer)
-
+        setupAlertFeed(fontMedium)
         // ВКЛАДКА 2: СДЕЛКИ И DESK
         deskSummaryCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -872,6 +861,21 @@ class MainActivity : Activity() {
             setOnClickListener { toggleService() }
         }
         radarTabContainer.addView(btnToggle)
+    }
+
+    private fun setupAlertFeed(fontMedium: Typeface) {
+        feedHeader = TextView(this).apply {
+            text = "Лента рыночных импульсов (Сигналы Scout)"
+            textSize = 13f
+            typeface = fontMedium
+            setPadding(8, 0, 8, 14)
+        }
+        radarTabContainer.addView(feedHeader)
+
+        feedContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        radarTabContainer.addView(feedContainer)
     }
 
     private fun switchTab(tabIdx: Int) {
