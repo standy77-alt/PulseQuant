@@ -151,96 +151,8 @@ class MainActivity : Activity() {
         setupQuantCard(fontRegular, fontBold, fontMono)
 
         setupBotCard(fontRegular, fontMedium, fontBold)
-        settingsCard = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
 
-        tvSettingsHeader = TextView(this).apply {
-            text = "Операционная поверхность • ZEC"
-            textSize = 13f
-            setTextColor(Color.parseColor("#0A84FF"))
-            typeface = fontBold
-            setPadding(0, 0, 0, 20)
-        }
-        settingsCard.addView(tvSettingsHeader)
-
-        val rowPct = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        lblPct = TextView(this).apply {
-            text = "Ширина скобки / Z-триггер"
-            textSize = 14f
-            typeface = fontRegular
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        tvThreshVal = TextView(this).apply {
-            text = "0.35%"
-            textSize = 14f
-            typeface = fontMedium
-        }
-        rowPct.addView(lblPct)
-        rowPct.addView(tvThreshVal)
-        settingsCard.addView(rowPct)
-
-        seekPrice = SeekBar(this).apply {
-            max = 100
-            setPadding(0, 14, 0, 24)
-            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(s: SeekBar?, p: Int, fromUser: Boolean) {
-                    if (ignoreSeekChange) return
-                    val v = if (p < 1) 1 else p
-                    val pct = v / 100.0
-                    tvThreshVal.text = String.format("%.2f%%", pct)
-                    val sym = RadarService.selectedChartSymbol
-                    val curCfg = RadarService.getConfig(this@MainActivity, sym)
-                    RadarService.saveConfig(this@MainActivity, sym, pct, curCfg.whaleUsdt)
-                    radarView.invalidate()
-                }
-                override fun onStartTrackingTouch(s: SeekBar?) {}
-                override fun onStopTrackingTouch(s: SeekBar?) {}
-            })
-        }
-        settingsCard.addView(seekPrice)
-
-        val rowWhale = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        lblWhale = TextView(this).apply {
-            text = "Институциональный ордер (Кит)"
-            textSize = 14f
-            typeface = fontRegular
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        tvWhaleVal = TextView(this).apply {
-            text = "$25K"
-            textSize = 14f
-            typeface = fontMedium
-        }
-        rowWhale.addView(lblWhale)
-        rowWhale.addView(tvWhaleVal)
-        settingsCard.addView(rowWhale)
-
-        seekWhale = SeekBar(this).apply {
-            max = 250
-            setPadding(0, 14, 0, 20)
-            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(s: SeekBar?, p: Int, fromUser: Boolean) {
-                    if (ignoreSeekChange) return
-                    val v = if (p < 5) 5 else p
-                    val whale = v * 1000.0
-                    tvWhaleVal.text = "$${v}K"
-                    val sym = RadarService.selectedChartSymbol
-                    val curCfg = RadarService.getConfig(this@MainActivity, sym)
-                    RadarService.saveConfig(this@MainActivity, sym, curCfg.thresholdPercent, whale)
-                }
-                override fun onStartTrackingTouch(s: SeekBar?) {}
-                override fun onStopTrackingTouch(s: SeekBar?) {}
-            })
-        }
-        settingsCard.addView(seekWhale)
-
-        radarTabContainer.addView(settingsCard)
-
+        setupSettingsCard(fontRegular, fontMedium, fontBold)
         btnToggle = Button(this).apply {
             textSize = 15f
             typeface = fontBold
@@ -864,6 +776,98 @@ class MainActivity : Activity() {
         manualBtnsRow.addView(btnClosePos)
         botCard.addView(manualBtnsRow)
         radarTabContainer.addView(botCard)
+    }
+
+    private fun setupSettingsCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
+        settingsCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(36, 30, 36, 30)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+
+        tvSettingsHeader = TextView(this).apply {
+            text = "Операционная поверхность • ZEC"
+            textSize = 13f
+            setTextColor(Color.parseColor("#0A84FF"))
+            typeface = fontBold
+            setPadding(0, 0, 0, 20)
+        }
+        settingsCard.addView(tvSettingsHeader)
+
+        val rowPct = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        lblPct = TextView(this).apply {
+            text = "Ширина скобки / Z-триггер"
+            textSize = 14f
+            typeface = fontRegular
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        tvThreshVal = TextView(this).apply {
+            text = "0.35%"
+            textSize = 14f
+            typeface = fontMedium
+        }
+        rowPct.addView(lblPct)
+        rowPct.addView(tvThreshVal)
+        settingsCard.addView(rowPct)
+
+        seekPrice = SeekBar(this).apply {
+            max = 100
+            setPadding(0, 14, 0, 24)
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(s: SeekBar?, p: Int, fromUser: Boolean) {
+                    if (ignoreSeekChange) return
+                    val v = if (p < 1) 1 else p
+                    val pct = v / 100.0
+                    tvThreshVal.text = String.format("%.2f%%", pct)
+                    val sym = RadarService.selectedChartSymbol
+                    val curCfg = RadarService.getConfig(this@MainActivity, sym)
+                    RadarService.saveConfig(this@MainActivity, sym, pct, curCfg.whaleUsdt)
+                    radarView.invalidate()
+                }
+                override fun onStartTrackingTouch(s: SeekBar?) {}
+                override fun onStopTrackingTouch(s: SeekBar?) {}
+            })
+        }
+        settingsCard.addView(seekPrice)
+
+        val rowWhale = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        lblWhale = TextView(this).apply {
+            text = "Институциональный ордер (Кит)"
+            textSize = 14f
+            typeface = fontRegular
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        tvWhaleVal = TextView(this).apply {
+            text = "$25K"
+            textSize = 14f
+            typeface = fontMedium
+        }
+        rowWhale.addView(lblWhale)
+        rowWhale.addView(tvWhaleVal)
+        settingsCard.addView(rowWhale)
+
+        seekWhale = SeekBar(this).apply {
+            max = 250
+            setPadding(0, 14, 0, 20)
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(s: SeekBar?, p: Int, fromUser: Boolean) {
+                    if (ignoreSeekChange) return
+                    val v = if (p < 5) 5 else p
+                    val whale = v * 1000.0
+                    tvWhaleVal.text = "$${v}K"
+                    val sym = RadarService.selectedChartSymbol
+                    val curCfg = RadarService.getConfig(this@MainActivity, sym)
+                    RadarService.saveConfig(this@MainActivity, sym, curCfg.thresholdPercent, whale)
+                }
+                override fun onStartTrackingTouch(s: SeekBar?) {}
+                override fun onStopTrackingTouch(s: SeekBar?) {}
+            })
+        }
+        settingsCard.addView(seekWhale)
+
+        radarTabContainer.addView(settingsCard)
     }
 
     private fun switchTab(tabIdx: Int) {
