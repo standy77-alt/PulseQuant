@@ -89,7 +89,6 @@ class MainActivity : Activity() {
     private lateinit var lblWhale: TextView
     private lateinit var tvWhaleVal: TextView
     private lateinit var seekWhale: SeekBar
-    private lateinit var lblVoice: TextView
 
     private lateinit var btnToggle: Button
     private lateinit var feedHeader: TextView
@@ -742,24 +741,6 @@ class MainActivity : Activity() {
         }
         settingsCard.addView(seekWhale)
 
-        val voiceRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, 8, 0, 0)
-        }
-        lblVoice = TextView(this).apply {
-            text = "Голосовая телеметрия и синтезатор"
-            textSize = 14f
-            typeface = fontRegular
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        val switchVoice = Switch(this).apply {
-            isChecked = RadarService.useVoice
-            setOnCheckedChangeListener { _, checked -> RadarService.useVoice = checked }
-        }
-        voiceRow.addView(lblVoice)
-        voiceRow.addView(switchVoice)
-        settingsCard.addView(voiceRow)
         radarTabContainer.addView(settingsCard)
 
         btnToggle = Button(this).apply {
@@ -1515,7 +1496,6 @@ class MainActivity : Activity() {
         tvThreshVal.setTextColor(textSecondary())
         lblWhale.setTextColor(textPrimary())
         tvWhaleVal.setTextColor(textSecondary())
-        lblVoice.setTextColor(textPrimary())
         feedHeader.setTextColor(textSecondary())
 
         radarView.isLightTheme = isLightTheme
