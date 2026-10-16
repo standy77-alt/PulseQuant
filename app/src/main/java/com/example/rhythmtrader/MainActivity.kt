@@ -111,7 +111,9 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RadarService.loadBotStats(this)
-        loadSavedCoinsAndTheme()
+        val (loadedTheme, loadedCoins) = PreferencesManager.load(this, slotCoins)
+        isLightTheme = loadedTheme
+        loadedCoins.forEachIndexed { i, c -> if (i < slotCoins.size) slotCoins[i] = c }
         AppTheme.isLight = isLightTheme
 
         if (Build.VERSION.SDK_INT >= 33) {
@@ -160,7 +162,7 @@ class MainActivity : Activity() {
                     context = this@MainActivity,
                     onThemeChanged = {
                         isLightTheme = AppTheme.isLight
-                        saveThemePref()
+                        PreferencesManager.saveTheme(this, isLightTheme)
                         applyTheme()
                     },
                     onResetAccount = {
@@ -1468,7 +1470,7 @@ class MainActivity : Activity() {
             RadarService.activeSymbols.add(newSym)
         }
 
-        saveCoins()
+        PreferencesManager.saveCoins(this, slotCoins)
         selectCoin(newSym)
 
         if (RadarService.isRunning) {
@@ -1570,30 +1572,6 @@ class MainActivity : Activity() {
     override fun onPause() {
         super.onPause()
         RadarService.uiCallback = null
-    }
-
-    private fun saveCoins() {
-        val prefs = getSharedPreferences("rhythm_prefs_v7", Context.MODE_PRIVATE)
-        prefs.edit().putString("slot_coins", slotCoins.joinToString(",")).apply()
-    }
-
-    private fun saveThemePref() {
-        val prefs = getSharedPreferences("rhythm_prefs_v7", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("light_theme", isLightTheme).apply()
-    }
-
-    private fun loadSavedCoinsAndTheme() {
-        val prefs = getSharedPreferences("rhythm_prefs_v7", Context.MODE_PRIVATE)
-        isLightTheme = prefs.getBoolean("light_theme", false)
-        val saved = prefs.getString("slot_coins", null)
-        if (!saved.isNullOrEmpty()) {
-            val parts = saved.split(",")
-            if (parts.size == 5) {
-                for (i in 0 until 5) slotCoins[i] = parts[i]
-                RadarService.activeSymbols.clear()
-                RadarService.activeSymbols.addAll(slotCoins)
-            }
-        }
     }
 
     private fun createCvdDrawable(): LayerDrawable {
