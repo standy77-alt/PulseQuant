@@ -149,198 +149,8 @@ class MainActivity : Activity() {
 
 
         setupQuantCard(fontRegular, fontBold, fontMono)
-        botCard = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
 
-        val botTopRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-        }
-        val botTitle = TextView(this).apply {
-            text = "PM Desk • Управление Ботом"
-            textSize = 13f
-            setTextColor(Color.parseColor("#2E7D32"))
-            typeface = fontBold
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        btnResetDemo = TextView(this).apply {
-            text = "Сброс $1000"
-            textSize = 11f
-            typeface = fontMedium
-            setPadding(20, 10, 20, 10)
-            setOnClickListener {
-                RadarService.resetBotAccount(this@MainActivity)
-                updateBotUi()
-                renderTradesTab()
-                radarView.invalidate()
-                Toast.makeText(this@MainActivity, "Демо-счет и архив сделок сброшены", Toast.LENGTH_SHORT).show()
-            }
-        }
-        botTopRow.addView(botTitle)
-        botTopRow.addView(btnResetDemo)
-        botCard.addView(botTopRow)
-
-        val balRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.BOTTOM
-            setPadding(0, 10, 0, 4)
-        }
-        tvBotBalance = TextView(this).apply {
-            text = "$1,000.00"
-            textSize = 34f
-            typeface = fontBold
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        tvBotPnlBadge = TextView(this).apply {
-            text = "PnL: +$0.00"
-            textSize = 13f
-            setTextColor(Color.WHITE)
-            typeface = fontMedium
-            background = UiHelpers.createAppleCard(Color.parseColor("#2E7D32"), 22f, Color.TRANSPARENT)
-            setPadding(20, 8, 20, 8)
-        }
-        balRow.addView(tvBotBalance)
-        balRow.addView(tvBotPnlBadge)
-        botCard.addView(balRow)
-
-        tvBotWinrate = TextView(this).apply {
-            text = "Сделок: 0 (W: 0 / L: 0) • В работе: 0/3"
-            textSize = 12f
-            typeface = fontRegular
-            setPadding(0, 0, 0, 12)
-        }
-        botCard.addView(tvBotWinrate)
-
-        tvDecayWarning = TextView(this).apply {
-            text = "⚠️ JOURNAL ALERT: Зафиксировано угасание стратегии! Смени постулат или запусти Sweep."
-            textSize = 12f
-            setTextColor(Color.WHITE)
-            typeface = fontBold
-            background = UiHelpers.createAppleCard(Color.parseColor("#EF6C00"), 22f, Color.TRANSPARENT)
-            setPadding(24, 16, 24, 16)
-            visibility = View.GONE
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 14
-            }
-        }
-        tvDecayWarning.setOnClickListener { triggerAutoAdaptation(RadarService.selectedChartSymbol) }
-        botCard.addView(tvDecayWarning)
-
-        val autoBotRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, 0, 0, 14)
-        }
-        lblAutoBot = TextView(this).apply {
-            text = "Авто-вход со скобкой 1:2 и защитой MFE"
-            textSize = 14f
-            typeface = fontRegular
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        val switchBot = Switch(this).apply {
-            isChecked = RadarService.botEnabled
-            setOnCheckedChangeListener { _, checked ->
-                RadarService.botEnabled = checked
-                RadarService.saveBotStats(this@MainActivity)
-            }
-        }
-        autoBotRow.addView(lblAutoBot)
-        autoBotRow.addView(switchBot)
-        botCard.addView(autoBotRow)
-
-        btnStrategyToggle = Button(this).apply {
-            textSize = 13f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setTextColor(Color.WHITE)
-            background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
-            setPadding(24, 26, 24, 26)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 16
-            }
-            setOnClickListener { StrategySelectorDialog.show(this@MainActivity) { updateBotUi() } }
-        }
-        botCard.addView(btnStrategyToggle)
-
-        tvActivePosInfo = TextView(this).apply {
-            text = "Нет открытой позиции по выбранной монете"
-            textSize = 13f
-            typeface = fontMedium
-            gravity = Gravity.CENTER
-            setPadding(24, 24, 24, 24)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 18
-            }
-            setOnClickListener { switchTab(1) }
-        }
-        botCard.addView(tvActivePosInfo)
-
-        val manualBtnsRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        }
-        val btnLong = Button(this).apply {
-            text = "LONG\nBRACKET"
-            textSize = 13f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setTextColor(Color.WHITE)
-            background = UiHelpers.createAppleCard(Color.parseColor("#1B5E20"), 26f, Color.parseColor("#4CAF50"))
-            setPadding(12, 24, 12, 24)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 12 }
-            setOnClickListener {
-                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "MANUAL_LONG" })
-            }
-        }
-        val btnShort = Button(this).apply {
-            text = "SHORT\nBRACKET"
-            textSize = 13f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setTextColor(Color.WHITE)
-            background = UiHelpers.createAppleCard(Color.parseColor("#B71C1C"), 26f, Color.parseColor("#EF5350"))
-            setPadding(12, 24, 12, 24)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 12 }
-            setOnClickListener {
-                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "MANUAL_SHORT" })
-            }
-        }
-        btnClosePos = Button(this).apply {
-            text = "ЗАКРЫТЬ\nПОЗИЦИЮ"
-            textSize = 11f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setTextColor(Color.WHITE)
-            background = UiHelpers.createAppleCard(Color.parseColor("#48484A"), 26f, Color.parseColor("#636366"))
-            setPadding(12, 24, 12, 24)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.95f)
-            setOnClickListener {
-                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "CLOSE_POS" })
-            }
-        }
-        manualBtnsRow.addView(btnLong)
-        manualBtnsRow.addView(btnShort)
-        manualBtnsRow.addView(btnClosePos)
-        botCard.addView(manualBtnsRow)
-        radarTabContainer.addView(botCard)
-
+        setupBotCard(fontRegular, fontMedium, fontBold)
         settingsCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(36, 30, 36, 30)
@@ -860,6 +670,200 @@ class MainActivity : Activity() {
         }
         quantCard.addView(btnKillSwitch)
         radarTabContainer.addView(quantCard)
+    }
+
+    private fun setupBotCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
+        botCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(36, 30, 36, 30)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+
+        val botTopRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        val botTitle = TextView(this).apply {
+            text = "PM Desk • Управление Ботом"
+            textSize = 13f
+            setTextColor(Color.parseColor("#2E7D32"))
+            typeface = fontBold
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        btnResetDemo = TextView(this).apply {
+            text = "Сброс $1000"
+            textSize = 11f
+            typeface = fontMedium
+            setPadding(20, 10, 20, 10)
+            setOnClickListener {
+                RadarService.resetBotAccount(this@MainActivity)
+                updateBotUi()
+                renderTradesTab()
+                radarView.invalidate()
+                Toast.makeText(this@MainActivity, "Демо-счет и архив сделок сброшены", Toast.LENGTH_SHORT).show()
+            }
+        }
+        botTopRow.addView(botTitle)
+        botTopRow.addView(btnResetDemo)
+        botCard.addView(botTopRow)
+
+        val balRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.BOTTOM
+            setPadding(0, 10, 0, 4)
+        }
+        tvBotBalance = TextView(this).apply {
+            text = "$1,000.00"
+            textSize = 34f
+            typeface = fontBold
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        tvBotPnlBadge = TextView(this).apply {
+            text = "PnL: +$0.00"
+            textSize = 13f
+            setTextColor(Color.WHITE)
+            typeface = fontMedium
+            background = UiHelpers.createAppleCard(Color.parseColor("#2E7D32"), 22f, Color.TRANSPARENT)
+            setPadding(20, 8, 20, 8)
+        }
+        balRow.addView(tvBotBalance)
+        balRow.addView(tvBotPnlBadge)
+        botCard.addView(balRow)
+
+        tvBotWinrate = TextView(this).apply {
+            text = "Сделок: 0 (W: 0 / L: 0) • В работе: 0/3"
+            textSize = 12f
+            typeface = fontRegular
+            setPadding(0, 0, 0, 12)
+        }
+        botCard.addView(tvBotWinrate)
+
+        tvDecayWarning = TextView(this).apply {
+            text = "⚠️ JOURNAL ALERT: Зафиксировано угасание стратегии! Смени постулат или запусти Sweep."
+            textSize = 12f
+            setTextColor(Color.WHITE)
+            typeface = fontBold
+            background = UiHelpers.createAppleCard(Color.parseColor("#EF6C00"), 22f, Color.TRANSPARENT)
+            setPadding(24, 16, 24, 16)
+            visibility = View.GONE
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 14
+            }
+        }
+        tvDecayWarning.setOnClickListener { triggerAutoAdaptation(RadarService.selectedChartSymbol) }
+        botCard.addView(tvDecayWarning)
+
+        val autoBotRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(0, 0, 0, 14)
+        }
+        lblAutoBot = TextView(this).apply {
+            text = "Авто-вход со скобкой 1:2 и защитой MFE"
+            textSize = 14f
+            typeface = fontRegular
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        val switchBot = Switch(this).apply {
+            isChecked = RadarService.botEnabled
+            setOnCheckedChangeListener { _, checked ->
+                RadarService.botEnabled = checked
+                RadarService.saveBotStats(this@MainActivity)
+            }
+        }
+        autoBotRow.addView(lblAutoBot)
+        autoBotRow.addView(switchBot)
+        botCard.addView(autoBotRow)
+
+        btnStrategyToggle = Button(this).apply {
+            textSize = 13f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            setTextColor(Color.WHITE)
+            background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
+            setPadding(24, 26, 24, 26)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 16
+            }
+            setOnClickListener { StrategySelectorDialog.show(this@MainActivity) { updateBotUi() } }
+        }
+        botCard.addView(btnStrategyToggle)
+
+        tvActivePosInfo = TextView(this).apply {
+            text = "Нет открытой позиции по выбранной монете"
+            textSize = 13f
+            typeface = fontMedium
+            gravity = Gravity.CENTER
+            setPadding(24, 24, 24, 24)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 18
+            }
+            setOnClickListener { switchTab(1) }
+        }
+        botCard.addView(tvActivePosInfo)
+
+        val manualBtnsRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+        val btnLong = Button(this).apply {
+            text = "LONG\nBRACKET"
+            textSize = 13f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            setTextColor(Color.WHITE)
+            background = UiHelpers.createAppleCard(Color.parseColor("#1B5E20"), 26f, Color.parseColor("#4CAF50"))
+            setPadding(12, 24, 12, 24)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 12 }
+            setOnClickListener {
+                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "MANUAL_LONG" })
+            }
+        }
+        val btnShort = Button(this).apply {
+            text = "SHORT\nBRACKET"
+            textSize = 13f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            setTextColor(Color.WHITE)
+            background = UiHelpers.createAppleCard(Color.parseColor("#B71C1C"), 26f, Color.parseColor("#EF5350"))
+            setPadding(12, 24, 12, 24)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 12 }
+            setOnClickListener {
+                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "MANUAL_SHORT" })
+            }
+        }
+        btnClosePos = Button(this).apply {
+            text = "ЗАКРЫТЬ\nПОЗИЦИЮ"
+            textSize = 11f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            setTextColor(Color.WHITE)
+            background = UiHelpers.createAppleCard(Color.parseColor("#48484A"), 26f, Color.parseColor("#636366"))
+            setPadding(12, 24, 12, 24)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.95f)
+            setOnClickListener {
+                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "CLOSE_POS" })
+            }
+        }
+        manualBtnsRow.addView(btnLong)
+        manualBtnsRow.addView(btnShort)
+        manualBtnsRow.addView(btnClosePos)
+        botCard.addView(manualBtnsRow)
+        radarTabContainer.addView(botCard)
     }
 
     private fun switchTab(tabIdx: Int) {
