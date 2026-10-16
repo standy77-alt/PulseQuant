@@ -6,12 +6,12 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
-import android.widget.Space
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
@@ -21,54 +21,90 @@ import com.example.rhythmtrader.RadarService
 object SettingsDialog {
 
     fun show(context: Context, onThemeChanged: () -> Unit, onResetAccount: () -> Unit) {
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+
+        var dialogRef: AlertDialog? = null
+
         val scroll = ScrollView(context)
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 32, 36, 40)
+            setPadding(dp(20), dp(24), dp(20), dp(16))
+            setBackgroundColor(AppTheme.bgCard())
         }
         scroll.addView(root)
 
-        // Заголовок
-        root.addView(TextView(context).apply {
+        // ========== HEADER ==========
+        val header = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(0, 0, 0, dp(20))
+        }
+        header.addView(iconCircle(context, "⚙", dp(48)))
+
+        val titleBlock = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(16), 0, dp(10), 0)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        titleBlock.addView(TextView(context).apply {
             text = "Настройки"
             textSize = 22f
             setTextColor(AppTheme.textPrimary())
             typeface = Typeface.create("sans-serif", Typeface.BOLD)
-            setPadding(0, 0, 0, 28)
         })
+        titleBlock.addView(TextView(context).apply {
+            text = "Персонализация и управление"
+            textSize = 13f
+            setTextColor(AppTheme.textSecondary())
+            setPadding(0, dp(2), 0, 0)
+        })
+        header.addView(titleBlock)
 
-        // === Оформление ===
-        root.addView(sectionTitle(context, "Оформление"))
-        root.addView(switchRow(context, "Тёмная тема", !AppTheme.isLight) { checked ->
+        header.addView(iconCircle(context, "✕", dp(40)) { dialogRef?.dismiss() })
+        root.addView(header)
+
+        // ========== ОФОРМЛЕНИЕ ==========
+        root.addView(sectionTitle(context, "ОФОРМЛЕНИЕ"))
+        root.addView(switchRow(
+            context, "🌙", "Тёмная тема",
+            "Автоматическая адаптация интерфейса",
+            !AppTheme.isLight
+        ) { checked ->
             AppTheme.isLight = !checked
             onThemeChanged()
         })
-        addSpace(root, 24)
+        root.addView(divider(context))
 
-        // === Голос ===
-        root.addView(sectionTitle(context, "Голосовые уведомления"))
-        root.addView(switchRow(context, "Озвучивать сигналы", RadarService.useVoice) { checked ->
+        // ========== ГОЛОСОВЫЕ УВЕДОМЛЕНИЯ ==========
+        root.addView(sectionTitle(context, "ГОЛОСОВЫЕ УВЕДОМЛЕНИЯ"))
+        root.addView(switchRow(
+            context, "🔊", "Озвучивать сигналы",
+            "Голосовые уведомления о событиях",
+            RadarService.useVoice
+        ) { checked ->
             RadarService.useVoice = checked
         })
-        addSpace(root, 24)
+        root.addView(divider(context))
 
-        // === Авто-адаптация ===
-        root.addView(sectionTitle(context, "Авто-адаптация стратегий"))
-        root.addView(switchRow(context, "Авто-адапт включён", RadarService.autoAdaptEnabled) { checked ->
+        // ========== АВТО-АДАПТАЦИЯ ==========
+        root.addView(sectionTitle(context, "АВТО-АДАПТАЦИЯ СТРАТЕГИЙ"))
+        root.addView(switchRow(
+            context, "⚡", "Авто-адапт включён",
+            "Система подстраивает стратегии под рынок",
+            RadarService.autoAdaptEnabled
+        ) { checked ->
             RadarService.autoAdaptEnabled = checked
         })
-        addSpace(root, 24)
+        root.addView(divider(context))
 
-        // === Kill Switch ===
-        root.addView(sectionTitle(context, "Безопасность"))
-        val killBtn = UiHelpers.createDangerButton(context,
-            if (QuantEngine.killSwitchEngaged) "Kill Switch: АКТИВЕН" else "Активировать Kill Switch"
-        )
+        // ========== БЕЗОПАСНОСТЬ ==========
+        root.addView(sectionTitle(context, "БЕЗОПАСНОСТЬ"))
+        val killLabel = if (QuantEngine.killSwitchEngaged) "Kill Switch активен" else "Активировать Kill Switch"
+        val killBtn = dangerRow(context, "🛡", killLabel)
         killBtn.setOnClickListener {
             val turningOn = !QuantEngine.killSwitchEngaged
             QuantEngine.killSwitchEngaged = turningOn
-            killBtn.text = if (turningOn) "Kill Switch: АКТИВЕН" else "Активировать Kill Switch"
-
             if (turningOn) {
                 val symbols = RadarService.openPositions.keys.toList()
                 for (sym in symbols) {
@@ -87,13 +123,13 @@ object SettingsDialog {
             } else {
                 Toast.makeText(context, "Kill Switch выключен", Toast.LENGTH_SHORT).show()
             }
+            dialogRef?.dismiss()
         }
         root.addView(killBtn)
-        addSpace(root, 24)
 
-        // === Сброс счёта ===
-        root.addView(sectionTitle(context, "Бумажный счёт"))
-        val resetBtn = UiHelpers.createDangerButton(context, "Сбросить бумажный счёт")
+        // ========== БУМАЖНЫЙ СЧЁТ ==========
+        root.addView(sectionTitle(context, "БУМАЖНЫЙ СЧЁТ"))
+        val resetBtn = dangerRow(context, "📄", "Сбросить бумажный счёт")
         resetBtn.setOnClickListener {
             AlertDialog.Builder(context)
                 .setTitle("Сброс счёта")
@@ -106,93 +142,253 @@ object SettingsDialog {
                 .show()
         }
         root.addView(resetBtn)
-        addSpace(root, 32)
 
-        // === Информация ===
-        root.addView(sectionTitle(context, "Информация"))
-        root.addView(UiHelpers.createSubtitle(context,
-            "PulseQuant — paper trading lab\nСтратегии используют shared StrategyCore + QuantEngine"))
+        // ========== ИНФОРМАЦИЯ ==========
+        root.addView(sectionTitle(context, "ИНФОРМАЦИЯ"))
+        root.addView(infoRow(
+            context, "ℹ",
+            "PulseQuant — paper trading lab",
+            "Стратегии используют shared StrategyCore + QuantEngine"
+        ))
+        val helpRow = infoRow(context, "?", "Как пользоваться", null)
+        helpRow.setOnClickListener { HelpDialog.show(context) }
+        root.addView(helpRow)
 
-        // === Help ===
-        addSpace(root, 24)
-        val helpBtn = UiHelpers.createSecondaryButton(context, "❓  Как пользоваться")
-        helpBtn.setOnClickListener { HelpDialog.show(context) }
-        root.addView(helpBtn)
-
-        val dialog = AlertDialog.Builder(context)
-            .setView(scroll)
-            .setNegativeButton("Закрыть", null)
-            .create()
-
-        dialog.show()
-
-        // Красим кнопку "Закрыть" в красный
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.let { btn ->
-            btn.setTextColor(Color.parseColor("#FF453A"))
-        }
-
-        dialog.window?.setBackgroundDrawable(UiHelpers.rounded(AppTheme.bgCard(), 28f))
-    }
-
-    /** Строка: текст слева, Switch справа */
-    private fun switchRow(
-        context: Context,
-        label: String,
-        initialChecked: Boolean,
-        onChecked: (Boolean) -> Unit
-    ): LinearLayout {
-        val green = Color.parseColor("#30D158")
-        val gray = Color.parseColor("#8E8E93")
-
-        return LinearLayout(context).apply {
+        // ========== FOOTER ==========
+        val footer = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, 12, 0, 12)
+            setPadding(0, dp(24), 0, 0)
+        }
+        footer.addView(TextView(context).apply {
+            text = "📊  Режим: BALANCED"
+            textSize = 12f
+            setTextColor(AppTheme.textTertiary())
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        })
+        footer.addView(TextView(context).apply {
+            text = "Закрыть"
+            textSize = 15f
+            setTextColor(AppTheme.red())
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            setPadding(dp(16), dp(8), 0, dp(8))
+            setOnClickListener { dialogRef?.dismiss() }
+        })
+        root.addView(footer)
 
-            addView(TextView(context).apply {
-                text = label
-                textSize = 15f
-                setTextColor(AppTheme.textPrimary())
-                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            })
+        dialogRef = AlertDialog.Builder(context).setView(scroll).create()
+        dialogRef.show()
+        dialogRef.window?.setBackgroundDrawable(UiHelpers.rounded(AppTheme.bgCard(), 24f))
+    }
 
-            addView(Switch(context).apply {
-                isChecked = initialChecked
+    // ==========================================
+    // Хелперы
+    // ==========================================
 
-                // Цвет дорожки и ползунка — свой для обоих состояний
-                thumbTintList = ColorStateList(
-                    arrayOf(
-                        intArrayOf(android.R.attr.state_checked),
-                        intArrayOf(-android.R.attr.state_checked)
-                    ),
-                    intArrayOf(green, gray)
-                )
-                trackTintList = ColorStateList(
-                    arrayOf(
-                        intArrayOf(android.R.attr.state_checked),
-                        intArrayOf(-android.R.attr.state_checked)
-                    ),
-                    intArrayOf(Color.parseColor("#4CD964"), Color.parseColor("#3A3A3C"))
-                )
-
-                setOnCheckedChangeListener { _, checked -> onChecked(checked) }
-            })
+    private fun iconCircle(
+        context: Context,
+        emoji: String,
+        size: Int,
+        onClick: (() -> Unit)? = null
+    ): TextView {
+        return TextView(context).apply {
+            text = emoji
+            textSize = size / 2.4f
+            gravity = Gravity.CENTER
+            setTextColor(AppTheme.textPrimary())
+            background = UiHelpers.rounded(AppTheme.bgSubCard(), size.toFloat() / 2f)
+            layoutParams = LinearLayout.LayoutParams(size, size)
+            if (onClick != null) {
+                isClickable = true
+                isFocusable = true
+                setOnClickListener { onClick() }
+            }
         }
     }
 
     private fun sectionTitle(context: Context, text: String): TextView {
         return TextView(context).apply {
             this.text = text
-            textSize = 13f
-            setTextColor(AppTheme.textSecondary())
+            textSize = 11f
+            setTextColor(AppTheme.textTertiary())
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-            setPadding(0, 0, 0, 12)
+            setPadding(0, 20, 0, 12)
         }
     }
 
-    private fun addSpace(parent: LinearLayout, height: Int) {
-        parent.addView(Space(parent.context).apply {
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
-        })
+    private fun divider(context: Context): View {
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+        return View(context).apply {
+            setBackgroundColor(AppTheme.stroke())
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(1)
+            ).apply { topMargin = dp(4) }
+        }
+    }
+
+    private fun switchRow(
+        context: Context,
+        icon: String,
+        title: String,
+        subtitle: String,
+        initialChecked: Boolean,
+        onChecked: (Boolean) -> Unit
+    ): LinearLayout {
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(0, dp(12), 0, dp(12))
+
+            addView(iconCircle(context, icon, dp(40)))
+
+            val textCol = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(dp(14), 0, dp(10), 0)
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            }
+            textCol.addView(TextView(context).apply {
+                text = title
+                textSize = 15f
+                setTextColor(AppTheme.textPrimary())
+                typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            })
+            textCol.addView(TextView(context).apply {
+                text = subtitle
+                textSize = 12f
+                setTextColor(AppTheme.textSecondary())
+                setPadding(0, dp(2), 0, 0)
+            })
+            addView(textCol)
+
+            addView(Switch(context).apply {
+                isChecked = initialChecked
+                thumbTintList = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(Color.WHITE, Color.WHITE)
+                )
+                trackTintList = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(AppTheme.green(), AppTheme.bgSubCard())
+                )
+                setOnCheckedChangeListener { _, checked -> onChecked(checked) }
+            })
+        }
+    }
+
+    private fun dangerRow(context: Context, icon: String, text: String): LinearLayout {
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+
+        val red = AppTheme.red()
+        val redLight = if (AppTheme.isLight) Color.parseColor("#FF6B70") else Color.parseColor("#FF7B80")
+
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(16), dp(16), dp(16), dp(16))
+            background = GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                intArrayOf(red, redLight)
+            ).apply {
+                cornerRadius = dp(14).toFloat()
+            }
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { topMargin = dp(4) }
+
+            addView(TextView(context).apply {
+                this.text = icon
+                textSize = 18f
+                gravity = Gravity.CENTER
+                setTextColor(Color.WHITE)
+                background = UiHelpers.rounded(Color.parseColor("#33FFFFFF"), dp(20).toFloat())
+                layoutParams = LinearLayout.LayoutParams(dp(40), dp(40))
+            })
+
+            addView(TextView(context).apply {
+                this.text = text
+                textSize = 15f
+                setTextColor(Color.WHITE)
+                typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+                setPadding(dp(14), 0, 0, 0)
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            })
+
+            addView(TextView(context).apply {
+                this.text = "›"
+                textSize = 24f
+                setTextColor(Color.WHITE)
+                gravity = Gravity.CENTER
+            })
+        }
+    }
+
+    private fun infoRow(context: Context, icon: String, title: String, subtitle: String?): LinearLayout {
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(16), dp(16), dp(16), dp(16))
+            background = UiHelpers.rounded(AppTheme.bgSubCard(), dp(14).toFloat())
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = dp(4)
+                bottomMargin = dp(4)
+            }
+            isClickable = true
+            isFocusable = true
+
+            addView(TextView(context).apply {
+                this.text = icon
+                textSize = 18f
+                gravity = Gravity.CENTER
+                setTextColor(Color.WHITE)
+                background = UiHelpers.rounded(AppTheme.secondary(), dp(20).toFloat())
+                layoutParams = LinearLayout.LayoutParams(dp(40), dp(40))
+            })
+
+            val textCol = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(dp(14), 0, dp(10), 0)
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            }
+            textCol.addView(TextView(context).apply {
+                text = title
+                textSize = 14f
+                setTextColor(AppTheme.textPrimary())
+                typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            })
+            if (!subtitle.isNullOrEmpty()) {
+                textCol.addView(TextView(context).apply {
+                    text = subtitle
+                    textSize = 12f
+                    setTextColor(AppTheme.textSecondary())
+                    setPadding(0, dp(2), 0, 0)
+                })
+            }
+            addView(textCol)
+
+            addView(TextView(context).apply {
+                this.text = "›"
+                textSize = 24f
+                setTextColor(AppTheme.textTertiary())
+                gravity = Gravity.CENTER
+            })
+        }
     }
 }
