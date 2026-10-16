@@ -141,46 +141,8 @@ class MainActivity : Activity() {
         setupHeader(root, fontBold)
 
         setupTabs(root, fontBold)
-        // ВКЛАДКА 1: Слоты монет
-        segmentedBar = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(8, 8, 8, 8)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
-        slotButtons.clear()
-        for (i in slotCoins.indices) {
-            val btn = Button(this).apply {
-                textSize = 13f
-                typeface = fontBold
-                isAllCaps = false
-                stateListAnimator = null
-                minHeight = 0
-                minimumHeight = 0
-                gravity = Gravity.CENTER
-                setPadding(4, 22, 4, 22)
-                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply {
-                    if (i < slotCoins.size - 1) rightMargin = 6
-                }
-                setOnClickListener { selectCoin(slotCoins[i]) }
-                setOnLongClickListener {
-                    CoinSelectorDialog.show(
-                        context = this@MainActivity,
-                        slotIndex = i,
-                        currentSym = slotCoins[i],
-                        popularCoins = popularCoins,
-                        isActive = RadarService.activeSymbols.contains(slotCoins[i])
-                    ) { newSym, makeActive ->
-                        applyNewCoinForSlot(i, newSym, makeActive)
-                    }
-                    true
-                }
-            }
-            slotButtons.add(btn)
-            segmentedBar.addView(btn)
-        }
-        radarTabContainer.addView(segmentedBar)
+
+        setupCoinSlots(fontBold)
 
         heroCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -846,6 +808,49 @@ class MainActivity : Activity() {
             visibility = View.GONE
         }
         root.addView(tradesTabContainer)
+    }
+
+    private fun setupCoinSlots(fontBold: Typeface) {
+        // ВКЛАДКА 1: Слоты монет
+        segmentedBar = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(8, 8, 8, 8)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+        slotButtons.clear()
+        for (i in slotCoins.indices) {
+            val btn = Button(this).apply {
+                textSize = 13f
+                typeface = fontBold
+                isAllCaps = false
+                stateListAnimator = null
+                minHeight = 0
+                minimumHeight = 0
+                gravity = Gravity.CENTER
+                setPadding(4, 22, 4, 22)
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply {
+                    if (i < slotCoins.size - 1) rightMargin = 6
+                }
+                setOnClickListener { selectCoin(slotCoins[i]) }
+                setOnLongClickListener {
+                    CoinSelectorDialog.show(
+                        context = this@MainActivity,
+                        slotIndex = i,
+                        currentSym = slotCoins[i],
+                        popularCoins = popularCoins,
+                        isActive = RadarService.activeSymbols.contains(slotCoins[i])
+                    ) { newSym, makeActive ->
+                        applyNewCoinForSlot(i, newSym, makeActive)
+                    }
+                    true
+                }
+            }
+            slotButtons.add(btn)
+            segmentedBar.addView(btn)
+        }
+        radarTabContainer.addView(segmentedBar)
     }
 
     private fun switchTab(tabIdx: Int) {
