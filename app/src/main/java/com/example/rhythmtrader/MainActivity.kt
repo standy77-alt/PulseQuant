@@ -157,59 +157,8 @@ class MainActivity : Activity() {
         setupToggleButton(fontBold)
 
         setupAlertFeed(fontMedium)
-        // ВКЛАДКА 2: СДЕЛКИ И DESK
-        deskSummaryCard = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
-        val deskTitle = TextView(this).apply {
-            text = "JANE STREET 6-BOT DESK • СВОДКА АУДИТА"
-            textSize = 12f
-            setTextColor(Color.parseColor("#0A84FF"))
-            typeface = fontBold
-            setPadding(0, 0, 0, 12)
-        }
-        tvDeskBotsReport = TextView(this).apply {
-            textSize = 12f
-            typeface = fontMono
-            setLineSpacing(6f, 1f)
-        }
-        deskSummaryCard.addView(deskTitle)
-        deskSummaryCard.addView(tvDeskBotsReport)
-        tradesTabContainer.addView(deskSummaryCard)
 
-        tvOpenPositionsHeader = TextView(this).apply {
-            text = "🟢 АКТИВНЫЕ ПОЗИЦИИ В РАБОТЕ (0/3)"
-            textSize = 14f
-            typeface = fontBold
-            setPadding(8, 4, 8, 14)
-        }
-        tradesTabContainer.addView(tvOpenPositionsHeader)
-
-        openPositionsListContainer = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
-        tradesTabContainer.addView(openPositionsListContainer)
-
-        tvClosedTradesHeader = TextView(this).apply {
-            text = "🏁 АРХИВ ЗАВЕРШЕННЫХ СДЕЛОК (0)"
-            textSize = 14f
-            typeface = fontBold
-            setPadding(8, 4, 8, 14)
-        }
-        tradesTabContainer.addView(tvClosedTradesHeader)
-
-        closedTradesListContainer = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-        }
-        tradesTabContainer.addView(closedTradesListContainer)
-
+        setupTradesTab(fontBold, fontMono)
         setContentView(scrollRoot)
         applyTheme()
         selectCoin(RadarService.selectedChartSymbol)
@@ -876,6 +825,61 @@ class MainActivity : Activity() {
             orientation = LinearLayout.VERTICAL
         }
         radarTabContainer.addView(feedContainer)
+    }
+
+    private fun setupTradesTab(fontBold: Typeface, fontMono: Typeface) {
+        // ВКЛАДКА 2: СДЕЛКИ И DESK
+        deskSummaryCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(36, 30, 36, 30)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+        val deskTitle = TextView(this).apply {
+            text = "JANE STREET 6-BOT DESK • СВОДКА АУДИТА"
+            textSize = 12f
+            setTextColor(Color.parseColor("#0A84FF"))
+            typeface = fontBold
+            setPadding(0, 0, 0, 12)
+        }
+        tvDeskBotsReport = TextView(this).apply {
+            textSize = 12f
+            typeface = fontMono
+            setLineSpacing(6f, 1f)
+        }
+        deskSummaryCard.addView(deskTitle)
+        deskSummaryCard.addView(tvDeskBotsReport)
+        tradesTabContainer.addView(deskSummaryCard)
+
+        tvOpenPositionsHeader = TextView(this).apply {
+            text = "🟢 АКТИВНЫЕ ПОЗИЦИИ В РАБОТЕ (0/3)"
+            textSize = 14f
+            typeface = fontBold
+            setPadding(8, 4, 8, 14)
+        }
+        tradesTabContainer.addView(tvOpenPositionsHeader)
+
+        openPositionsListContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+        tradesTabContainer.addView(openPositionsListContainer)
+
+        tvClosedTradesHeader = TextView(this).apply {
+            text = "🏁 АРХИВ ЗАВЕРШЕННЫХ СДЕЛОК (0)"
+            textSize = 14f
+            typeface = fontBold
+            setPadding(8, 4, 8, 14)
+        }
+        tradesTabContainer.addView(tvClosedTradesHeader)
+
+        closedTradesListContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+        tradesTabContainer.addView(closedTradesListContainer)
     }
 
     private fun switchTab(tabIdx: Int) {
