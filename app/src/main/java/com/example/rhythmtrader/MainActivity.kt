@@ -140,54 +140,7 @@ class MainActivity : Activity() {
 
         setupHeader(root, fontBold)
 
-
-        // ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК (с правильным WRAP_CONTENT и отступами без обрезания!)
-        navTabBar = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(10, 10, 10, 10)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
-        btnTabRadar = Button(this).apply {
-            text = "📡 Радар и График"
-            textSize = 13f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            gravity = Gravity.CENTER
-            setPadding(16, 26, 16, 26)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 8 }
-            setOnClickListener { switchTab(0) }
-        }
-        btnTabTrades = Button(this).apply {
-            text = "💼 Сделки (0 / 0)"
-            textSize = 13f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            gravity = Gravity.CENTER
-            setPadding(16, 26, 16, 26)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            setOnClickListener { switchTab(1) }
-        }
-        navTabBar.addView(btnTabRadar)
-        navTabBar.addView(btnTabTrades)
-        root.addView(navTabBar)
-
-        radarTabContainer = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-        root.addView(radarTabContainer)
-
-        tradesTabContainer = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            visibility = View.GONE
-        }
-        root.addView(tradesTabContainer)
-
+        setupTabs(root, fontBold)
         // ВКЛАДКА 1: Слоты монет
         segmentedBar = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -844,6 +797,55 @@ class MainActivity : Activity() {
         }
         topBar.addView(btnSettings)
         root.addView(topBar)
+    }
+
+    private fun setupTabs(root: LinearLayout, fontBold: Typeface) {
+        // ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК
+        navTabBar = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(10, 10, 10, 10)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+        btnTabRadar = Button(this).apply {
+            text = "📡 Радар и График"
+            textSize = 13f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            gravity = Gravity.CENTER
+            setPadding(16, 26, 16, 26)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 8 }
+            setOnClickListener { switchTab(0) }
+        }
+        btnTabTrades = Button(this).apply {
+            text = "💼 Сделки (0 / 0)"
+            textSize = 13f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            gravity = Gravity.CENTER
+            setPadding(16, 26, 16, 26)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            setOnClickListener { switchTab(1) }
+        }
+        navTabBar.addView(btnTabRadar)
+        navTabBar.addView(btnTabTrades)
+        root.addView(navTabBar)
+
+        radarTabContainer = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        root.addView(radarTabContainer)
+
+        tradesTabContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            visibility = View.GONE
+        }
+        root.addView(tradesTabContainer)
     }
 
     private fun switchTab(tabIdx: Int) {
