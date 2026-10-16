@@ -121,6 +121,12 @@ object SettingsDialog {
         root.addView(sectionTitle(context, "Информация"))
         root.addView(UiHelpers.createSubtitle(context, "PulseQuant — paper trading lab\nСтратегии используют shared StrategyCore + QuantEngine"))
 
+        // === Help ===
+        addSpace(root, 24)
+        val helpBtn = UiHelpers.createSecondaryButton(context, "❓  Как пользоваться")
+        helpBtn.setOnClickListener { HelpDialog.show(context) }
+        root.addView(helpBtn)
+
         val dialog = AlertDialog.Builder(context)
             .setView(scroll)
             .setNegativeButton("Закрыть", null)
