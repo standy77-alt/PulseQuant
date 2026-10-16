@@ -22,6 +22,7 @@ import kotlin.math.abs
 import com.example.rhythmtrader.ui.AppTheme
 import com.example.rhythmtrader.ui.SettingsDialog
 import com.example.rhythmtrader.ui.UiHelpers
+import com.example.rhythmtrader.ui.CoinSelectorDialog
 
 class MainActivity : Activity() {
 
@@ -242,7 +243,15 @@ class MainActivity : Activity() {
                 }
                 setOnClickListener { selectCoin(slotCoins[i]) }
                 setOnLongClickListener {
-                    showCoinSelectorDialog(i)
+                    CoinSelectorDialog.show(
+                        context = this@MainActivity,
+                        slotIndex = i,
+                        currentSym = slotCoins[i],
+                        popularCoins = popularCoins,
+                        isActive = RadarService.activeSymbols.contains(slotCoins[i])
+                    ) { newSym, makeActive ->
+                        applyNewCoinForSlot(i, newSym, makeActive)
+                    }
                     true
                 }
             }
@@ -1696,62 +1705,6 @@ class MainActivity : Activity() {
 
             feedContainer.addView(card)
         }
-    }
-
-    private fun showCoinSelectorDialog(slotIndex: Int) {
-        val currentSym = slotCoins[slotIndex]
-        val container = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(48, 40, 48, 24)
-            setBackgroundColor(AppTheme.bgCard())
-        }
-
-        val titleView = TextView(this).apply {
-            text = "Слот #${slotIndex + 1} ($currentSym)"
-            textSize = 17f
-            setTextColor(AppTheme.textPrimary())
-            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
-            setPadding(0, 0, 0, 20)
-        }
-        container.addView(titleView)
-
-        val input = EditText(this).apply {
-            setText(currentSym.replace("-USDT", ""))
-            hint = "Тикер (например CGPT, MON, DOGE)"
-            setTextColor(AppTheme.textPrimary())
-            setHintTextColor(AppTheme.textSecondary())
-            background = UiHelpers.createAppleCard(AppTheme.bgSubCard(), 24f, AppTheme.stroke())
-            setPadding(32, 24, 32, 24)
-        }
-        container.addView(input)
-
-        val cbActive = CheckBox(this).apply {
-            text = "Мониторить эту пару в фоне"
-            isChecked = RadarService.activeSymbols.contains(currentSym)
-            setTextColor(Color.parseColor("#2E7D32"))
-            setPadding(0, 20, 0, 16)
-        }
-        container.addView(cbActive)
-
-        val listView = ListView(this).apply {
-            adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, popularCoins)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 460)
-        }
-        container.addView(listView)
-
-        val dialog = AlertDialog.Builder(this)
-            .setView(container)
-            .setPositiveButton("Сохранить") { _, _ ->
-                applyNewCoinForSlot(slotIndex, input.text.toString(), cbActive.isChecked)
-            }
-            .setNegativeButton("Отмена", null)
-            .create()
-
-        listView.setOnItemClickListener { _, _, position, _ ->
-            applyNewCoinForSlot(slotIndex, popularCoins[position], true)
-            dialog.dismiss()
-        }
-        dialog.show()
     }
 
     private fun applyNewCoinForSlot(slotIndex: Int, rawInput: String, makeActive: Boolean) {
