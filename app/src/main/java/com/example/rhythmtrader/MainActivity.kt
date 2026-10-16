@@ -1508,18 +1508,6 @@ class MainActivity : Activity() {
             btnThemeToggle.background = createAppleCard(Color.parseColor("#1C1C1E"), 28f, Color.parseColor("#3A3A3C"))
         }
 
-        // Стиль кнопки настроек
-        try {
-            val btnSettings = topBar.getChildAt(1) as? Button
-            btnSettings?.let {
-                it.setTextColor(if (isLightTheme) Color.parseColor("#1C1C1E") else Color.WHITE)
-                it.background = createAppleCard(
-                    if (isLightTheme) Color.WHITE else Color.parseColor("#1C1C1E"),
-                    28f,
-                    if (isLightTheme) Color.parseColor("#D1D1D6") else Color.parseColor("#3A3A3C")
-                )
-            }
-        } catch (_: Exception) {}
 
         navTabBar.background = createAppleCard(bgCard(), 36f, strokeCard())
         segmentedBar.background = createAppleCard(bgCard(), 36f, strokeCard())
