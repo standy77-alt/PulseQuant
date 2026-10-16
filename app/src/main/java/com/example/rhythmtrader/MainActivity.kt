@@ -19,6 +19,8 @@ import android.view.ViewGroup
 import android.widget.*
 import kotlin.concurrent.thread
 import kotlin.math.abs
+import com.example.rhythmtrader.ui.AppTheme
+import com.example.rhythmtrader.ui.SettingsDialog
 
 class MainActivity : Activity() {
 
@@ -115,6 +117,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         RadarService.loadBotStats(this)
         loadSavedCoinsAndTheme()
+        AppTheme.isLight = isLightTheme
 
         if (Build.VERSION.SDK_INT >= 33) {
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -165,6 +168,30 @@ class MainActivity : Activity() {
             }
         }
         topBar.addView(tvAppTitle)
+
+        val btnSettings = Button(this).apply {
+            text = "⚙"
+            textSize = 16f
+            isAllCaps = false
+            stateListAnimator = null
+            setPadding(28, 18, 28, 18)
+            setOnClickListener {
+                SettingsDialog.show(
+                    context = this@MainActivity,
+                    onThemeChanged = {
+                        isLightTheme = AppTheme.isLight
+                        saveThemePref()
+                        applyTheme()
+                    },
+                    onResetAccount = {
+                        RadarService.resetBotAccount(this@MainActivity)
+                        updateBotUi()
+                        if (currentTab == 1) renderTradesTab()
+                    }
+                )
+            }
+        }
+        topBar.addView(btnSettings)
         topBar.addView(btnThemeToggle)
         root.addView(topBar)
 
@@ -1467,6 +1494,7 @@ class MainActivity : Activity() {
     }
 
     private fun applyTheme() {
+        AppTheme.isLight = isLightTheme
         scrollRoot.setBackgroundColor(bgMain())
         tvAppTitle.setTextColor(textPrimary())
 
@@ -1479,6 +1507,19 @@ class MainActivity : Activity() {
             btnThemeToggle.setTextColor(Color.WHITE)
             btnThemeToggle.background = createAppleCard(Color.parseColor("#1C1C1E"), 28f, Color.parseColor("#3A3A3C"))
         }
+
+        // Стиль кнопки настроек
+        try {
+            val btnSettings = topBar.getChildAt(1) as? Button
+            btnSettings?.let {
+                it.setTextColor(if (isLightTheme) Color.parseColor("#1C1C1E") else Color.WHITE)
+                it.background = createAppleCard(
+                    if (isLightTheme) Color.WHITE else Color.parseColor("#1C1C1E"),
+                    28f,
+                    if (isLightTheme) Color.parseColor("#D1D1D6") else Color.parseColor("#3A3A3C")
+                )
+            }
+        } catch (_: Exception) {}
 
         navTabBar.background = createAppleCard(bgCard(), 36f, strokeCard())
         segmentedBar.background = createAppleCard(bgCard(), 36f, strokeCard())
