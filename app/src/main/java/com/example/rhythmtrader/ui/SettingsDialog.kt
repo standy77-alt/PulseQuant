@@ -72,10 +72,30 @@ object SettingsDialog {
             if (QuantEngine.killSwitchEngaged) "Kill Switch: АКТИВЕН" else "Активировать Kill Switch"
         )
         killBtn.setOnClickListener {
-            QuantEngine.killSwitchEngaged = !QuantEngine.killSwitchEngaged
-            killBtn.text = if (QuantEngine.killSwitchEngaged) "Kill Switch: АКТИВЕН" else "Активировать Kill Switch"
-            val msg = if (QuantEngine.killSwitchEngaged) "Аварийный стоп включён" else "Kill Switch выключен"
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+            val turningOn = !QuantEngine.killSwitchEngaged
+            QuantEngine.killSwitchEngaged = turningOn
+            killBtn.text = if (turningOn) "Kill Switch: АКТИВЕН" else "Активировать Kill Switch"
+
+            if (turningOn) {
+                // Закрываем все открытые позиции
+                val symbols = RadarService.openPositions.keys.toList()
+                for (sym in symbols) {
+                    val price = RadarService.lastPrices[sym] 
+                        ?: RadarService.openPositions[sym]?.entryPrice 
+                        ?: 0.0
+                    if (price > 0) {
+                        // Используем существующий механизм закрытия через сервис
+                        val intent = android.content.Intent(context, RadarService::class.java).apply {
+                            action = "CLOSE_POS"
+                            putExtra("target_symbol", sym)
+                        }
+                        context.startService(intent)
+                    }
+                }
+                Toast.makeText(context, "Аварийный стоп: позиции закрываются", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Kill Switch выключен", Toast.LENGTH_SHORT).show()
+            }
         }
         root.addView(killBtn)
         addSpace(root, 24)
