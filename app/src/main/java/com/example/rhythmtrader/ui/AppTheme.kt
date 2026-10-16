@@ -6,50 +6,57 @@ object AppTheme {
     var isLight = false
 
     // === Фоны и текст ===
-    fun bgMain(): Int = if (isLight) Color.parseColor("#F2F2F7") else Color.parseColor("#0A0D12")
-    fun bgCard(): Int = if (isLight) Color.parseColor("#FFFFFF") else Color.parseColor("#151A24")
-    fun bgSubCard(): Int = if (isLight) Color.parseColor("#F2F2F7") else Color.parseColor("#1E2530")
-    fun stroke(): Int = if (isLight) Color.parseColor("#E5E5EA") else Color.parseColor("#252B38")
+    fun bgMain(): Int = if (isLight) Color.parseColor("#F4F6F8") else Color.parseColor("#0F1620")
+    fun bgCard(): Int = if (isLight) Color.parseColor("#FFFFFF") else Color.parseColor("#1A2332")
+    fun bgSubCard(): Int = if (isLight) Color.parseColor("#E7ECF2") else Color.parseColor("#232E42")
+    fun stroke(): Int = if (isLight) Color.parseColor("#E7ECF2") else Color.parseColor("#2C3849")
 
-    fun textPrimary(): Int = if (isLight) Color.parseColor("#1C1C1E") else Color.WHITE
-    fun textSecondary(): Int = if (isLight) Color.parseColor("#6C6C70") else Color.parseColor("#8892A6")
-    fun textTertiary(): Int = if (isLight) Color.parseColor("#8E8E93") else Color.parseColor("#5A6478")
+    fun textPrimary(): Int = if (isLight) Color.parseColor("#263B50") else Color.WHITE
+    fun textSecondary(): Int = if (isLight) Color.parseColor("#7A8FA8") else Color.parseColor("#8892A6")
+    fun textTertiary(): Int = if (isLight) Color.parseColor("#A8B8C8") else Color.parseColor("#5A6478")
 
     // === Акценты ===
-    fun accent(): Int = if (isLight) Color.parseColor("#5A7B9A") else Color.parseColor("#7A9BC0")
-    fun green(): Int = Color.parseColor("#34C759")
-    fun red(): Int = Color.parseColor("#FF453A")
+    // accent — вторичный акцент: заголовки блоков, ползунки, ссылки
+    fun accent(): Int = if (isLight) Color.parseColor("#6B9DE8") else Color.parseColor("#7FB0F0")
+
+    // green — прибыль и активные состояния
+    fun green(): Int = Color.parseColor("#35B88A")
+
+    // red — убыток и опасные действия
+    fun red(): Int = if (isLight) Color.parseColor("#E5484D") else Color.parseColor("#FF5B60")
+
     fun orange(): Int = Color.parseColor("#FF9F0A")
     fun purple(): Int = Color.parseColor("#BF5AF2")
 
     // === Кнопки ===
-    fun btnPrimaryBg(): Int = accent()
-    fun btnSecondaryBg(): Int = if (isLight) Color.parseColor("#E5E5EA") else Color.parseColor("#1E2530")
+    // Главные кнопки — тёмно-синий #263B50
+    fun btnPrimaryBg(): Int = if (isLight) Color.parseColor("#263B50") else Color.parseColor("#4A6B8E")
+    fun btnSecondaryBg(): Int = if (isLight) Color.parseColor("#E7ECF2") else Color.parseColor("#232E42")
     fun btnDangerBg(): Int = red()
 
     // === Совместимость со старым кодом ===
-    // Зелёные — сводим к 2 оттенкам
-    fun greenDeep(): Int = Color.parseColor("#2E7D32")     // PnL фон, победа
-    fun greenLight(): Int = Color.parseColor("#34C759")    // акцентный
-    fun greenDark(): Int = Color.parseColor("#2E7D32")     // было 1B5E20 → стало как greenDeep
+    // Зелёные — всё в #35B88A (прибыль/победа)
+    fun greenDeep(): Int = Color.parseColor("#35B88A")
+    fun greenLight(): Int = Color.parseColor("#35B88A")
+    fun greenDark(): Int = Color.parseColor("#35B88A")
 
-    // Красные — сводим к 2 оттенкам
-    fun redDeep(): Int = Color.parseColor("#C62828")       // PnL фон, убыток
-    fun redDark(): Int = Color.parseColor("#C62828")       // было B71C1C → redDeep
-    fun redLight(): Int = Color.parseColor("#FF453A")      // было EF5350 → red
-    fun redVeryDark(): Int = Color.parseColor("#C62828")   // было 8E0000 → redDeep
+    // Красные — к 2 оттенкам (обычный и светло-красный)
+    fun redDeep(): Int = red()
+    fun redDark(): Int = red()
+    fun redLight(): Int = if (isLight) Color.parseColor("#FF6B70") else Color.parseColor("#FF7B80")
+    fun redVeryDark(): Int = if (isLight) Color.parseColor("#C33A3F") else Color.parseColor("#B8383D")
 
-    // Синие — сводим к акценту
-    fun blueLight(): Int = accent()                         // было 42A5F5
-    fun blueDeep(): Int = accent()                          // было 0D47A1
+    // Синие — blueDeep для главных кнопок (как #263B50), blueLight для обводок
+    fun blueDeep(): Int = if (isLight) Color.parseColor("#263B50") else Color.parseColor("#4A6B8E")
+    fun blueLight(): Int = if (isLight) Color.parseColor("#3A5570") else Color.parseColor("#6A8BAE")
 
-    // Фиолетовые — убираем, заменяем на акцент
-    fun purpleDeep(): Int = accent()                        // было 5E35B1
-    fun purpleLight(): Int = accent()                       // было 9575CD
+    // Фиолетовые — убираем, заменяем на accent (вторичный)
+    fun purpleDeep(): Int = accent()
+    fun purpleLight(): Int = accent()
 
     // Оранжевые — убираем, заменяем на красный
-    fun orangeDeep(): Int = redDeep()                       // было EF6C00
-    fun orangeVeryDark(): Int = redDark()                   // было 8A5A00
+    fun orangeDeep(): Int = red()
+    fun orangeVeryDark(): Int = redDeep()
 
     // Серые (кнопка "Закрыть позицию")
     fun grayButton(): Int = if (isLight) Color.parseColor("#8E8E93") else Color.parseColor("#3A4256")
