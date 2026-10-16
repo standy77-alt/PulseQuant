@@ -144,127 +144,8 @@ class MainActivity : Activity() {
 
         setupCoinSlots(fontBold)
 
-        heroCard = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(36, 32, 36, 32)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
-            }
-        }
 
-        val heroTopRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-        }
-        tvCoinTitle = TextView(this).apply {
-            text = "ZEC / USDT"
-            textSize = 14f
-            typeface = fontMedium
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        val btnResetBase = TextView(this).apply {
-            text = "Сброс базы"
-            textSize = 12f
-            setTextColor(Color.WHITE)
-            typeface = fontMedium
-            background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
-            setPadding(24, 12, 24, 12)
-            setOnClickListener {
-                RadarService.resetBasePrice(RadarService.selectedChartSymbol)
-                radarView.invalidate()
-                Toast.makeText(this@MainActivity, "База, CVD и паузы сброшены", Toast.LENGTH_SHORT).show()
-            }
-        }
-        heroTopRow.addView(tvCoinTitle)
-        heroTopRow.addView(btnResetBase)
-        heroCard.addView(heroTopRow)
-
-        val priceRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.BOTTOM
-            setPadding(0, 8, 0, 4)
-        }
-        tvPrice = TextView(this).apply {
-            text = "---.--"
-            textSize = 44f
-            typeface = fontBold
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        tvDeltaBadge = TextView(this).apply {
-            text = "+0.00%"
-            textSize = 14f
-            setTextColor(Color.WHITE)
-            typeface = fontMedium
-            background = UiHelpers.createAppleCard(Color.parseColor("#2E7D32"), 24f, Color.TRANSPARENT)
-            setPadding(22, 10, 22, 10)
-        }
-        priceRow.addView(tvPrice)
-        priceRow.addView(tvDeltaBadge)
-        heroCard.addView(priceRow)
-
-        tvFairValueBand = TextView(this).apply {
-            text = "ANALYST Fair Value: [ --- .. --- ] • Оценка: FAIR"
-            textSize = 12f
-            setTextColor(Color.parseColor("#0A84FF"))
-            typeface = fontBold
-            setPadding(0, 4, 0, 4)
-        }
-        heroCard.addView(tvFairValueBand)
-
-        tvLastTrade = TextView(this).apply {
-            text = "Ожидание потока сделок..."
-            textSize = 12f
-            typeface = fontRegular
-            setPadding(0, 0, 0, 20)
-        }
-        heroCard.addView(tvLastTrade)
-
-        radarView = RadarView(this).apply {
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 400).apply {
-                bottomMargin = 24
-            }
-        }
-        heroCard.addView(radarView)
-
-        val cvdLabelRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(0, 4, 0, 10)
-        }
-        tvCvdBuy = TextView(this).apply {
-            text = "Пок: $0K"
-            textSize = 12f
-            setTextColor(Color.parseColor("#2E7D32"))
-            typeface = fontBold
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        tvCvdDelta = TextView(this).apply {
-            text = "CVD: $0K"
-            textSize = 12f
-            typeface = fontBold
-            gravity = Gravity.CENTER
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        tvCvdSell = TextView(this).apply {
-            text = "Прод: $0K"
-            textSize = 12f
-            setTextColor(Color.parseColor("#C62828"))
-            typeface = fontBold
-            gravity = Gravity.END
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        cvdLabelRow.addView(tvCvdBuy)
-        cvdLabelRow.addView(tvCvdDelta)
-        cvdLabelRow.addView(tvCvdSell)
-        heroCard.addView(cvdLabelRow)
-
-        cvdProgressBar = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
-            max = 100
-            progress = 50
-            progressDrawable = createCvdDrawable()
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 16)
-        }
-        heroCard.addView(cvdProgressBar)
-        radarTabContainer.addView(heroCard)
+        setupHeroCard(fontRegular, fontMedium, fontBold)
 
         quantCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -851,6 +732,130 @@ class MainActivity : Activity() {
             segmentedBar.addView(btn)
         }
         radarTabContainer.addView(segmentedBar)
+    }
+
+    private fun setupHeroCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
+        heroCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(36, 32, 36, 32)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 24
+            }
+        }
+
+        val heroTopRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        tvCoinTitle = TextView(this).apply {
+            text = "ZEC / USDT"
+            textSize = 14f
+            typeface = fontMedium
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        val btnResetBase = TextView(this).apply {
+            text = "Сброс базы"
+            textSize = 12f
+            setTextColor(Color.WHITE)
+            typeface = fontMedium
+            background = UiHelpers.createAppleCard(Color.parseColor("#0A84FF"), 28f, Color.TRANSPARENT)
+            setPadding(24, 12, 24, 12)
+            setOnClickListener {
+                RadarService.resetBasePrice(RadarService.selectedChartSymbol)
+                radarView.invalidate()
+                Toast.makeText(this@MainActivity, "База, CVD и паузы сброшены", Toast.LENGTH_SHORT).show()
+            }
+        }
+        heroTopRow.addView(tvCoinTitle)
+        heroTopRow.addView(btnResetBase)
+        heroCard.addView(heroTopRow)
+
+        val priceRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.BOTTOM
+            setPadding(0, 8, 0, 4)
+        }
+        tvPrice = TextView(this).apply {
+            text = "---.--"
+            textSize = 44f
+            typeface = fontBold
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        tvDeltaBadge = TextView(this).apply {
+            text = "+0.00%"
+            textSize = 14f
+            setTextColor(Color.WHITE)
+            typeface = fontMedium
+            background = UiHelpers.createAppleCard(Color.parseColor("#2E7D32"), 24f, Color.TRANSPARENT)
+            setPadding(22, 10, 22, 10)
+        }
+        priceRow.addView(tvPrice)
+        priceRow.addView(tvDeltaBadge)
+        heroCard.addView(priceRow)
+
+        tvFairValueBand = TextView(this).apply {
+            text = "ANALYST Fair Value: [ --- .. --- ] • Оценка: FAIR"
+            textSize = 12f
+            setTextColor(Color.parseColor("#0A84FF"))
+            typeface = fontBold
+            setPadding(0, 4, 0, 4)
+        }
+        heroCard.addView(tvFairValueBand)
+
+        tvLastTrade = TextView(this).apply {
+            text = "Ожидание потока сделок..."
+            textSize = 12f
+            typeface = fontRegular
+            setPadding(0, 0, 0, 20)
+        }
+        heroCard.addView(tvLastTrade)
+
+        radarView = RadarView(this).apply {
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 400).apply {
+                bottomMargin = 24
+            }
+        }
+        heroCard.addView(radarView)
+
+        val cvdLabelRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(0, 4, 0, 10)
+        }
+        tvCvdBuy = TextView(this).apply {
+            text = "Пок: $0K"
+            textSize = 12f
+            setTextColor(Color.parseColor("#2E7D32"))
+            typeface = fontBold
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        tvCvdDelta = TextView(this).apply {
+            text = "CVD: $0K"
+            textSize = 12f
+            typeface = fontBold
+            gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        tvCvdSell = TextView(this).apply {
+            text = "Прод: $0K"
+            textSize = 12f
+            setTextColor(Color.parseColor("#C62828"))
+            typeface = fontBold
+            gravity = Gravity.END
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        cvdLabelRow.addView(tvCvdBuy)
+        cvdLabelRow.addView(tvCvdDelta)
+        cvdLabelRow.addView(tvCvdSell)
+        heroCard.addView(cvdLabelRow)
+
+        cvdProgressBar = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
+            max = 100
+            progress = 50
+            progressDrawable = createCvdDrawable()
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 16)
+        }
+        heroCard.addView(cvdProgressBar)
+        radarTabContainer.addView(heroCard)
     }
 
     private fun switchTab(tabIdx: Int) {
