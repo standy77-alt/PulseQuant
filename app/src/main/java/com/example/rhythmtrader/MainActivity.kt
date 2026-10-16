@@ -153,21 +153,8 @@ class MainActivity : Activity() {
         setupBotCard(fontRegular, fontMedium, fontBold)
 
         setupSettingsCard(fontRegular, fontMedium, fontBold)
-        btnToggle = Button(this).apply {
-            textSize = 15f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setPadding(24, 34, 24, 34)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 32
-            }
-            setOnClickListener { toggleService() }
-        }
-        radarTabContainer.addView(btnToggle)
 
+        setupToggleButton(fontBold)
         feedHeader = TextView(this).apply {
             text = "Лента рыночных импульсов (Сигналы Scout)"
             textSize = 13f
@@ -868,6 +855,23 @@ class MainActivity : Activity() {
         settingsCard.addView(seekWhale)
 
         radarTabContainer.addView(settingsCard)
+    }
+
+    private fun setupToggleButton(fontBold: Typeface) {
+        btnToggle = Button(this).apply {
+            textSize = 15f
+            typeface = fontBold
+            isAllCaps = false
+            stateListAnimator = null
+            minHeight = 0
+            minimumHeight = 0
+            setPadding(24, 34, 24, 34)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                bottomMargin = 32
+            }
+            setOnClickListener { toggleService() }
+        }
+        radarTabContainer.addView(btnToggle)
     }
 
     private fun switchTab(tabIdx: Int) {
