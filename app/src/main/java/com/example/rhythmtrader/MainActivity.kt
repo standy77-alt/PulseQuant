@@ -20,6 +20,7 @@ import android.widget.*
 import kotlin.concurrent.thread
 import kotlin.math.abs
 import com.example.rhythmtrader.ui.AppTheme
+import com.example.rhythmtrader.data.PreferencesManager
 import com.example.rhythmtrader.ui.SettingsDialog
 import com.example.rhythmtrader.ui.UiHelpers
 import com.example.rhythmtrader.ui.CoinSelectorDialog
