@@ -29,7 +29,6 @@ class MainActivity : Activity() {
 
     private lateinit var scrollRoot: ScrollView
     private lateinit var tvAppTitle: TextView
-    private lateinit var btnThemeToggle: Button
 
     private lateinit var navTabBar: LinearLayout
     private lateinit var btnTabRadar: Button
@@ -152,21 +151,6 @@ class MainActivity : Activity() {
             typeface = fontBold
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
-        btnThemeToggle = Button(this).apply {
-            textSize = 12f
-            typeface = fontBold
-            isAllCaps = false
-            stateListAnimator = null
-            minHeight = 0
-            minimumHeight = 0
-            setPadding(28, 18, 28, 18)
-            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            setOnClickListener {
-                isLightTheme = !isLightTheme
-                saveThemePref()
-                applyTheme()
-            }
-        }
         topBar.addView(tvAppTitle)
 
         val btnSettings = Button(this).apply {
@@ -192,7 +176,6 @@ class MainActivity : Activity() {
             }
         }
         topBar.addView(btnSettings)
-        topBar.addView(btnThemeToggle)
         root.addView(topBar)
 
         // ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК (с правильным WRAP_CONTENT и отступами без обрезания!)
@@ -1498,15 +1481,6 @@ class MainActivity : Activity() {
         scrollRoot.setBackgroundColor(bgMain())
         tvAppTitle.setTextColor(textPrimary())
 
-        if (isLightTheme) {
-            btnThemeToggle.text = "🌙 Темная тема"
-            btnThemeToggle.setTextColor(Color.parseColor("#1C1C1E"))
-            btnThemeToggle.background = createAppleCard(Color.WHITE, 28f, Color.parseColor("#D1D1D6"))
-        } else {
-            btnThemeToggle.text = "☀️ Светлая тема"
-            btnThemeToggle.setTextColor(Color.WHITE)
-            btnThemeToggle.background = createAppleCard(Color.parseColor("#1C1C1E"), 28f, Color.parseColor("#3A3A3C"))
-        }
 
 
         navTabBar.background = createAppleCard(bgCard(), 36f, strokeCard())

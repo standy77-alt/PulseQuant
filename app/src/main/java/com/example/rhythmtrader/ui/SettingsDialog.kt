@@ -3,9 +3,12 @@ package com.example.rhythmtrader.ui
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.Space
@@ -36,7 +39,7 @@ object SettingsDialog {
 
         // === Оформление ===
         root.addView(sectionTitle(context, "Оформление"))
-        root.addView(switchRow(context, "Тёмная тема", AppTheme.isLight.not()) { checked ->
+        root.addView(switchRow(context, "Тёмная тема", !AppTheme.isLight) { checked ->
             AppTheme.isLight = !checked
             onThemeChanged()
         })
@@ -122,6 +125,12 @@ object SettingsDialog {
             .create()
 
         dialog.show()
+
+        // Красим кнопку "Закрыть" в красный
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.let { btn ->
+            btn.setTextColor(Color.parseColor("#FF453A"))
+        }
+
         dialog.window?.setBackgroundDrawable(UiHelpers.rounded(AppTheme.bgCard(), 28f))
     }
 
@@ -132,6 +141,9 @@ object SettingsDialog {
         initialChecked: Boolean,
         onChecked: (Boolean) -> Unit
     ): LinearLayout {
+        val green = Color.parseColor("#30D158")
+        val gray = Color.parseColor("#8E8E93")
+
         return LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -146,6 +158,23 @@ object SettingsDialog {
 
             addView(Switch(context).apply {
                 isChecked = initialChecked
+
+                // Цвет дорожки и ползунка — свой для обоих состояний
+                thumbTintList = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(green, gray)
+                )
+                trackTintList = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(Color.parseColor("#4CD964"), Color.parseColor("#3A3A3C"))
+                )
+
                 setOnCheckedChangeListener { _, checked -> onChecked(checked) }
             })
         }
