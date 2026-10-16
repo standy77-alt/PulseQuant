@@ -138,44 +138,8 @@ class MainActivity : Activity() {
         }
         scrollRoot.addView(root)
 
-        // Шапка
-        val topBar = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            setPadding(4, 0, 4, 20)
-        }
-        tvAppTitle = TextView(this).apply {
-            text = "PulseQuant"
-            textSize = 23f
-            typeface = fontBold
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        topBar.addView(tvAppTitle)
+        setupHeader(root, fontBold)
 
-        val btnSettings = Button(this).apply {
-            text = "⚙"
-            textSize = 16f
-            isAllCaps = false
-            stateListAnimator = null
-            setPadding(28, 18, 28, 18)
-            setOnClickListener {
-                SettingsDialog.show(
-                    context = this@MainActivity,
-                    onThemeChanged = {
-                        isLightTheme = AppTheme.isLight
-                        PreferencesManager.saveTheme(this@MainActivity, isLightTheme)
-                        applyTheme()
-                    },
-                    onResetAccount = {
-                        RadarService.resetBotAccount(this@MainActivity)
-                        updateBotUi()
-                        if (currentTab == 1) renderTradesTab()
-                    }
-                )
-            }
-        }
-        topBar.addView(btnSettings)
-        root.addView(topBar)
 
         // ПЕРЕКЛЮЧАТЕЛЬ ВКЛАДОК (с правильным WRAP_CONTENT и отступами без обрезания!)
         navTabBar = LinearLayout(this).apply {
@@ -839,6 +803,47 @@ class MainActivity : Activity() {
         updateBotUi()
         renderAlertFeed()
         renderTradesTab()
+    }
+
+    private fun setupHeader(root: LinearLayout, fontBold: Typeface) {
+        // Шапка
+        val topBar = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(4, 0, 4, 20)
+        }
+        tvAppTitle = TextView(this).apply {
+            text = "PulseQuant"
+            textSize = 23f
+            typeface = fontBold
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        topBar.addView(tvAppTitle)
+
+        val btnSettings = Button(this).apply {
+            text = "⚙"
+            textSize = 16f
+            isAllCaps = false
+            stateListAnimator = null
+            setPadding(28, 18, 28, 18)
+            setOnClickListener {
+                SettingsDialog.show(
+                    context = this@MainActivity,
+                    onThemeChanged = {
+                        isLightTheme = AppTheme.isLight
+                        PreferencesManager.saveTheme(this@MainActivity, isLightTheme)
+                        applyTheme()
+                    },
+                    onResetAccount = {
+                        RadarService.resetBotAccount(this@MainActivity)
+                        updateBotUi()
+                        if (currentTab == 1) renderTradesTab()
+                    }
+                )
+            }
+        }
+        topBar.addView(btnSettings)
+        root.addView(topBar)
     }
 
     private fun switchTab(tabIdx: Int) {
