@@ -10,11 +10,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.rhythmtrader.RadarService
-import com.example.rhythmtrader.QuantEngine
 
 object HomeView {
 
-    // 1. НОВЫЙ БЛОК: Баланс (Тёмная карточка с графиком)
     fun createBalanceCard(context: Context): LinearLayout {
         val density = context.resources.displayMetrics.density
         fun dp(v: Int) = (v * density).toInt()
@@ -24,7 +22,6 @@ object HomeView {
             setPadding(dp(20), dp(20), dp(20), dp(20))
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = dp(16) }
             
-            // Градиентный фон
             background = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(Color.parseColor("#1E293B"), Color.parseColor("#0F172A"))
@@ -58,7 +55,6 @@ object HomeView {
         }
     }
 
-    // 2. НОВЫЙ БЛОК: Кнопка запуска
     fun createStartButton(context: Context, isRunning: Boolean, onClick: () -> Unit): LinearLayout {
         val density = context.resources.displayMetrics.density
         fun dp(v: Int) = (v * density).toInt()
@@ -94,7 +90,18 @@ object HomeView {
         }
     }
 
-    // --- СУЩЕСТВУЮЩИЕ МЕТОДЫ (сетка ботов) ---
+    fun updateStartButton(context: Context, container: LinearLayout?, isRunning: Boolean) {
+        if (container == null) return
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+        container.background = UiHelpers.rounded(if (isRunning) AppTheme.red() else AppTheme.accent(), dp(16).toFloat())
+        
+        (container.getChildAt(0) as? TextView)?.text = if (isRunning) "⏹" else "▶"
+        val col = container.getChildAt(1) as? LinearLayout
+        (col?.getChildAt(0) as? TextView)?.text = if (isRunning) "Остановить" else "Запустить"
+        (col?.getChildAt(1) as? TextView)?.text = if (isRunning) "Боты работают" else "20 тестов"
+    }
+
     fun createBotsGrid(context: Context): LinearLayout {
         val density = context.resources.displayMetrics.density
         fun dp(v: Int) = (v * density).toInt()
@@ -185,15 +192,3 @@ object HomeView {
         }
     }
 }
-
-    fun updateStartButton(context: Context, container: LinearLayout?, isRunning: Boolean) {
-        if (container == null) return
-        val density = context.resources.displayMetrics.density
-        fun dp(v: Int) = (v * density).toInt()
-        container.background = UiHelpers.rounded(if (isRunning) AppTheme.red() else AppTheme.accent(), dp(16).toFloat())
-        
-        (container.getChildAt(0) as? TextView)?.text = if (isRunning) "⏹" else "▶"
-        val col = container.getChildAt(1) as? LinearLayout
-        (col?.getChildAt(0) as? TextView)?.text = if (isRunning) "Остановить" else "Запустить"
-        (col?.getChildAt(1) as? TextView)?.text = if (isRunning) "Боты работают" else "20 тестов"
-    }
