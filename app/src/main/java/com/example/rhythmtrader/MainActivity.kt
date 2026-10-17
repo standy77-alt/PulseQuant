@@ -1616,6 +1616,27 @@ class MainActivity : Activity() {
         RadarService.uiCallback = null
     }
 
+    private fun createSliderDrawable(): LayerDrawable {
+        val bg = GradientDrawable().apply {
+            setColor(if (AppTheme.isLight) Color.parseColor("#E7ECF2") else Color.parseColor("#232E42"))
+            cornerRadius = 12f
+        }
+        val progress = GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            intArrayOf(
+                Color.parseColor("#A8C7FA"),
+                Color.parseColor("#6B9DE8")
+            )
+        ).apply {
+            cornerRadius = 12f
+        }
+        val clip = ClipDrawable(progress, Gravity.START, ClipDrawable.HORIZONTAL)
+        return LayerDrawable(arrayOf(bg, clip)).apply {
+            setId(0, android.R.id.background)
+            setId(1, android.R.id.progress)
+        }
+    }
+
     private fun createCvdDrawable(): LayerDrawable {
         val bg = GradientDrawable().apply {
             setColor(AppTheme.redDeep())

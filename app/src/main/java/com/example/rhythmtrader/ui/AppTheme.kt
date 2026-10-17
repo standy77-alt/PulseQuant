@@ -21,6 +21,7 @@ object AppTheme {
 
     // secondary — ВТОРИЧНЫЙ: ползунки, ссылки, мелкие акценты (голубой)
     fun secondary(): Int = if (isLight) Color.parseColor("#6B9DE8") else Color.parseColor("#7FB0F0")
+    fun secondaryPale(): Int = if (isLight) Color.parseColor("#A8C7FA") else Color.parseColor("#8BB4F0")
 
     // green — прибыль и активные состояния
     fun green(): Int = Color.parseColor("#35B88A")
