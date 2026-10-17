@@ -220,7 +220,7 @@ class MainActivity : Activity() {
             }
         }
         btnTabRadar = Button(this).apply {
-            text = "📡 Радар"
+            text = "Радар"
             textSize = 13f
             typeface = fontBold
             isAllCaps = false
@@ -233,7 +233,7 @@ class MainActivity : Activity() {
             setOnClickListener { switchTab(0) }
         }
         btnTabTrades = Button(this).apply {
-            text = "💼 Сделки"
+            text = "Сделки"
             textSize = 13f
             typeface = fontBold
             isAllCaps = false
@@ -472,7 +472,7 @@ class MainActivity : Activity() {
         quantCard.addView(tvQuantCalibration)
 
         btnRunSweep = Button(this).apply {
-            text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
+            text = "AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
             textSize = 14f
             typeface = fontBold
             isAllCaps = false
@@ -490,7 +490,7 @@ class MainActivity : Activity() {
         quantCard.addView(btnRunSweep)
 
         btnKillSwitch = Button(this).apply {
-            text = "🚨 RISK: EMERGENCY KILL SWITCH (АВАРИЙНЫЙ СТОП)"
+            text = "EMERGENCY KILL SWITCH"
             textSize = 14f
             typeface = fontBold
             isAllCaps = false
@@ -1025,7 +1025,7 @@ class MainActivity : Activity() {
                         orientation = LinearLayout.HORIZONTAL
                     }
                     val btnGoChart = Button(this).apply {
-                        text = "📈 На график"
+                        text = "На график"
                         textSize = 13f
                         typeface = Typeface.create("sans-serif", Typeface.BOLD)
                         isAllCaps = false
@@ -1044,7 +1044,7 @@ class MainActivity : Activity() {
                         }
                     }
                     val btnCloseItem = Button(this).apply {
-                        text = "✖ Закрыть сделку"
+                        text = "Закрыть"
                         textSize = 13f
                         typeface = Typeface.create("sans-serif", Typeface.BOLD)
                         isAllCaps = false
@@ -1180,7 +1180,7 @@ class MainActivity : Activity() {
                 runOnUiThread {
                     RadarService.isAutoAdapting = false
                     btnRunSweep.isEnabled = true
-                    btnRunSweep.text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
+                    btnRunSweep.text = "AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
 
                     val cell = report.bestCell
                     val shortSym = symbol.replace("-USDT", "")
@@ -1212,7 +1212,7 @@ class MainActivity : Activity() {
                     RadarService.saveBotStats(this@MainActivity)
 
                     btnStrategyToggle.text =
-                        "🔬 ${QuantEngine.getStrategyShortTitle(newStrat)} (Выбрать из 5 ℹ️)"
+                        "🔬 ${QuantEngine.getStrategyShortTitle(newStrat)} (Выбрать из 5)"
                     selectCoin(RadarService.selectedChartSymbol)
 
                     val summary =
@@ -1230,7 +1230,7 @@ class MainActivity : Activity() {
                 runOnUiThread {
                     RadarService.isAutoAdapting = false
                     btnRunSweep.isEnabled = true
-                    btnRunSweep.text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
+                    btnRunSweep.text = "AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
                     tvDecayWarning.text = "❌ Автооптимизация не завершена: ${e.message ?: "ошибка"}"
                 }
             }
@@ -1247,7 +1247,7 @@ class MainActivity : Activity() {
             val report = BacktestEngine.runFullSweep(sym, stratMode, RadarService.demoBalance)
             runOnUiThread {
                 btnRunSweep.isEnabled = true
-                btnRunSweep.text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
+                btnRunSweep.text = "AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
                 SweepReportDialog.show(this@MainActivity, report) { sym -> selectCoin(sym) }
             }
         }
@@ -1333,10 +1333,10 @@ class MainActivity : Activity() {
         tvDecayWarning.visibility = if (QuantEngine.isStrategyDecaying()) View.VISIBLE else View.GONE
 
         if (QuantEngine.killSwitchEngaged) {
-            btnKillSwitch.text = "✅ KILL SWITCH АКТИВЕН (НАЖМИ ДЛЯ РАЗБЛОКИРОВКИ)"
+            btnKillSwitch.text = "KILL SWITCH АКТИВЕН"
             btnKillSwitch.background = UiHelpers.createAppleCard(AppTheme.red(), 16f, Color.WHITE)
         } else {
-            btnKillSwitch.text = "🚨 RISK: EMERGENCY KILL SWITCH (АВАРИЙНЫЙ СТОП)"
+            btnKillSwitch.text = "EMERGENCY KILL SWITCH"
             btnKillSwitch.background = UiHelpers.createAppleCard(AppTheme.redVeryDark(), 16f, AppTheme.red())
         }
 
@@ -1360,7 +1360,7 @@ class MainActivity : Activity() {
         tvBotWinrate.text = "Сделок: $totalTrades (W: ${RadarService.winsCount} / L: ${RadarService.lossesCount}) • В работе: ${RadarService.openPositions.size}/3"
 
         val sTitle = QuantEngine.getStrategyShortTitle(RadarService.botStrategyMode)
-        btnStrategyToggle.text = "$sTitle (Выбрать из 5 ℹ️)"
+        btnStrategyToggle.text = "$sTitle (Выбрать из 5)"
 
         if (pos != null && curPrice > 0) {
             val uPnl = pos.calcUnrealizedPnl(curPrice)
@@ -1572,7 +1572,7 @@ class MainActivity : Activity() {
             btnToggle.background = UiHelpers.createAppleCard(AppTheme.redDark(), 24f, AppTheme.redLight())
             btnToggle.setTextColor(Color.WHITE)
         } else {
-            btnToggle.text = "▶ Запустить 6-Bot Desk v8.2"
+            btnToggle.text = "Запустить"
             btnToggle.background = UiHelpers.createAppleCard(AppTheme.blueDeep(), 24f, AppTheme.blueLight())
             btnToggle.setTextColor(Color.WHITE)
         }
