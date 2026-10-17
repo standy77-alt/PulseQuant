@@ -23,6 +23,7 @@ import com.example.rhythmtrader.ui.AppTheme
 import com.example.rhythmtrader.data.PreferencesManager
 import com.example.rhythmtrader.ui.SettingsDialog
 import com.example.rhythmtrader.ui.UiHelpers
+import com.example.rhythmtrader.ui.HomeView
 import com.example.rhythmtrader.ui.BottomNavBar
 import com.example.rhythmtrader.ui.CoinSelectorDialog
 import com.example.rhythmtrader.ui.StrategySelectorDialog
@@ -443,6 +444,7 @@ class MainActivity : Activity() {
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 16)
         }
         heroCard.addView(cvdProgressBar)
+        radarTabContainer.addView(HomeView.createBotsGrid(this))
         radarTabContainer.addView(heroCard)
     }
 
