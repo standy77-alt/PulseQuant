@@ -67,7 +67,7 @@ object QuantEngine {
 
     fun getStrategyShortTitle(mode: Int): String {
         return when (mode) {
-            0 -> "🛡️ 1. Patient Mean-Reversion"
+            0 -> "1. Patient Mean-Reversion"
             1 -> "⚡ 2. Anti-Chase Momentum"
             2 -> "💥 3. Squeeze / Stop-Hunt"
             3 -> "🧘 4. Core / Patient Sniper"

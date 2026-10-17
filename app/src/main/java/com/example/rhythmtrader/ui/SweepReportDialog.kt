@@ -128,7 +128,7 @@ object SweepReportDialog {
             }
         }
         val ftTitle = TextView(context).apply {
-            text = "🛡️ FUTURETEST (Стресс-тест шоковых событий)"
+            text = "FUTURETEST (Стресс-тест шоковых событий)"
             textSize = 13f
             setTextColor(AppTheme.accent())
             typeface = Typeface.create("sans-serif", Typeface.BOLD)

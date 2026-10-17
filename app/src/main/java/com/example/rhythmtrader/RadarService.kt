@@ -370,7 +370,7 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
                 if (!existingPos.mfeLockActivated) {
                     stopPenalties[symbol] = StopPenalty(wasLong = existingPos.isLong, untilMs = now + 90_000L)
                 }
-                val tag = if (existingPos.mfeLockActivated) "MFE PROFIT LOCK 🔒" else "BRACKET STOP 🛡️"
+                val tag = if (existingPos.mfeLockActivated) "MFE PROFIT LOCK 🔒" else "BRACKET STOP "
                 generatedAlert = closePaperTrade(symbol, price, tag)
             } else if (timeExpired) {
                 generatedAlert = closePaperTrade(symbol, price, "TIME-DECAY EXIT ⏱️ (60m Limit)")
@@ -507,7 +507,7 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
         val sideStr = if (isLong) "LONG 🟢" else "SHORT 🔴"
         val alert = AlertItem(
             symbol = symbol,
-            title = "🛡️ ATOMIC $sideStr [$shortName] $${marginUsdt.toInt()} × ${leverage}x",
+            title = "$sideStr [$shortName] $${marginUsdt.toInt()} × ${leverage}x",
             subtitle = "$reason",
             time = nowStr,
             type = if (isLong) 1 else 2
