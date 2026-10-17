@@ -192,3 +192,63 @@ object HomeView {
         }
     }
 }
+
+fun createStrategyCard(context: Context, strategyName: String): LinearLayout {
+    val density = context.resources.displayMetrics.density
+    fun dp(v: Int) = (v * density).toInt()
+
+    return LinearLayout(context).apply {
+        orientation = LinearLayout.HORIZONTAL
+        gravity = Gravity.CENTER_VERTICAL
+        setPadding(dp(16), dp(16), dp(16), dp(16))
+        background = UiHelpers.rounded(AppTheme.bgCard(), dp(16).toFloat(), AppTheme.stroke())
+        layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = dp(12) }
+
+        val col = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        }
+        col.addView(TextView(context).apply {
+            text = "Текущая стратегия"
+            textSize = 11f
+            setTextColor(AppTheme.textSecondary())
+        })
+        col.addView(TextView(context).apply {
+            text = strategyName
+            textSize = 14f
+            setTextColor(AppTheme.textPrimary())
+            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
+            setPadding(0, dp(4), 0, 0)
+        })
+        addView(col)
+
+        addView(TextView(context).apply {
+            text = "Активна"
+            textSize = 10f
+            setTextColor(AppTheme.green())
+            background = UiHelpers.rounded(Color.argb(30, 53, 184, 138), dp(8).toFloat())
+            setPadding(dp(8), dp(4), dp(8), dp(4))
+        })
+    }
+}
+
+fun createKillSwitchCard(context: Context, onClick: () -> Unit): LinearLayout {
+    val density = context.resources.displayMetrics.density
+    fun dp(v: Int) = (v * density).toInt()
+
+    return LinearLayout(context).apply {
+        orientation = LinearLayout.HORIZONTAL
+        gravity = Gravity.CENTER
+        setPadding(dp(16), dp(14), dp(16), dp(14))
+        background = UiHelpers.rounded(AppTheme.red(), dp(16).toFloat())
+        layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = dp(20) }
+        setOnClickListener { onClick() }
+
+        addView(TextView(context).apply {
+            text = "Аварийный стоп (Kill Switch)"
+            textSize = 13f
+            setTextColor(Color.WHITE)
+            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
+        })
+    }
+}

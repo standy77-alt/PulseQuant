@@ -447,7 +447,10 @@ class MainActivity : Activity() {
         radarTabContainer.addView(HomeView.createBalanceCard(this))
         radarTabContainer.addView(HomeView.createStartButton(this, RadarService.isRunning) { toggleService() })
         radarTabContainer.addView(HomeView.createBotsGrid(this))
-        radarTabContainer.addView(heroCard)
+        radarTabContainer.addView(HomeView.createStrategyCard(this, QuantEngine.getStrategyShortTitle(RadarService.botStrategyMode)))
+        radarTabContainer.addView(HomeView.createKillSwitchCard(this) { startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" }); updateBotUi() })
+        heroCard.visibility = View.GONE
+        // radarTabContainer.addView(heroCard)
     }
 
     private fun setupQuantCard(fontRegular: Typeface, fontBold: Typeface, fontMono: Typeface) {
@@ -823,7 +826,8 @@ class MainActivity : Activity() {
         }
         settingsCard.addView(seekWhale)
 
-        radarTabContainer.addView(settingsCard)
+        settingsCard.visibility = View.GONE
+        // radarTabContainer.addView(settingsCard)
     }
 
     private fun setupToggleButton(fontBold: Typeface) {
