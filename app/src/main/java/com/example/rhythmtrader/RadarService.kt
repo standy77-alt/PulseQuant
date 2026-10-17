@@ -221,7 +221,6 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
             return START_STICKY
         }
         if (action == "KILL_SWITCH") {
-            QuantEngine.killSwitchEngaged = !QuantEngine.killSwitchEngaged
             if (QuantEngine.killSwitchEngaged) {
                 for (sym in openPositions.keys.toList()) {
                     val p = lastPrices[sym] ?: openPositions[sym]?.entryPrice ?: 0.0

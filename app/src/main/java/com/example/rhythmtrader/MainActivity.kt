@@ -504,7 +504,12 @@ class MainActivity : Activity() {
             setPadding(14, 14, 14, 14)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             setOnClickListener {
+            val turningOn = !QuantEngine.killSwitchEngaged
+            QuantEngine.killSwitchEngaged = turningOn
+            updateBotUi()
+            if (turningOn) {
                 startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" })
+            }
                 updateBotUi()
             }
         }
