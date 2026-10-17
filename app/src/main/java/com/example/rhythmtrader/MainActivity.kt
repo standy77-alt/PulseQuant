@@ -1323,6 +1323,7 @@ class MainActivity : Activity() {
         feedHeader.setTextColor(AppTheme.textSecondary())
 
         findViewById<LinearLayout>(9999)?.let { BottomNavBar.updateColors(this, it, 0) }
+        HomeView.updateTheme(this, findViewById(8888))
         radarView.isLightTheme = isLightTheme
         updateTabButtonsStyle()
         updateSegmentedStyles()

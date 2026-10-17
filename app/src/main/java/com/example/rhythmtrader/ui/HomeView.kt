@@ -16,6 +16,7 @@ object HomeView {
         fun dp(v: Int) = (v * density).toInt()
 
         val container = LinearLayout(context).apply {
+            id = 8888 // ID для поиска при смене темы
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -23,7 +24,6 @@ object HomeView {
             ).apply { bottomMargin = dp(16) }
         }
 
-        // Заголовок "6 БОТОВ"
         val headerRow = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -43,11 +43,9 @@ object HomeView {
         })
         container.addView(headerRow)
 
-        // Сетка (2 ряда по 3 бота)
         val colors = listOf("#34C759", "#0A84FF", "#AF52DE", "#FF9F0A", "#00C7BE", "#FF453A")
         val names = listOf("Bot 1", "Bot 2", "Bot 3", "Bot 4", "Bot 5", "Bot 6")
 
-        // Ряд 1
         val row1 = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = dp(8) }
@@ -57,7 +55,6 @@ object HomeView {
         }
         container.addView(row1)
 
-        // Ряд 2
         val row2 = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -68,6 +65,22 @@ object HomeView {
         container.addView(row2)
 
         return container
+    }
+
+    fun updateTheme(context: Context, container: LinearLayout?) {
+        if (container == null) return
+        container.setBackgroundColor(Color.TRANSPARENT)
+        // Проходим по всем рядам и карточкам и обновляем их фон
+        for (i in 1 until container.childCount) {
+            val row = container.getChildAt(i) as? LinearLayout ?: continue
+            for (j in 0 until row.childCount) {
+                val card = row.getChildAt(j) as? LinearLayout ?: continue
+                card.background = UiHelpers.rounded(AppTheme.bgCard(), (12 * context.resources.displayMetrics.density).toFloat(), AppTheme.stroke())
+                val topRow = card.getChildAt(0) as? LinearLayout
+                topRow?.getChildAt(1)?.let { (it as TextView).setTextColor(AppTheme.textPrimary()) }
+                (card.getChildAt(1) as? TextView)?.setTextColor(AppTheme.textSecondary())
+            }
+        }
     }
 
     private fun createBotCard(context: Context, name: String, colorHex: String, isActive: Boolean): LinearLayout {
@@ -83,7 +96,6 @@ object HomeView {
                 if (name != "Bot 3" && name != "Bot 6") marginEnd = dp(8) 
             }
 
-            // Верхняя строка: Точка + Имя
             val topRow = LinearLayout(context).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
@@ -100,7 +112,6 @@ object HomeView {
             })
             addView(topRow)
 
-            // Статус
             addView(TextView(context).apply {
                 text = if (isActive) "Активен" else "Ожидание"
                 textSize = 10f
@@ -108,7 +119,6 @@ object HomeView {
                 setPadding(0, dp(2), 0, dp(6))
             })
 
-            // Имитация мини-графика (просто цветная полоска внизу)
             addView(View(context).apply {
                 background = UiHelpers.rounded(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)), dp(4).toFloat())
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(16))
