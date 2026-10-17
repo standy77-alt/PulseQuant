@@ -196,7 +196,9 @@ class MainActivity : Activity() {
                     onResetAccount = {
                         RadarService.resetBotAccount(this@MainActivity)
                         updateBotUi()
-                        if (currentTab == 1) renderTradesTab()
+                        lastRenderedOpenKeys = emptyList()
+        lastRenderedClosedCount = -1
+        if (currentTab == 1) renderTradesTab()
                     }
                 )
             }
@@ -435,9 +437,9 @@ class MainActivity : Activity() {
             }
         }
         val quantTitle = TextView(this).apply {
-            text = "JANE STREET 6-BOT DESK • COMPUTE • SKEPTIC"
+            text = "6-BOT DESK · COMPUTE"
             textSize = 12f
-            setTextColor(AppTheme.secondary())
+            setTextColor(AppTheme.textSecondary())
             typeface = fontBold
             setPadding(0, 0, 0, 14)
         }
@@ -838,15 +840,15 @@ class MainActivity : Activity() {
             }
         }
         val deskTitle = TextView(this).apply {
-            text = "JANE STREET 6-BOT DESK • СВОДКА АУДИТА"
+            text = "СВОДКА АУДИТА"
             textSize = 12f
-            setTextColor(AppTheme.secondary())
+            setTextColor(AppTheme.textSecondary())
             typeface = fontBold
             setPadding(0, 0, 0, 12)
         }
         tvDeskBotsReport = TextView(this).apply {
             textSize = 12f
-            typeface = fontMono
+            typeface = fontRegular
             setLineSpacing(6f, 1f)
         }
         deskSummaryCard.addView(deskTitle)
@@ -1001,7 +1003,7 @@ class MainActivity : Activity() {
                             if (isPos) AppTheme.greenDeep() else AppTheme.redDeep(),
                             12f, Color.TRANSPARENT
                         )
-                        setPadding(20, 8, 20, 8)
+                        setPadding(10, 4, 10, 4)
                     }
                     openPosPnlViews[pos.symbol] = tvPnl
                     topRow.addView(tvSym)
@@ -1011,7 +1013,7 @@ class MainActivity : Activity() {
                     val lockBadge = if (pos.mfeLockActivated) "🔒 Стоп в БУ (+15 bps)" else "TP/SL 1:2"
                     val details = TextView(this).apply {
                         text = "Вход: ${pos.entryPrice}  →  Сейчас: $curP\n" +
-                               "TP: ${String.format("%.4f", pos.takeProfitPrice)}  |  SL: ${String.format("%.4f", pos.stopLossPrice)} ($lockBadge)\n" +
+                               "TP: ${String.format("%.2f", pos.takeProfitPrice)} | SL: ${String.format("%.2f", pos.stopLossPrice)} ($lockBadge)\n" +
                                "Открыта в ${pos.openTime} (в рынке ${holdMin}/60 мин) • Пик MFE: +${pos.maxFavorableExcursionBps.toInt()} bps"
                         textSize = 12f
                         setTextColor(AppTheme.textSecondary())
@@ -1092,7 +1094,7 @@ class MainActivity : Activity() {
                 }
                 openPosDetailViews[pos.symbol]?.text =
                     "Вход: ${pos.entryPrice}  →  Сейчас: $curP\n" +
-                    "TP: ${String.format("%.4f", pos.takeProfitPrice)}  |  SL: ${String.format("%.4f", pos.stopLossPrice)} ($lockBadge)\n" +
+                    "TP: ${String.format("%.2f", pos.takeProfitPrice)} | SL: ${String.format("%.2f", pos.stopLossPrice)} ($lockBadge)\n" +
                     "Открыта в ${pos.openTime} (в рынке ${holdMin}/60 мин) • Пик MFE: +${pos.maxFavorableExcursionBps.toInt()} bps"
             }
         }
@@ -1300,6 +1302,8 @@ class MainActivity : Activity() {
         updateSegmentedStyles()
         updateBotUi()
         renderAlertFeed()
+        lastRenderedOpenKeys = emptyList()
+        lastRenderedClosedCount = -1
         if (currentTab == 1) renderTradesTab()
     }
 
@@ -1583,6 +1587,8 @@ class MainActivity : Activity() {
         updateToggleBtn()
         updateBotUi()
         renderAlertFeed()
+        lastRenderedOpenKeys = emptyList()
+        lastRenderedClosedCount = -1
         if (currentTab == 1) renderTradesTab()
         RadarService.uiCallback = { symbol, price, vol, isMaker, newAlert ->
             if (symbol == RadarService.selectedChartSymbol && price > 0) {
