@@ -19,7 +19,7 @@ import com.example.rhythmtrader.RadarService
 
 object SettingsDialog {
 
-    private const val ROW_HEIGHT_DP = 52
+    private const val ROW_HEIGHT_DP = 48
 
     fun show(context: Context, onThemeChanged: () -> Unit, onResetAccount: () -> Unit) {
         val density = context.resources.displayMetrics.density
@@ -30,7 +30,7 @@ object SettingsDialog {
         val scroll = ScrollView(context)
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(18), dp(16), dp(18), dp(10))
+            setPadding(dp(16), dp(12), dp(16), dp(8))
             setBackgroundColor(AppTheme.bgCard())
         }
         scroll.addView(root)
@@ -40,7 +40,7 @@ object SettingsDialog {
             text = "Настройки"
             textSize = 19f
             setTextColor(AppTheme.textPrimary())
-            typeface = Typeface.create("sans-serif", Typeface.BOLD)
+            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
         })
         root.addView(TextView(context).apply {
             text = "Персонализация и управление"
@@ -54,6 +54,9 @@ object SettingsDialog {
         root.addView(switchRow(context, "Тёмная тема", !AppTheme.isLight) { checked ->
             AppTheme.isLight = !checked
             onThemeChanged()
+            // Перезапускаем диалог для мгновенного применения цветов
+            dialogRef?.dismiss()
+            show(context, onThemeChanged, onResetAccount)
         })
 
         // ========== ГОЛОС ==========
@@ -137,7 +140,7 @@ object SettingsDialog {
         })
         footer.addView(TextView(context).apply {
             text = "Закрыть"
-            textSize = 12f
+            textSize = 14f
             setTextColor(AppTheme.red())
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             setPadding(dp(16), dp(6), 0, dp(6))
@@ -150,10 +153,6 @@ object SettingsDialog {
         dialogRef.window?.setBackgroundDrawable(UiHelpers.rounded(AppTheme.bgCard(), 22f))
     }
 
-    // ==========================================
-    // Хелперы
-    // ==========================================
-
     private fun sectionTitle(context: Context, text: String): TextView {
         val density = context.resources.displayMetrics.density
         fun dp(v: Int) = (v * density).toInt()
@@ -162,7 +161,7 @@ object SettingsDialog {
             textSize = 10f
             setTextColor(AppTheme.textTertiary())
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-            setPadding(dp(4), dp(10), 0, dp(6))
+            setPadding(dp(4), dp(8), 0, dp(4))
         }
     }
 
@@ -188,7 +187,7 @@ object SettingsDialog {
 
             addView(TextView(context).apply {
                 this.text = title
-                textSize = 12f
+                textSize = 14f
                 setTextColor(AppTheme.textPrimary())
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -248,7 +247,7 @@ object SettingsDialog {
 
             addView(TextView(context).apply {
                 this.text = text
-                textSize = 12f
+                textSize = 14f
                 setTextColor(textColor)
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -263,10 +262,6 @@ object SettingsDialog {
             })
         }
     }
-
-    // ==========================================
-    // О приложении
-    // ==========================================
 
     private fun showAboutDialog(context: Context) {
         val density = context.resources.displayMetrics.density
@@ -284,7 +279,7 @@ object SettingsDialog {
             text = "О приложении"
             textSize = 19f
             setTextColor(AppTheme.textPrimary())
-            typeface = Typeface.create("sans-serif", Typeface.BOLD)
+            typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
         })
         root.addView(TextView(context).apply {
             text = "PulseQuant — paper trading lab"
