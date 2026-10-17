@@ -23,6 +23,7 @@ import com.example.rhythmtrader.ui.AppTheme
 import com.example.rhythmtrader.data.PreferencesManager
 import com.example.rhythmtrader.ui.SettingsDialog
 import com.example.rhythmtrader.ui.UiHelpers
+import com.example.rhythmtrader.ui.BottomNavBar
 import com.example.rhythmtrader.ui.CoinSelectorDialog
 import com.example.rhythmtrader.ui.StrategySelectorDialog
 import com.example.rhythmtrader.ui.SweepReportDialog
@@ -160,7 +161,23 @@ class MainActivity : Activity() {
         setupAlertFeed(fontMedium)
 
         setupTradesTab(fontRegular, fontBold, fontMono)
-        setContentView(scrollRoot)
+        val mainContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(AppTheme.bgMain())
+            addView(scrollRoot, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
+            addView(BottomNavBar.create(this@MainActivity, 0) { index ->
+                when (index) {
+                    0 -> { 
+                        navTabBar.visibility = View.GONE
+                        switchTab(0) 
+                    }
+                    1 -> Toast.makeText(this@MainActivity, "Аналитика скоро", Toast.LENGTH_SHORT).show()
+                    2 -> Toast.makeText(this@MainActivity, "Стратегии скоро", Toast.LENGTH_SHORT).show()
+                    3 -> SettingsDialog.show(this@MainActivity, { isLightTheme = AppTheme.isLight; applyTheme() }, { RadarService.resetBotAccount(this@MainActivity); updateBotUi() })
+                }
+            })
+        }
+        setContentView(mainContainer)
         applyTheme()
         selectCoin(RadarService.selectedChartSymbol)
         updateToggleBtn()
@@ -250,6 +267,7 @@ class MainActivity : Activity() {
         navTabBar.addView(btnTabRadar)
         navTabBar.addView(btnTabTrades)
         root.addView(navTabBar)
+        navTabBar.visibility = View.GONE
 
         radarTabContainer = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         root.addView(radarTabContainer)
@@ -1302,6 +1320,7 @@ class MainActivity : Activity() {
         tvWhaleVal.setTextColor(AppTheme.textSecondary())
         feedHeader.setTextColor(AppTheme.textSecondary())
 
+        findViewById<LinearLayout>(9999)?.let { BottomNavBar.updateColors(this, it, 0) }
         radarView.isLightTheme = isLightTheme
         updateTabButtonsStyle()
         updateSegmentedStyles()
