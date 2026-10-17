@@ -444,6 +444,8 @@ class MainActivity : Activity() {
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 16)
         }
         heroCard.addView(cvdProgressBar)
+        radarTabContainer.addView(HomeView.createBalanceCard(this))
+        radarTabContainer.addView(HomeView.createStartButton(this, RadarService.isRunning) { toggleService() })
         radarTabContainer.addView(HomeView.createBotsGrid(this))
         radarTabContainer.addView(heroCard)
     }
@@ -728,7 +730,8 @@ class MainActivity : Activity() {
         manualBtnsRow.addView(btnShort)
         manualBtnsRow.addView(btnClosePos)
         botCard.addView(manualBtnsRow)
-        radarTabContainer.addView(botCard)
+        botCard.visibility = View.GONE
+        // radarTabContainer.addView(botCard)
     }
 
     private fun setupSettingsCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
@@ -837,7 +840,8 @@ class MainActivity : Activity() {
             }
             setOnClickListener { toggleService() }
         }
-        radarTabContainer.addView(btnToggle)
+        btnToggle.visibility = View.GONE
+        // radarTabContainer.addView(btnToggle)
     }
 
     private fun setupAlertFeed(fontMedium: Typeface) {
