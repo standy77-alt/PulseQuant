@@ -137,7 +137,7 @@ object SettingsDialog {
         })
         footer.addView(TextView(context).apply {
             text = "Закрыть"
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.red())
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             setPadding(dp(16), dp(6), 0, dp(6))
@@ -188,7 +188,7 @@ object SettingsDialog {
 
             addView(TextView(context).apply {
                 this.text = title
-                textSize = 14f
+                textSize = 12f
                 setTextColor(AppTheme.textPrimary())
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -248,7 +248,7 @@ object SettingsDialog {
 
             addView(TextView(context).apply {
                 this.text = text
-                textSize = 14f
+                textSize = 12f
                 setTextColor(textColor)
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
