@@ -34,6 +34,7 @@ class MainActivity : Activity() {
 
     private lateinit var scrollRoot: ScrollView
     private lateinit var tvAppTitle: TextView
+    private lateinit var btnSettings: TextView
 
     private lateinit var navTabBar: LinearLayout
     private lateinit var btnTabRadar: Button
@@ -134,7 +135,7 @@ class MainActivity : Activity() {
 
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 48, 36, 80)
+            setPadding(20, 24, 20, 60)
         }
         scrollRoot.addView(root)
 
@@ -183,7 +184,7 @@ class MainActivity : Activity() {
         }
         topBar.addView(tvAppTitle)
 
-        val btnSettings = TextView(this).apply {
+        btnSettings = TextView(this).apply {
             setOnClickListener {
                 SettingsDialog.show(
                     context = this@MainActivity,
@@ -215,11 +216,11 @@ class MainActivity : Activity() {
             orientation = LinearLayout.HORIZONTAL
             setPadding(10, 10, 10, 10)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
         btnTabRadar = Button(this).apply {
-            text = "📡 Радар и График"
+            text = "📡 Радар"
             textSize = 13f
             typeface = fontBold
             isAllCaps = false
@@ -228,11 +229,11 @@ class MainActivity : Activity() {
             minimumHeight = 0
             gravity = Gravity.CENTER
             setPadding(16, 26, 16, 26)
-            layoutParams = LinearLayout.LayoutParams(0, 150, 1f).apply { rightMargin = 8 }
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 8 }
             setOnClickListener { switchTab(0) }
         }
         btnTabTrades = Button(this).apply {
-            text = "💼 Сделки (0 / 0)"
+            text = "💼 Сделки"
             textSize = 13f
             typeface = fontBold
             isAllCaps = false
@@ -241,7 +242,7 @@ class MainActivity : Activity() {
             minimumHeight = 0
             gravity = Gravity.CENTER
             setPadding(16, 26, 16, 26)
-            layoutParams = LinearLayout.LayoutParams(0, 150, 1f)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             setOnClickListener { switchTab(1) }
         }
         navTabBar.addView(btnTabRadar)
@@ -264,7 +265,7 @@ class MainActivity : Activity() {
             orientation = LinearLayout.HORIZONTAL
             setPadding(8, 8, 8, 8)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
         slotButtons.clear()
@@ -304,9 +305,9 @@ class MainActivity : Activity() {
     private fun setupHeroCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
         heroCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 32, 36, 32)
+            setPadding(20, 16, 20, 16)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
 
@@ -379,7 +380,7 @@ class MainActivity : Activity() {
 
         radarView = RadarView(this).apply {
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 400).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
         heroCard.addView(radarView)
@@ -428,9 +429,9 @@ class MainActivity : Activity() {
     private fun setupQuantCard(fontRegular: Typeface, fontBold: Typeface, fontMono: Typeface) {
         quantCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
+            setPadding(20, 16, 20, 16)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
         val quantTitle = TextView(this).apply {
@@ -512,9 +513,9 @@ class MainActivity : Activity() {
     private fun setupBotCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
         botCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
+            setPadding(20, 16, 20, 16)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
 
@@ -598,7 +599,7 @@ class MainActivity : Activity() {
             setPadding(0, 0, 0, 14)
         }
         lblAutoBot = TextView(this).apply {
-            text = "Авто-вход со скобкой 1:2 и защитой MFE"
+            text = "Авто-вход (TP/SL 1:2, MFE)"
             textSize = 14f
             typeface = fontRegular
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -706,9 +707,9 @@ class MainActivity : Activity() {
     private fun setupSettingsCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
         settingsCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
+            setPadding(20, 16, 20, 16)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
 
@@ -723,7 +724,7 @@ class MainActivity : Activity() {
 
         val rowPct = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         lblPct = TextView(this).apply {
-            text = "Ширина скобки / Z-триггер"
+            text = "TP/SL / Z-триггер"
             textSize = 14f
             typeface = fontRegular
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -803,7 +804,7 @@ class MainActivity : Activity() {
             stateListAnimator = null
             minHeight = 0
             minimumHeight = 0
-            setPadding(24, 34, 24, 34)
+            setPadding(24, 24, 24, 24)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 32
             }
@@ -831,9 +832,9 @@ class MainActivity : Activity() {
         // ВКЛАДКА 2: СДЕЛКИ И DESK
         deskSummaryCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 30, 36, 30)
+            setPadding(20, 16, 20, 16)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
         val deskTitle = TextView(this).apply {
@@ -863,7 +864,7 @@ class MainActivity : Activity() {
         openPositionsListContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
         tradesTabContainer.addView(openPositionsListContainer)
@@ -1007,7 +1008,7 @@ class MainActivity : Activity() {
                     topRow.addView(tvPnl)
                     posCard.addView(topRow)
 
-                    val lockBadge = if (pos.mfeLockActivated) "🔒 Стоп в БУ (+15 bps)" else "Скобка 1:2"
+                    val lockBadge = if (pos.mfeLockActivated) "🔒 Стоп в БУ (+15 bps)" else "TP/SL 1:2"
                     val details = TextView(this).apply {
                         text = "Вход: ${pos.entryPrice}  →  Сейчас: $curP\n" +
                                "TP: ${String.format("%.4f", pos.takeProfitPrice)}  |  SL: ${String.format("%.4f", pos.stopLossPrice)} ($lockBadge)\n" +
@@ -1080,7 +1081,7 @@ class MainActivity : Activity() {
                 val curBps = pos.currentExcursionBps(curP) - QuantEngine.ROUNDTRIP_FEE_BPS
                 val isPos = uPnl >= 0
                 val holdMin = ((nowMs - pos.openTimeMs) / 60000L).toInt()
-                val lockBadge = if (pos.mfeLockActivated) "🔒 Стоп в БУ (+15 bps)" else "Скобка 1:2"
+                val lockBadge = if (pos.mfeLockActivated) "🔒 Стоп в БУ (+15 bps)" else "TP/SL 1:2"
 
                 openPosPnlViews[pos.symbol]?.apply {
                     text = String.format("%+.2f$ (%+.0f bps)", uPnl, curBps)
@@ -1256,6 +1257,7 @@ class MainActivity : Activity() {
         AppTheme.isLight = isLightTheme
         scrollRoot.setBackgroundColor(AppTheme.bgMain())
         tvAppTitle.setTextColor(AppTheme.textPrimary())
+        btnSettings.setTextColor(AppTheme.textPrimary())
 
 
 
@@ -1364,7 +1366,7 @@ class MainActivity : Activity() {
             val uPnl = pos.calcUnrealizedPnl(curPrice)
             val curBps = pos.currentExcursionBps(curPrice)
             val side = if (pos.isLong) "LONG 🟢" else "SHORT 🔴"
-            val lockTag = if (pos.mfeLockActivated) "🔒 БУ АКТИВЕН" else "Скобка 1:2"
+            val lockTag = if (pos.mfeLockActivated) "🔒 БУ АКТИВЕН" else "TP/SL 1:2"
             tvActivePosInfo.text = String.format(
                 "%s %s ($%.0f × %dx) • %s\nPnL: %+.2f$ (%+.0f bps) | Нажми для вкладки Сделок ➔",
                 pos.symbol.replace("-USDT", ""), side, pos.marginUsdt, pos.leverage, lockTag,

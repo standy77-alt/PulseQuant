@@ -71,7 +71,7 @@ object SweepReportDialog {
             "⚠️ УЗКИЙ ПИК: Соседние настройки слабее, будь осторожен с переобучением."
         }
         val tvVerdictSub = TextView(context).apply {
-            text = "Лучший порог: ${String.format("%.2f%%", best.thresholdPct)} (Брекет -${best.slBps.toInt()}/+${best.tpBps.toInt()} bps)\n" +
+            text = "Лучший порог: ${String.format("%.2f%%", best.thresholdPct)} (TP/SL -${best.slBps.toInt()}/+${best.tpBps.toInt()} bps)\n" +
                    "Train: ${String.format("%+.0f", best.trainNetBps)} bps (Sharpe ${String.format("%.2f", best.trainSharpe)}) | " +
                    "Out-of-Sample: ${String.format("%+.0f", best.oosNetBps)} bps (Sharpe ${String.format("%.2f", best.oosSharpe)})\n" +
                    "$plateauText"
@@ -135,7 +135,7 @@ object SweepReportDialog {
             setPadding(0, 0, 0, 6)
         }
         val ftBody = TextView(context).apply {
-            text = "• Сценарий 1 (Flash Crash -5% за минуту): Защитная скобка отсечет левый хвост, риск ограничен ${String.format("%+.2f$", report.flashCrash5PctImpactUsdt)}.\n" +
+            text = "• Сценарий 1 (Flash Crash -5% за минуту): Защитный TP/SL отсечет левый хвост, риск ограничен ${String.format("%+.2f$", report.flashCrash5PctImpactUsdt)}.\n" +
                    "• Сценарий 2 (Каскад ликвидаций -12% с проскальзыванием): Максимальный удар по позиции составит ${String.format("%+.2f$", report.cascade12PctImpactUsdt)} (ликвидация предотвращена)."
             textSize = 12f
             setTextColor(AppTheme.textSecondary())
