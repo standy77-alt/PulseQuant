@@ -110,7 +110,7 @@ object HomeView {
 
             // Имитация мини-графика (просто цветная полоска внизу)
             addView(View(context).apply {
-                background = UiHelpers.rounded(color.copy(alpha = 50), dp(4).toFloat())
+                background = UiHelpers.rounded(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)), dp(4).toFloat())
                 layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(16))
             })
         }
