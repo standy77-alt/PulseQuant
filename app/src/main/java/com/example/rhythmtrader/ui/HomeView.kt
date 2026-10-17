@@ -64,6 +64,7 @@ object HomeView {
         fun dp(v: Int) = (v * density).toInt()
 
         return LinearLayout(context).apply {
+            id = 7777
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setPadding(dp(20), dp(16), dp(20), dp(16))
@@ -184,3 +185,15 @@ object HomeView {
         }
     }
 }
+
+    fun updateStartButton(context: Context, container: LinearLayout?, isRunning: Boolean) {
+        if (container == null) return
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+        container.background = UiHelpers.rounded(if (isRunning) AppTheme.red() else AppTheme.accent(), dp(16).toFloat())
+        
+        (container.getChildAt(0) as? TextView)?.text = if (isRunning) "⏹" else "▶"
+        val col = container.getChildAt(1) as? LinearLayout
+        (col?.getChildAt(0) as? TextView)?.text = if (isRunning) "Остановить" else "Запустить"
+        (col?.getChildAt(1) as? TextView)?.text = if (isRunning) "Боты работают" else "20 тестов"
+    }

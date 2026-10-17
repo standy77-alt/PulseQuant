@@ -1611,6 +1611,7 @@ class MainActivity : Activity() {
             btnToggle.background = UiHelpers.createAppleCard(AppTheme.blueDeep(), 24f, AppTheme.blueLight())
             btnToggle.setTextColor(Color.WHITE)
         }
+        HomeView.updateStartButton(this, findViewById(7777), RadarService.isRunning)
     }
 
     override fun onResume() {
