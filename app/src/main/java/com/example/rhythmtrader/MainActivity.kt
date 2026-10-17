@@ -1621,12 +1621,11 @@ class MainActivity : Activity() {
             setColor(if (AppTheme.isLight) Color.parseColor("#E7ECF2") else Color.parseColor("#232E42"))
             cornerRadius = 12f
         }
+        val startColor = if (AppTheme.isLight) Color.parseColor("#99BDF2") else Color.parseColor("#A3C7F7")
+        val endColor = if (AppTheme.isLight) Color.parseColor("#6B94E8") else Color.parseColor("#76A1ED")
         val progress = GradientDrawable(
             GradientDrawable.Orientation.LEFT_RIGHT,
-            intArrayOf(
-                Color.parseColor("#A8C7FA"),
-                Color.parseColor("#6B9DE8")
-            )
+            intArrayOf(startColor, endColor)
         ).apply {
             cornerRadius = 12f
         }
@@ -1636,7 +1635,6 @@ class MainActivity : Activity() {
             setId(1, android.R.id.progress)
         }
     }
-
     private fun createCvdDrawable(): LayerDrawable {
         val bg = GradientDrawable().apply {
             setColor(AppTheme.redDeep())
