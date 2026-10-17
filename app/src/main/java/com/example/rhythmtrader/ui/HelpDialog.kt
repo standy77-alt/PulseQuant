@@ -2,88 +2,118 @@ package com.example.rhythmtrader.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ScrollView
-import android.widget.Space
 import android.widget.TextView
 
 object HelpDialog {
 
     fun show(context: Context) {
+        val density = context.resources.displayMetrics.density
+        fun dp(v: Int) = (v * density).toInt()
+
+        var dialogRef: AlertDialog? = null
+
+        // Основной контейнер (текст)
         val scroll = ScrollView(context)
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(36, 32, 36, 40)
+            setPadding(dp(20), dp(20), dp(20), dp(10))
         }
         scroll.addView(root)
 
         // Заголовок
         root.addView(TextView(context).apply {
-            text = "Как пользоваться PulseQuant"
-            textSize = 22f
+            text = "Как пользоваться"
+            textSize = 18f
             setTextColor(AppTheme.textPrimary())
             typeface = Typeface.create("sans-serif", Typeface.BOLD)
-            setPadding(0, 0, 0, 24)
+        })
+        root.addView(TextView(context).apply {
+            text = "Краткий гид по интерфейсу"
+            textSize = 12f
+            setTextColor(AppTheme.textSecondary())
+            setPadding(0, dp(2), 0, dp(12))
         })
 
         fun section(text: String) {
             root.addView(TextView(context).apply {
                 this.text = text
-                textSize = 13f
+                textSize = 12f
                 setTextColor(AppTheme.accent())
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-                setPadding(0, 16, 0, 8)
+                setPadding(0, dp(12), 0, dp(4))
             })
         }
 
         fun body(text: String) {
             root.addView(TextView(context).apply {
                 this.text = text
-                textSize = 14f
+                textSize = 12f
                 setTextColor(AppTheme.textSecondary())
-                setLineSpacing(0f, 1.25f)
-                setPadding(0, 0, 0, 4)
+                setLineSpacing(dp(2).toFloat(), 1.1f)
+                setPadding(0, 0, 0, dp(4))
             })
         }
 
         section("1. Кнопки сверху")
-        body("⚙ — открыть Настройки (тема, голос, Kill Switch, сброс счёта).\n🌙 / ☀️ — быстрое переключение тёмной и светлой темы.")
-
+        body("⚙ — Настройки. Иконка находится в правом верхнем углу.")
         section("2. Вкладки")
-        body("«Радар и График» — основной экран: цена, сигналы, управление ботом.\n«Сделки» — открытые позиции и архив закрытых сделок.")
-
+        body("«Радар» — основной экран: цена, график и сигналы.\n«Сделки» — открытые позиции и архив.")
         section("3. Выбор монеты")
-        body("Нажми BTC / ETH / SOL / ZEC / SUI, чтобы переключить активную пару.\nДолгое нажатие — заменить монету.")
-
+        body("Нажми на BTC / ETH / SOL / ZEC / SUI, чтобы переключить пару. Долгое нажатие меняет монету.")
         section("4. Запуск бота")
-        body("Большая красная кнопка «Остановить / Запустить 6-Bot Desk» включает и выключает торговый сервис.\nПока сервис выключен — новые сделки не открываются.")
-
+        body("Большая кнопка «Запустить» включает торговый сервис.")
         section("5. Стратегии")
-        body("Синяя кнопка с названием — выбор одной из пяти стратегий:\n\n1. Patient Mean-Reversion — возврат к средней\n2. Anti-Chase Momentum — импульс без погони\n3. Squeeze / Stop-Hunt — отскок от экстремумов\n4. Patient Sniper — редкие точные входы\n5. Microstructure Whale-Flow — по крупным объёмам\n\nКнопка «i» рядом показывает подробности.")
-
+        body("Нажми на кнопку со стратегией, чтобы выбрать одну из 5.")
         section("6. Авто-оптимизация")
-        body("Фиолетовая кнопка «AUTO-OPTIMIZE» прогоняет все 5 стратегий по истории и выбирает лучшую по Out-of-Sample результатам.")
-
+        body("Кнопка AUTO-OPTIMIZE запускает бэктест и выбирает лучшую стратегию.")
         section("7. Ручной вход")
-        body("Зелёная LONG и красная SHORT — открыть бумажную позицию вручную по текущей цене.\n«Закрыть позицию» — закрыть текущую сделку по выбранной монете.")
-
+        body("Кнопки LONG и SHORT открывают бумажную позицию вручную. «Закрыть» завершает сделку.")
         section("8. Kill Switch")
-        body("Аварийная кнопка. Мгновенно запрещает новые входы и закрывает все открытые позиции.")
-
+        body("Аварийная кнопка в настройках. Мгновенно закрывает все позиции.")
         section("9. Настройки риска")
-        body("Ползунки «Ширина скобки» и «Институциональный ордер» влияют на чувствительность сигналов и размер «китовых» ордеров.")
-
+        body("Ползунки TP/SL и «Институциональный ордер» влияют на чувствительность.")
         section("Важно")
-        body("Это бумажный тренажёр. Реальные ордера на биржу не отправляются.\nВсегда смотри на режим (BALANCED / CHASE-ZONE / WILD-VOL) и оценку SKEPTIC.")
+        body("Это бумажный тренажёр. Реальные ордера на биржу не отправляются.")
 
-        val dialog = AlertDialog.Builder(context)
-            .setView(scroll)
-            .setNegativeButton("Закрыть", null)
-            .create()
+        // Кастомная кнопка "Понятно"
+        val closeBtn = TextView(context).apply {
+            text = "Понятно"
+            textSize = 14f
+            setTextColor(Color.WHITE)
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            gravity = Gravity.CENTER
+            background = GradientDrawable().apply {
+                setColor(AppTheme.red())
+                cornerRadius = dp(12).toFloat()
+            }
+            setPadding(0, dp(14), 0, dp(14))
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { topMargin = dp(10) }
+            setOnClickListener { dialogRef?.dismiss() }
+        }
 
-        dialog.show()
-        dialog.window?.setBackgroundDrawable(UiHelpers.rounded(AppTheme.bgCard(), 28f))
+        // Общий контейнер для диалога (текст + кнопка)
+        val dialogLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(16), dp(16), dp(16), dp(16))
+            setBackgroundColor(AppTheme.bgCard())
+            // Даем скроллу занять всё доступное место, но не перекрывать кнопку
+            addView(scroll, LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
+            ))
+            addView(closeBtn)
+        }
+
+        dialogRef = AlertDialog.Builder(context).setView(dialogLayout).create()
+        dialogRef.show()
+        dialogRef.window?.setBackgroundDrawable(UiHelpers.rounded(AppTheme.bgCard(), 22f))
     }
 }
