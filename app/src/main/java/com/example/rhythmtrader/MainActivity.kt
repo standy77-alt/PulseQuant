@@ -126,7 +126,7 @@ class MainActivity : Activity() {
 
         val fontRegular = Typeface.create("sans-serif", Typeface.NORMAL)
         val fontMedium = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-        val fontBold = Typeface.create("sans-serif", Typeface.BOLD)
+        val fontBold = Typeface.create("sans-serif-medium", Typeface.BOLD)
         val fontMono = Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
 
         scrollRoot = ScrollView(this).apply {
@@ -178,7 +178,7 @@ class MainActivity : Activity() {
         }
         tvAppTitle = TextView(this).apply {
             text = "PulseQuant"
-            textSize = 23f
+            textSize = 20f
             typeface = fontBold
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
@@ -201,7 +201,7 @@ class MainActivity : Activity() {
                 )
             }
             text = "⚙"
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.textPrimary())
             gravity = Gravity.CENTER
             setPadding(24, 20, 24, 20)
@@ -221,27 +221,27 @@ class MainActivity : Activity() {
         }
         btnTabRadar = Button(this).apply {
             text = "Радар"
-            textSize = 13f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
             minHeight = 0
             minimumHeight = 0
             gravity = Gravity.CENTER
-            setPadding(16, 26, 16, 26)
+            setPadding(12, 14, 12, 14)
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 8 }
             setOnClickListener { switchTab(0) }
         }
         btnTabTrades = Button(this).apply {
             text = "Сделки"
-            textSize = 13f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
             minHeight = 0
             minimumHeight = 0
             gravity = Gravity.CENTER
-            setPadding(16, 26, 16, 26)
+            setPadding(12, 14, 12, 14)
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             setOnClickListener { switchTab(1) }
         }
@@ -271,7 +271,7 @@ class MainActivity : Activity() {
         slotButtons.clear()
         for (i in slotCoins.indices) {
             val btn = Button(this).apply {
-                textSize = 13f
+                textSize = 12f
                 typeface = fontBold
                 isAllCaps = false
                 stateListAnimator = null
@@ -317,13 +317,13 @@ class MainActivity : Activity() {
         }
         tvCoinTitle = TextView(this).apply {
             text = "ZEC / USDT"
-            textSize = 14f
+            textSize = 12f
             typeface = fontMedium
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         val btnResetBase = TextView(this).apply {
             text = "Сброс базы"
-            textSize = 14f
+            textSize = 12f
             setTextColor(Color.WHITE)
             typeface = fontMedium
             background = UiHelpers.createAppleCard(AppTheme.accent(), 16f, Color.TRANSPARENT)
@@ -351,7 +351,7 @@ class MainActivity : Activity() {
         }
         tvDeltaBadge = TextView(this).apply {
             text = "+0.00%"
-            textSize = 14f
+            textSize = 12f
             setTextColor(Color.WHITE)
             typeface = fontMedium
             background = UiHelpers.createAppleCard(AppTheme.greenDeep(), 24f, Color.TRANSPARENT)
@@ -363,7 +363,7 @@ class MainActivity : Activity() {
 
         tvFairValueBand = TextView(this).apply {
             text = "ANALYST Fair Value: [ --- .. --- ] • Оценка: FAIR"
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.accent())
             typeface = fontBold
             setPadding(0, 4, 0, 4)
@@ -372,7 +372,7 @@ class MainActivity : Activity() {
 
         tvLastTrade = TextView(this).apply {
             text = "Ожидание потока сделок..."
-            textSize = 14f
+            textSize = 12f
             typeface = fontRegular
             setPadding(0, 0, 0, 20)
         }
@@ -391,21 +391,21 @@ class MainActivity : Activity() {
         }
         tvCvdBuy = TextView(this).apply {
             text = "Пок: $0K"
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.greenDeep())
             typeface = fontBold
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         tvCvdDelta = TextView(this).apply {
             text = "CVD: $0K"
-            textSize = 14f
+            textSize = 12f
             typeface = fontBold
             gravity = Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         tvCvdSell = TextView(this).apply {
             text = "Прод: $0K"
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.redDeep())
             typeface = fontBold
             gravity = Gravity.END
@@ -436,7 +436,7 @@ class MainActivity : Activity() {
         }
         val quantTitle = TextView(this).apply {
             text = "JANE STREET 6-BOT DESK • COMPUTE • SKEPTIC"
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.accent())
             typeface = fontBold
             setPadding(0, 0, 0, 14)
@@ -445,7 +445,7 @@ class MainActivity : Activity() {
 
         tvQuantStateMetrics = TextView(this).apply {
             text = "Секстиль: S1 | Волат: 0 bps/hr | Плечо: 8x\nVWAP Δ: 0.00% | Z: 0.00σ | Режим: BALANCED"
-            textSize = 14f
+            textSize = 12f
             typeface = fontMono
             setPadding(24, 18, 24, 18)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
@@ -456,7 +456,7 @@ class MainActivity : Activity() {
 
         tvQuantDecisionGate = TextView(this).apply {
             text = "SKEPTIC & RISK: Ожидание сигнала..."
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.greenDeep())
             typeface = fontBold
             setPadding(4, 4, 4, 10)
@@ -473,7 +473,7 @@ class MainActivity : Activity() {
 
         btnRunSweep = Button(this).apply {
             text = "AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
-            textSize = 14f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -491,7 +491,7 @@ class MainActivity : Activity() {
 
         btnKillSwitch = Button(this).apply {
             text = "EMERGENCY KILL SWITCH"
-            textSize = 14f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -499,7 +499,7 @@ class MainActivity : Activity() {
             minimumHeight = 0
             setTextColor(Color.WHITE)
             background = UiHelpers.createAppleCard(AppTheme.redVeryDark(), 16f, AppTheme.red())
-            setPadding(20, 24, 20, 24)
+            setPadding(14, 14, 14, 14)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             setOnClickListener {
                 startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" })
@@ -525,7 +525,7 @@ class MainActivity : Activity() {
         }
         val botTitle = TextView(this).apply {
             text = "PM Desk • Управление Ботом"
-            textSize = 13f
+            textSize = 12f
             setTextColor(AppTheme.greenDeep())
             typeface = fontBold
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -560,7 +560,7 @@ class MainActivity : Activity() {
         }
         tvBotPnlBadge = TextView(this).apply {
             text = "PnL: +$0.00"
-            textSize = 13f
+            textSize = 12f
             setTextColor(Color.WHITE)
             typeface = fontMedium
             background = UiHelpers.createAppleCard(AppTheme.greenDeep(), 12f, Color.TRANSPARENT)
@@ -572,7 +572,7 @@ class MainActivity : Activity() {
 
         tvBotWinrate = TextView(this).apply {
             text = "Сделок: 0 (W: 0 / L: 0) • В работе: 0/3"
-            textSize = 14f
+            textSize = 12f
             typeface = fontRegular
             setPadding(0, 0, 0, 12)
         }
@@ -580,7 +580,7 @@ class MainActivity : Activity() {
 
         tvDecayWarning = TextView(this).apply {
             text = "⚠️ JOURNAL ALERT: Зафиксировано угасание стратегии! Смени постулат или запусти Sweep."
-            textSize = 14f
+            textSize = 12f
             setTextColor(Color.WHITE)
             typeface = fontBold
             background = UiHelpers.createAppleCard(AppTheme.orangeDeep(), 12f, Color.TRANSPARENT)
@@ -600,7 +600,7 @@ class MainActivity : Activity() {
         }
         lblAutoBot = TextView(this).apply {
             text = "Авто-вход (TP/SL 1:2, MFE)"
-            textSize = 14f
+            textSize = 12f
             typeface = fontRegular
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
@@ -616,7 +616,7 @@ class MainActivity : Activity() {
         botCard.addView(autoBotRow)
 
         btnStrategyToggle = Button(this).apply {
-            textSize = 13f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -624,7 +624,7 @@ class MainActivity : Activity() {
             minimumHeight = 0
             setTextColor(Color.WHITE)
             background = UiHelpers.createAppleCard(AppTheme.accent(), 16f, Color.TRANSPARENT)
-            setPadding(24, 26, 24, 26)
+            setPadding(16, 14, 16, 14)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 16
             }
@@ -634,7 +634,7 @@ class MainActivity : Activity() {
 
         tvActivePosInfo = TextView(this).apply {
             text = "Нет открытой позиции по выбранной монете"
-            textSize = 13f
+            textSize = 12f
             typeface = fontMedium
             gravity = Gravity.CENTER
             setPadding(24, 24, 24, 24)
@@ -651,7 +651,7 @@ class MainActivity : Activity() {
         }
         val btnLong = Button(this).apply {
             text = "LONG"
-            textSize = 13f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -667,7 +667,7 @@ class MainActivity : Activity() {
         }
         val btnShort = Button(this).apply {
             text = "SHORT"
-            textSize = 13f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -715,7 +715,7 @@ class MainActivity : Activity() {
 
         tvSettingsHeader = TextView(this).apply {
             text = "Операционная поверхность • ZEC"
-            textSize = 13f
+            textSize = 12f
             setTextColor(AppTheme.accent())
             typeface = fontBold
             setPadding(0, 0, 0, 20)
@@ -725,13 +725,13 @@ class MainActivity : Activity() {
         val rowPct = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         lblPct = TextView(this).apply {
             text = "TP/SL / Z-триггер"
-            textSize = 14f
+            textSize = 12f
             typeface = fontRegular
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         tvThreshVal = TextView(this).apply {
             text = "0.35%"
-            textSize = 14f
+            textSize = 12f
             typeface = fontMedium
         }
         rowPct.addView(lblPct)
@@ -761,13 +761,13 @@ class MainActivity : Activity() {
         val rowWhale = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         lblWhale = TextView(this).apply {
             text = "Институциональный ордер (Кит)"
-            textSize = 14f
+            textSize = 12f
             typeface = fontRegular
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         tvWhaleVal = TextView(this).apply {
             text = "$25K"
-            textSize = 14f
+            textSize = 12f
             typeface = fontMedium
         }
         rowWhale.addView(lblWhale)
@@ -798,7 +798,7 @@ class MainActivity : Activity() {
 
     private fun setupToggleButton(fontBold: Typeface) {
         btnToggle = Button(this).apply {
-            textSize = 15f
+            textSize = 12f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -816,7 +816,7 @@ class MainActivity : Activity() {
     private fun setupAlertFeed(fontMedium: Typeface) {
         feedHeader = TextView(this).apply {
             text = "Лента рыночных импульсов (Сигналы Scout)"
-            textSize = 13f
+            textSize = 12f
             typeface = fontMedium
             setPadding(8, 0, 8, 14)
         }
@@ -839,13 +839,13 @@ class MainActivity : Activity() {
         }
         val deskTitle = TextView(this).apply {
             text = "JANE STREET 6-BOT DESK • СВОДКА АУДИТА"
-            textSize = 14f
+            textSize = 12f
             setTextColor(AppTheme.accent())
             typeface = fontBold
             setPadding(0, 0, 0, 12)
         }
         tvDeskBotsReport = TextView(this).apply {
-            textSize = 14f
+            textSize = 12f
             typeface = fontMono
             setLineSpacing(6f, 1f)
         }
@@ -855,7 +855,7 @@ class MainActivity : Activity() {
 
         tvOpenPositionsHeader = TextView(this).apply {
             text = "🟢 АКТИВНЫЕ ПОЗИЦИИ В РАБОТЕ (0/3)"
-            textSize = 14f
+            textSize = 12f
             typeface = fontBold
             setPadding(8, 4, 8, 14)
         }
@@ -871,7 +871,7 @@ class MainActivity : Activity() {
 
         tvClosedTradesHeader = TextView(this).apply {
             text = "🏁 АРХИВ ЗАВЕРШЕННЫХ СДЕЛОК (0)"
-            textSize = 14f
+            textSize = 12f
             typeface = fontBold
             setPadding(8, 4, 8, 14)
         }
@@ -899,7 +899,7 @@ class MainActivity : Activity() {
     private fun updateTabButtonsStyle() {
         val openCount = RadarService.openPositions.size
         val closedCount = RadarService.closedTradesHistory.size
-        btnTabTrades.text = "💼 Сделки ($openCount / $closedCount)"
+        btnTabTrades.text = "Сделки ($openCount / $closedCount)"
 
         if (currentTab == 0) {
             btnTabRadar.background = UiHelpers.createAppleCard(AppTheme.accent(), 16f, Color.TRANSPARENT)
@@ -953,7 +953,7 @@ class MainActivity : Activity() {
             if (positions.isEmpty()) {
                 val emptyTv = TextView(this).apply {
                     text = "Сейчас нет открытых сделок. Когда бот (или ты вручную) откроет позицию, она появится здесь с живым расчетом прибыли."
-                    textSize = 13f
+                    textSize = 12f
                     setTextColor(AppTheme.textSecondary())
                     setPadding(8, 12, 8, 20)
                 }
@@ -987,16 +987,16 @@ class MainActivity : Activity() {
                     val sideTitle = if (pos.isLong) "LONG 🟢" else "SHORT 🔴"
                     val tvSym = TextView(this).apply {
                         text = "$shortSym  $sideTitle  ($${pos.marginUsdt.toInt()} × ${pos.leverage}x)"
-                        textSize = 14f
+                        textSize = 12f
                         setTextColor(AppTheme.textPrimary())
-                        typeface = Typeface.create("sans-serif", Typeface.BOLD)
+                        typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
                         layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
                     }
                     val tvPnl = TextView(this).apply {
                         text = String.format("%+.2f$ (%+.0f bps)", uPnl, curBps)
-                        textSize = 14f
+                        textSize = 12f
                         setTextColor(Color.WHITE)
-                        typeface = Typeface.create("sans-serif", Typeface.BOLD)
+                        typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
                         background = UiHelpers.createAppleCard(
                             if (isPos) AppTheme.greenDeep() else AppTheme.redDeep(),
                             12f, Color.TRANSPARENT
@@ -1013,7 +1013,7 @@ class MainActivity : Activity() {
                         text = "Вход: ${pos.entryPrice}  →  Сейчас: $curP\n" +
                                "TP: ${String.format("%.4f", pos.takeProfitPrice)}  |  SL: ${String.format("%.4f", pos.stopLossPrice)} ($lockBadge)\n" +
                                "Открыта в ${pos.openTime} (в рынке ${holdMin}/60 мин) • Пик MFE: +${pos.maxFavorableExcursionBps.toInt()} bps"
-                        textSize = 14f
+                        textSize = 12f
                         setTextColor(AppTheme.textSecondary())
                         setPadding(0, 12, 0, 16)
                         setLineSpacing(5f, 1f)
@@ -1026,8 +1026,8 @@ class MainActivity : Activity() {
                     }
                     val btnGoChart = Button(this).apply {
                         text = "На график"
-                        textSize = 13f
-                        typeface = Typeface.create("sans-serif", Typeface.BOLD)
+                        textSize = 12f
+                        typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
                         isAllCaps = false
                         stateListAnimator = null
                         minHeight = 0
@@ -1045,8 +1045,8 @@ class MainActivity : Activity() {
                     }
                     val btnCloseItem = Button(this).apply {
                         text = "Закрыть"
-                        textSize = 13f
-                        typeface = Typeface.create("sans-serif", Typeface.BOLD)
+                        textSize = 12f
+                        typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
                         isAllCaps = false
                         stateListAnimator = null
                         minHeight = 0
@@ -1107,7 +1107,7 @@ class MainActivity : Activity() {
             if (closedList.isEmpty()) {
                 val emptyClosed = TextView(this).apply {
                     text = "Завершенных сделок пока нет. Здесь будут храниться все закрытые сделки с подробным расчетом профита."
-                    textSize = 13f
+                    textSize = 12f
                     setTextColor(AppTheme.textSecondary())
                     setPadding(8, 12, 8, 20)
                 }
@@ -1133,16 +1133,16 @@ class MainActivity : Activity() {
                     val side = if (tr.isLong) "LONG" else "SHORT"
                     val tTitle = TextView(this).apply {
                         text = "$icon $shortSym $side ($${tr.marginUsdt.toInt()}×${tr.leverage}x)"
-                        textSize = 15f
+                        textSize = 12f
                         setTextColor(AppTheme.textPrimary())
-                        typeface = Typeface.create("sans-serif", Typeface.BOLD)
+                        typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
                         layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
                     }
                     val tPnl = TextView(this).apply {
                         text = String.format("%+.2f$ (%+.0f bps)", tr.netPnlUsdt, tr.netBps)
-                        textSize = 14f
+                        textSize = 12f
                         setTextColor(if (won) AppTheme.greenDeep() else AppTheme.redDeep())
-                        typeface = Typeface.create("sans-serif", Typeface.BOLD)
+                        typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
                     }
                     r1.addView(tTitle)
                     r1.addView(tPnl)
@@ -1151,7 +1151,7 @@ class MainActivity : Activity() {
                     val tSub = TextView(this).apply {
                         text = "Вход: ${tr.entryPrice} (${tr.openTime}) → Выход: ${tr.exitPrice} (${tr.closeTime})\n" +
                                "${tr.reason} • Макс. пик MFE: +${tr.mfeBps.toInt()} bps"
-                        textSize = 14f
+                        textSize = 12f
                         setTextColor(AppTheme.textSecondary())
                         setPadding(0, 8, 0, 0)
                         setLineSpacing(4f, 1f)
@@ -1438,7 +1438,7 @@ class MainActivity : Activity() {
         if (items.isEmpty()) {
             val empty = TextView(this).apply {
                 text = "Ожидание сигналов от Scout & Skeptic..."
-                textSize = 13f
+                textSize = 12f
                 setTextColor(AppTheme.textSecondary())
                 gravity = Gravity.CENTER
                 background = UiHelpers.createAppleCard(AppTheme.bgCard(), 24f, AppTheme.stroke())
@@ -1477,13 +1477,13 @@ class MainActivity : Activity() {
             }
             val t1 = TextView(this).apply {
                 text = item.title
-                textSize = 14f
+                textSize = 12f
                 setTextColor(AppTheme.textPrimary())
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             }
             val t2 = TextView(this).apply {
                 text = item.subtitle
-                textSize = 14f
+                textSize = 12f
                 setTextColor(AppTheme.textSecondary())
             }
             textCol.addView(t1)
@@ -1492,7 +1492,7 @@ class MainActivity : Activity() {
 
             val tTime = TextView(this).apply {
                 text = item.time
-                textSize = 14f
+                textSize = 12f
                 setTextColor(AppTheme.textSecondary())
             }
             card.addView(tTime)
