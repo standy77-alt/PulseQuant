@@ -322,7 +322,7 @@ class MainActivity : Activity() {
         }
         val btnResetBase = TextView(this).apply {
             text = "Сброс базы"
-            textSize = 12f
+            textSize = 14f
             setTextColor(Color.WHITE)
             typeface = fontMedium
             background = UiHelpers.createAppleCard(AppTheme.accent(), 16f, Color.TRANSPARENT)
@@ -362,7 +362,7 @@ class MainActivity : Activity() {
 
         tvFairValueBand = TextView(this).apply {
             text = "ANALYST Fair Value: [ --- .. --- ] • Оценка: FAIR"
-            textSize = 12f
+            textSize = 14f
             setTextColor(AppTheme.accent())
             typeface = fontBold
             setPadding(0, 4, 0, 4)
@@ -371,7 +371,7 @@ class MainActivity : Activity() {
 
         tvLastTrade = TextView(this).apply {
             text = "Ожидание потока сделок..."
-            textSize = 12f
+            textSize = 14f
             typeface = fontRegular
             setPadding(0, 0, 0, 20)
         }
@@ -390,21 +390,21 @@ class MainActivity : Activity() {
         }
         tvCvdBuy = TextView(this).apply {
             text = "Пок: $0K"
-            textSize = 12f
+            textSize = 14f
             setTextColor(AppTheme.greenDeep())
             typeface = fontBold
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         tvCvdDelta = TextView(this).apply {
             text = "CVD: $0K"
-            textSize = 12f
+            textSize = 14f
             typeface = fontBold
             gravity = Gravity.CENTER
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
         tvCvdSell = TextView(this).apply {
             text = "Прод: $0K"
-            textSize = 12f
+            textSize = 14f
             setTextColor(AppTheme.redDeep())
             typeface = fontBold
             gravity = Gravity.END
@@ -435,7 +435,7 @@ class MainActivity : Activity() {
         }
         val quantTitle = TextView(this).apply {
             text = "JANE STREET 6-BOT DESK • COMPUTE • SKEPTIC"
-            textSize = 12f
+            textSize = 14f
             setTextColor(AppTheme.accent())
             typeface = fontBold
             setPadding(0, 0, 0, 14)
@@ -444,7 +444,7 @@ class MainActivity : Activity() {
 
         tvQuantStateMetrics = TextView(this).apply {
             text = "Секстиль: S1 | Волат: 0 bps/hr | Плечо: 8x\nVWAP Δ: 0.00% | Z: 0.00σ | Режим: BALANCED"
-            textSize = 12f
+            textSize = 14f
             typeface = fontMono
             setPadding(24, 18, 24, 18)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
@@ -455,7 +455,7 @@ class MainActivity : Activity() {
 
         tvQuantDecisionGate = TextView(this).apply {
             text = "SKEPTIC & RISK: Ожидание сигнала..."
-            textSize = 12f
+            textSize = 14f
             setTextColor(AppTheme.greenDeep())
             typeface = fontBold
             setPadding(4, 4, 4, 10)
@@ -472,7 +472,7 @@ class MainActivity : Activity() {
 
         btnRunSweep = Button(this).apply {
             text = "🤖 AUTO-OPTIMIZE: ПРОВЕРКА 5 СТРАТЕГИЙ"
-            textSize = 12f
+            textSize = 14f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -490,7 +490,7 @@ class MainActivity : Activity() {
 
         btnKillSwitch = Button(this).apply {
             text = "🚨 RISK: EMERGENCY KILL SWITCH (АВАРИЙНЫЙ СТОП)"
-            textSize = 12f
+            textSize = 14f
             typeface = fontBold
             isAllCaps = false
             stateListAnimator = null
@@ -571,7 +571,7 @@ class MainActivity : Activity() {
 
         tvBotWinrate = TextView(this).apply {
             text = "Сделок: 0 (W: 0 / L: 0) • В работе: 0/3"
-            textSize = 12f
+            textSize = 14f
             typeface = fontRegular
             setPadding(0, 0, 0, 12)
         }
@@ -579,7 +579,7 @@ class MainActivity : Activity() {
 
         tvDecayWarning = TextView(this).apply {
             text = "⚠️ JOURNAL ALERT: Зафиксировано угасание стратегии! Смени постулат или запусти Sweep."
-            textSize = 12f
+            textSize = 14f
             setTextColor(Color.WHITE)
             typeface = fontBold
             background = UiHelpers.createAppleCard(AppTheme.orangeDeep(), 12f, Color.TRANSPARENT)
@@ -681,7 +681,7 @@ class MainActivity : Activity() {
             }
         }
         btnClosePos = Button(this).apply {
-            text = "ЗАКРЫТЬ\nПОЗИЦИЮ"
+            text = "ЗАКРЫТЬ"
             textSize = 11f
             typeface = fontBold
             isAllCaps = false
@@ -691,7 +691,7 @@ class MainActivity : Activity() {
             setTextColor(Color.WHITE)
             background = UiHelpers.createAppleCard(AppTheme.grayButton(), 16f, AppTheme.grayButtonStroke())
             setPadding(12, 24, 12, 24)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.95f)
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             setOnClickListener {
                 startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "CLOSE_POS" })
             }
@@ -838,13 +838,13 @@ class MainActivity : Activity() {
         }
         val deskTitle = TextView(this).apply {
             text = "JANE STREET 6-BOT DESK • СВОДКА АУДИТА"
-            textSize = 12f
+            textSize = 14f
             setTextColor(AppTheme.accent())
             typeface = fontBold
             setPadding(0, 0, 0, 12)
         }
         tvDeskBotsReport = TextView(this).apply {
-            textSize = 12f
+            textSize = 14f
             typeface = fontMono
             setLineSpacing(6f, 1f)
         }
@@ -1012,7 +1012,7 @@ class MainActivity : Activity() {
                         text = "Вход: ${pos.entryPrice}  →  Сейчас: $curP\n" +
                                "TP: ${String.format("%.4f", pos.takeProfitPrice)}  |  SL: ${String.format("%.4f", pos.stopLossPrice)} ($lockBadge)\n" +
                                "Открыта в ${pos.openTime} (в рынке ${holdMin}/60 мин) • Пик MFE: +${pos.maxFavorableExcursionBps.toInt()} bps"
-                        textSize = 12f
+                        textSize = 14f
                         setTextColor(AppTheme.textSecondary())
                         setPadding(0, 12, 0, 16)
                         setLineSpacing(5f, 1f)
@@ -1150,7 +1150,7 @@ class MainActivity : Activity() {
                     val tSub = TextView(this).apply {
                         text = "Вход: ${tr.entryPrice} (${tr.openTime}) → Выход: ${tr.exitPrice} (${tr.closeTime})\n" +
                                "${tr.reason} • Макс. пик MFE: +${tr.mfeBps.toInt()} bps"
-                        textSize = 12f
+                        textSize = 14f
                         setTextColor(AppTheme.textSecondary())
                         setPadding(0, 8, 0, 0)
                         setLineSpacing(4f, 1f)
@@ -1481,7 +1481,7 @@ class MainActivity : Activity() {
             }
             val t2 = TextView(this).apply {
                 text = item.subtitle
-                textSize = 12f
+                textSize = 14f
                 setTextColor(AppTheme.textSecondary())
             }
             textCol.addView(t1)
@@ -1490,7 +1490,7 @@ class MainActivity : Activity() {
 
             val tTime = TextView(this).apply {
                 text = item.time
-                textSize = 12f
+                textSize = 14f
                 setTextColor(AppTheme.textSecondary())
             }
             card.addView(tTime)
