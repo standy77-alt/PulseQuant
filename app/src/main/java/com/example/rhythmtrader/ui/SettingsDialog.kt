@@ -54,7 +54,6 @@ object SettingsDialog {
         root.addView(switchRow(context, "Тёмная тема", !AppTheme.isLight) { checked ->
             AppTheme.isLight = !checked
             onThemeChanged()
-            // Перезапускаем диалог для мгновенного применения цветов
             dialogRef?.dismiss()
             show(context, onThemeChanged, onResetAccount)
         })
@@ -314,6 +313,7 @@ object SettingsDialog {
         root.addView(bodyText(context, "ВАЖНО",
             "Backtest-результаты чувствительны к комиссиям, проскальзыванию и гранулярности свечей. Прошлая прибыль не гарантирует будущую."))
 
+        // Кастомная кнопка "Назад" (как в Help)
         val closeBtn = TextView(context).apply {
             text = "Назад"
             textSize = 14f
@@ -322,11 +322,11 @@ object SettingsDialog {
             gravity = Gravity.CENTER
             background = UiHelpers.rounded(AppTheme.bgSubCard(), dp(12).toFloat())
             setPadding(0, dp(14), 0, dp(14))
-        closeBtn.setOnClickListener { dialogRef?.dismiss() }
-        closeBtn.layoutParams = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            (ROW_HEIGHT_DP * density).toInt()
-        ).apply { topMargin = dp(10) }
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { topMargin = dp(10) }
+            setOnClickListener { dialogRef?.dismiss() }
+        }
         root.addView(closeBtn)
 
         val scroll = ScrollView(context).apply { addView(root) }
