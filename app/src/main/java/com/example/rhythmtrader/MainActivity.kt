@@ -159,7 +159,7 @@ class MainActivity : Activity() {
 
         setupAlertFeed(fontMedium)
 
-        setupTradesTab(fontBold, fontMono)
+        setupTradesTab(fontRegular, fontBold, fontMono)
         setContentView(scrollRoot)
         applyTheme()
         selectCoin(RadarService.selectedChartSymbol)
@@ -830,7 +830,7 @@ class MainActivity : Activity() {
         radarTabContainer.addView(feedContainer)
     }
 
-    private fun setupTradesTab(fontBold: Typeface, fontMono: Typeface) {
+    private fun setupTradesTab(fontRegular: Typeface, fontBold: Typeface, fontMono: Typeface) {
         // ВКЛАДКА 2: СДЕЛКИ И DESK
         deskSummaryCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
