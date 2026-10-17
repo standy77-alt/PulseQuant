@@ -228,7 +228,7 @@ class MainActivity : Activity() {
             minimumHeight = 0
             gravity = Gravity.CENTER
             setPadding(16, 26, 16, 26)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { rightMargin = 8 }
+            layoutParams = LinearLayout.LayoutParams(0, 150, 1f).apply { rightMargin = 8 }
             setOnClickListener { switchTab(0) }
         }
         btnTabTrades = Button(this).apply {
@@ -241,7 +241,7 @@ class MainActivity : Activity() {
             minimumHeight = 0
             gravity = Gravity.CENTER
             setPadding(16, 26, 16, 26)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            layoutParams = LinearLayout.LayoutParams(0, 150, 1f)
             setOnClickListener { switchTab(1) }
         }
         navTabBar.addView(btnTabRadar)
@@ -649,7 +649,7 @@ class MainActivity : Activity() {
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         val btnLong = Button(this).apply {
-            text = "LONG\nBRACKET"
+            text = "LONG"
             textSize = 13f
             typeface = fontBold
             isAllCaps = false
@@ -665,7 +665,7 @@ class MainActivity : Activity() {
             }
         }
         val btnShort = Button(this).apply {
-            text = "SHORT\nBRACKET"
+            text = "SHORT"
             textSize = 13f
             typeface = fontBold
             isAllCaps = false
