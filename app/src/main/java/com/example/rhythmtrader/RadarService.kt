@@ -204,6 +204,8 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
         if (status == TextToSpeech.SUCCESS) {
             val result = tts?.setLanguage(Locale("ru", "RU"))
             ttsReady = result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED
+            tts?.setPitch(0.95f)
+            tts?.setSpeechRate(0.9f)
             tts?.setSpeechRate(1.12f)
         }
     }
@@ -514,7 +516,7 @@ class RadarService : Service(), TextToSpeech.OnInitListener {
         )
         addAlert(alert)
         playSynth(if (isLong) 1 else 2)
-        speakEvent("Атомарный вход ${if (isLong) "лонг" else "шорт"} по $shortName")
+        speakEvent("Вход ${if (isLong) "лонг" else "шорт"} по $shortName")
         updateNotification("В работе: ${openPositions.size} | Капитал: $${String.format("%.2f", demoBalance)}")
         return alert
     }
