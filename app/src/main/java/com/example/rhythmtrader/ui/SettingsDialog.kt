@@ -314,7 +314,14 @@ object SettingsDialog {
         root.addView(bodyText(context, "ВАЖНО",
             "Backtest-результаты чувствительны к комиссиям, проскальзыванию и гранулярности свечей. Прошлая прибыль не гарантирует будущую."))
 
-        val closeBtn = actionRow(context, "Понятно", danger = false)
+        val closeBtn = TextView(context).apply {
+            text = "Назад"
+            textSize = 14f
+            setTextColor(AppTheme.textPrimary())
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            gravity = Gravity.CENTER
+            background = UiHelpers.rounded(AppTheme.bgSubCard(), dp(12).toFloat())
+            setPadding(0, dp(14), 0, dp(14))
         closeBtn.setOnClickListener { dialogRef?.dismiss() }
         closeBtn.layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,

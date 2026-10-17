@@ -364,7 +364,7 @@ class MainActivity : Activity() {
         tvFairValueBand = TextView(this).apply {
             text = "ANALYST Fair Value: [ --- .. --- ] • Оценка: FAIR"
             textSize = 12f
-            setTextColor(AppTheme.accent())
+            setTextColor(AppTheme.secondary())
             typeface = fontBold
             setPadding(0, 4, 0, 4)
         }
@@ -437,7 +437,7 @@ class MainActivity : Activity() {
         val quantTitle = TextView(this).apply {
             text = "JANE STREET 6-BOT DESK • COMPUTE • SKEPTIC"
             textSize = 12f
-            setTextColor(AppTheme.accent())
+            setTextColor(AppTheme.secondary())
             typeface = fontBold
             setPadding(0, 0, 0, 14)
         }
@@ -446,8 +446,8 @@ class MainActivity : Activity() {
         tvQuantStateMetrics = TextView(this).apply {
             text = "Секстиль: S1 | Волат: 0 bps/hr | Плечо: 8x\nVWAP Δ: 0.00% | Z: 0.00σ | Режим: BALANCED"
             textSize = 12f
-            typeface = fontMono
-            setPadding(24, 18, 24, 18)
+            typeface = fontRegular
+            setPadding(14, 10, 14, 10)
             layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                 bottomMargin = 12
             }
@@ -840,7 +840,7 @@ class MainActivity : Activity() {
         val deskTitle = TextView(this).apply {
             text = "JANE STREET 6-BOT DESK • СВОДКА АУДИТА"
             textSize = 12f
-            setTextColor(AppTheme.accent())
+            setTextColor(AppTheme.secondary())
             typeface = fontBold
             setPadding(0, 0, 0, 12)
         }

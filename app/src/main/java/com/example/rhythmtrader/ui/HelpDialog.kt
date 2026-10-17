@@ -2,9 +2,7 @@ package com.example.rhythmtrader.ui
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -19,33 +17,18 @@ object HelpDialog {
 
         var dialogRef: AlertDialog? = null
 
-        // Основной контейнер (текст)
         val scroll = ScrollView(context)
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(20), dp(20), dp(20), dp(10))
+            setPadding(dp(16), dp(16), dp(16), dp(10))
         }
         scroll.addView(root)
-
-        // Заголовок
-        root.addView(TextView(context).apply {
-            text = "Как пользоваться"
-            textSize = 18f
-            setTextColor(AppTheme.textPrimary())
-            typeface = Typeface.create("sans-serif", Typeface.BOLD)
-        })
-        root.addView(TextView(context).apply {
-            text = "Краткий гид по интерфейсу"
-            textSize = 12f
-            setTextColor(AppTheme.textSecondary())
-            setPadding(0, dp(2), 0, dp(12))
-        })
 
         fun section(text: String) {
             root.addView(TextView(context).apply {
                 this.text = text
-                textSize = 12f
-                setTextColor(AppTheme.accent())
+                textSize = 13f
+                setTextColor(AppTheme.secondary())
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                 setPadding(0, dp(12), 0, dp(4))
             })
@@ -61,8 +44,6 @@ object HelpDialog {
             })
         }
 
-        section("1. Кнопки сверху")
-        body("⚙ — Настройки. Иконка находится в правом верхнем углу.")
         section("2. Вкладки")
         body("«Радар» — основной экран: цена, график и сигналы.\n«Сделки» — открытые позиции и архив.")
         section("3. Выбор монеты")
@@ -79,20 +60,14 @@ object HelpDialog {
         body("Аварийная кнопка в настройках. Мгновенно закрывает все позиции.")
         section("9. Настройки риска")
         body("Ползунки TP/SL и «Институциональный ордер» влияют на чувствительность.")
-        section("Важно")
-        body("Это бумажный тренажёр. Реальные ордера на биржу не отправляются.")
 
-        // Кастомная кнопка "Понятно"
         val closeBtn = TextView(context).apply {
-            text = "Понятно"
+            text = "Назад"
             textSize = 14f
-            setTextColor(Color.WHITE)
+            setTextColor(AppTheme.textPrimary())
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             gravity = Gravity.CENTER
-            background = GradientDrawable().apply {
-                setColor(AppTheme.red())
-                cornerRadius = dp(12).toFloat()
-            }
+            background = UiHelpers.rounded(AppTheme.bgSubCard(), dp(12).toFloat())
             setPadding(0, dp(14), 0, dp(14))
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -100,15 +75,11 @@ object HelpDialog {
             setOnClickListener { dialogRef?.dismiss() }
         }
 
-        // Общий контейнер для диалога (текст + кнопка)
         val dialogLayout = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(16), dp(16), dp(16), dp(16))
             setBackgroundColor(AppTheme.bgCard())
-            // Даем скроллу занять всё доступное место, но не перекрывать кнопку
-            addView(scroll, LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
-            ))
+            addView(scroll, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
             addView(closeBtn)
         }
 
