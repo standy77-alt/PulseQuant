@@ -200,7 +200,7 @@ class MainActivity : Activity() {
                 )
             }
             text = "⚙"
-            textSize = 16f
+            textSize = 14f
             setTextColor(AppTheme.textPrimary())
             gravity = Gravity.CENTER
             setPadding(24, 20, 24, 20)
@@ -986,7 +986,7 @@ class MainActivity : Activity() {
                     val sideTitle = if (pos.isLong) "LONG 🟢" else "SHORT 🔴"
                     val tvSym = TextView(this).apply {
                         text = "$shortSym  $sideTitle  ($${pos.marginUsdt.toInt()} × ${pos.leverage}x)"
-                        textSize = 16f
+                        textSize = 14f
                         setTextColor(AppTheme.textPrimary())
                         typeface = Typeface.create("sans-serif", Typeface.BOLD)
                         layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
