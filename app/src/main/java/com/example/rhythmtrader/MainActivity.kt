@@ -168,6 +168,7 @@ class MainActivity : Activity() {
             setBackgroundColor(AppTheme.bgMain())
             addView(scrollRoot, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
             addView(BottomNavBar.create(this@MainActivity, 0) { index ->
+                BottomNavBar.updateColors(this@MainActivity, findViewById(9999), index)
                 when (index) {
                     0 -> { 
                         navTabBar.visibility = View.GONE
@@ -462,7 +463,14 @@ class MainActivity : Activity() {
         radarTabContainer.addView(HomeView.createStartButton(this, RadarService.isRunning) { toggleService() })
         radarTabContainer.addView(HomeView.createBotsGrid(this))
         radarTabContainer.addView(HomeView.createStrategyCard(this, QuantEngine.getStrategyShortTitle(RadarService.botStrategyMode)))
-        radarTabContainer.addView(HomeView.createKillSwitchCard(this) { startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" }); updateBotUi() })
+        radarTabContainer.addView(HomeView.createKillSwitchCard(this) { 
+            val turningOn = !QuantEngine.killSwitchEngaged
+            QuantEngine.killSwitchEngaged = turningOn
+            updateBotUi()
+            if (turningOn) {
+                startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" })
+            }
+        })
         heroCard.visibility = View.GONE
         // analyticsTabContainer.addView(heroCard)
     }
