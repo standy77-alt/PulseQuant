@@ -42,6 +42,7 @@ class MainActivity : Activity() {
     private lateinit var btnTabRadar: Button
     private lateinit var btnTabTrades: Button
     private lateinit var radarTabContainer: LinearLayout
+    private lateinit var analyticsTabContainer: LinearLayout
     private lateinit var tradesTabContainer: LinearLayout
 
     private lateinit var segmentedBar: LinearLayout
@@ -170,9 +171,16 @@ class MainActivity : Activity() {
                 when (index) {
                     0 -> { 
                         navTabBar.visibility = View.GONE
-                        switchTab(0) 
+                        radarTabContainer.visibility = View.VISIBLE
+                        analyticsTabContainer.visibility = View.GONE
+                        tradesTabContainer.visibility = View.GONE
                     }
-                    1 -> Toast.makeText(this@MainActivity, "Аналитика скоро", Toast.LENGTH_SHORT).show()
+                    1 -> { 
+                        navTabBar.visibility = View.GONE
+                        radarTabContainer.visibility = View.GONE
+                        analyticsTabContainer.visibility = View.VISIBLE
+                        tradesTabContainer.visibility = View.GONE
+                    }
                     2 -> Toast.makeText(this@MainActivity, "Стратегии скоро", Toast.LENGTH_SHORT).show()
                     3 -> SettingsDialog.show(this@MainActivity, { isLightTheme = AppTheme.isLight; applyTheme() }, { RadarService.resetBotAccount(this@MainActivity); updateBotUi() })
                 }
@@ -272,6 +280,12 @@ class MainActivity : Activity() {
 
         radarTabContainer = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         root.addView(radarTabContainer)
+
+        analyticsTabContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            visibility = View.GONE
+        }
+        root.addView(analyticsTabContainer)
 
         tradesTabContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -450,7 +464,7 @@ class MainActivity : Activity() {
         radarTabContainer.addView(HomeView.createStrategyCard(this, QuantEngine.getStrategyShortTitle(RadarService.botStrategyMode)))
         radarTabContainer.addView(HomeView.createKillSwitchCard(this) { startService(Intent(this@MainActivity, RadarService::class.java).apply { action = "KILL_SWITCH" }); updateBotUi() })
         heroCard.visibility = View.GONE
-        // radarTabContainer.addView(heroCard)
+        // analyticsTabContainer.addView(heroCard)
     }
 
     private fun setupQuantCard(fontRegular: Typeface, fontBold: Typeface, fontMono: Typeface) {
@@ -539,7 +553,7 @@ class MainActivity : Activity() {
             }
         }
         quantCard.addView(btnKillSwitch)
-        radarTabContainer.addView(quantCard)
+        analyticsTabContainer.addView(quantCard)
     }
 
     private fun setupBotCard(fontRegular: Typeface, fontMedium: Typeface, fontBold: Typeface) {
@@ -855,12 +869,12 @@ class MainActivity : Activity() {
             typeface = fontMedium
             setPadding(8, 0, 8, 14)
         }
-        radarTabContainer.addView(feedHeader)
+        analyticsTabContainer.addView(feedHeader)
 
         feedContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
         }
-        radarTabContainer.addView(feedContainer)
+        analyticsTabContainer.addView(feedContainer)
     }
 
     private fun setupTradesTab(fontRegular: Typeface, fontBold: Typeface, fontMono: Typeface) {
